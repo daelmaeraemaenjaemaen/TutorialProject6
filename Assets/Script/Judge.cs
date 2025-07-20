@@ -24,10 +24,14 @@ public static class Judge
          * Miss: 그 외
         **/
         
-        if (diff >= -200f && diff <= -150f) return NoteJudge.FastMiss;
-        else if (Mathf.Abs(diff) <= 45f) return NoteJudge.Perfect;
-        else if (Mathf.Abs(diff) <= 80f) return NoteJudge.Great;
-        else if (Mathf.Abs(diff) <= 150f) return NoteJudge.Good;
+        if (diff >= -200f && diff <= -150f)
+            return NoteJudge.FastMiss;
+        
+        float abs = Mathf.Abs(diff);
+        
+        if (abs <= 45f) return NoteJudge.Perfect;
+        else if (abs <= 80f) return NoteJudge.Great;
+        else if (abs <= 150f) return NoteJudge.Good;
         else return NoteJudge.Miss;
     }
 }
