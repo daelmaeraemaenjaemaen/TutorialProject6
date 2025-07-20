@@ -472,7 +472,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 585, y: -451.49924}
+  m_AnchoredPosition: {x: 585, y: -451.4998}
   m_SizeDelta: {x: 1170, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &340839734
@@ -1008,7 +1008,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 855061844}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.999249
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2285,6 +2285,7 @@ GameObject:
   - component: {fileID: 1765342636}
   - component: {fileID: 1765342635}
   - component: {fileID: 1765342634}
+  - component: {fileID: 1765342638}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2380,6 +2381,23 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1765342638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1765342633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90527d24b863c4448e576c3bd1a5ccf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cover: {fileID: 1141398436}
+  songName: {fileID: 1565732985}
+  songArtist: {fileID: 881995747}
+  songScroll: {fileID: 169188888}
+  category: {fileID: 1891683112}
 --- !u!1 &1891683110
 GameObject:
   m_ObjectHideFlags: 0
