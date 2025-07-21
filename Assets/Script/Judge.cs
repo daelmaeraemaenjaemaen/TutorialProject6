@@ -24,7 +24,7 @@ public static class Judge
          * Miss: 그 외
         **/
         
-        if (diff >= -200f && diff <= -150f)
+        if (diff >= -700f && diff <= -150f)
             return NoteJudge.FastMiss;
         
         float abs = Mathf.Abs(diff);

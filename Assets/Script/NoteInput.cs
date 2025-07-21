@@ -50,10 +50,10 @@ public class NoteInput : MonoBehaviour
 
         foreach (var note in activeNotes) // activeNotes에 있는 모든 노트를 돌면서
         {
-            float diff = note.targetTime - Time.time; // 오차 (초)
+            float diff = (note.targetTime - Time.time) * 1000f; // 오차 (초)
 
-            // 유효한 판정 범위 내에 있는 노트만 고려: -200ms ~ +150ms
-            if (diff >= -0.2f && diff <= 0.7f)
+            // 유효한 판정 범위 내에 있는 노트만 고려
+            if (diff >= -150f && diff <= 700f)
             {
                 float abs = Mathf.Abs(diff); // 절대값으로 가장 가까운 걸 찾기
 
