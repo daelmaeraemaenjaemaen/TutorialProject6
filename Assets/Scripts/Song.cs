@@ -12,9 +12,8 @@ public class Song
     //클래스 생성자(앨범커버 미완성 상태일 수 있어 2개 만듬)
     public Song(string name, string artist, string category)
     {
-        if (songCount == null || songCount == 0) songCount = 1;
-        else songCount++;
         songID = songCount;
+        songCount++;
         songName = name;
         songArtist = artist;
         songCategory = category;
@@ -23,9 +22,8 @@ public class Song
 
     public Song(string name, string artist, string category, string coverFileName)
     {
-        if (songCount == null || songCount == 0) songCount = 1;
-        else songCount++;
         songID = songCount;
+        songCount++;
         songName = name;
         songArtist = artist;
         songCategory = category;
