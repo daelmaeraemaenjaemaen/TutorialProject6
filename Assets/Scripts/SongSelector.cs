@@ -15,8 +15,8 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public void setSongSelector(Song song)
     {
         byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + song.getsongCover());
-        Texture2D texture = new Texture2D(1920, 1080); //1920x1080 
-        if (texture.LoadImage(fileData)) //텍스처에 로딩하기
+        Texture2D texture = new Texture2D(500, 500);
+        if (texture.LoadImage(fileData))
         {
             Sprite sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             miniCover.sprite = sprite;
