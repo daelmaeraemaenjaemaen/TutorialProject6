@@ -12,24 +12,19 @@ public class NoteInput : MonoBehaviour
         // 사용자 입력 판정
         if (Input.GetKeyDown(KeyCode.Space)) // 스페이스 키를 눌렀을 때
         {
-            //Debug.Log("스페이스 입력됨");
-            //Debug.Log($"현재 activeNotes 개수: {activeNotes.Count}");
-            
             NoteMove nearest = FindNote(); // 근처에 노트가 있는지 확인
             if (nearest != null && !nearest.IsJudged) // 근처에 노트가 있고 아직 판정되지 않았다면
             {
                 nearest.TryHit(Time.time); // 입력 시간으로 판정
                 toRemove.Add(nearest); // 처리한 노트는 리스트에서 삭제 예정
-                //ebug.Log($"[{nearest.name}] 노트 제거 완료 후: {activeNotes.Count}");
             }
         }
 
         // 시간이 초과된 노트 자동 Miss 판정
         foreach (var note in activeNotes) // activeNotes에 있는 모든 노트를 돌면서
         {
-            if (!note.IsJudged && Time.time - note.targetTime > 0.15f) // 타겟보다 150ms 초과하면
+            if (note.noteType == NoteType.Short && !note.IsJudged && Time.time - note.targetTime > 0.15f) // 타겟보다 150ms 초과하면
             {
-                //Debug.Log("자동 Miss 판정");
                 note.TryHit(Time.time); // Miss 판정을 일부러 강제로 발생시킴
                 toRemove.Add(note); // 삭제 대상에 추가
             }

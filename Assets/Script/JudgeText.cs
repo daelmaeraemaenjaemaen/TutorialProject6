@@ -10,10 +10,15 @@ public class JudgeText : MonoBehaviour
     {
         string text = result.ToString();
         
-        if (text != lastShownResult)
-        {
-            judgeText.text = text;
-            lastShownResult = text;
-        }
+        judgeText.text = text;
+        lastShownResult = text;
+    }
+
+    public void ResultPrefixed(NoteJudge result, string prefix)
+    {
+        string text = prefix + result.ToString();
+
+        judgeText.text = text;
+        lastShownResult = text;
     }
 }
