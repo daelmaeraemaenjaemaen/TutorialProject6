@@ -26,7 +26,6 @@ public class NoteMove : MonoBehaviour
     
     public NoteType noteType = NoteType.Short;
     
-    private bool firstTickFinish = false; // 처음 판정이 끝났는지 여부
     private bool isHolding = false; // 롱노트를 누르고 있는지
     private float nextTickTime = 0f; // 다음 틱까지의 시간
     private float tickInterval = 0.2f; // 틱 간격
@@ -59,7 +58,6 @@ public class NoteMove : MonoBehaviour
             {
                 result = NoteJudge.Miss;
                 judgeTextDisplay?.ResultPrefixed(result, "L.");
-                // hasBeenHit = true;
             }
             
             Destroy(gameObject);
@@ -81,7 +79,6 @@ public class NoteMove : MonoBehaviour
                 result = NoteJudge.Miss;
                 judgeTextDisplay?.ResultPrefixed(result, "L.");
                 isHolding = false;
-                firstTickFinish = false;
                 hasBeenHit = false;
             }
         }
@@ -102,8 +99,6 @@ public class NoteMove : MonoBehaviour
         { 
             result = Judge.Judgement(inputTime, targetTime);
             judgeTextDisplay?.Result(result);
-
-            firstTickFinish = true;
             isHolding = true;
             hasBeenHit = true;
             
