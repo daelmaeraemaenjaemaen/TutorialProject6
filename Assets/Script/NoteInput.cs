@@ -16,7 +16,9 @@ public class NoteInput : MonoBehaviour
             if (nearest != null && !nearest.IsJudged) // 근처에 노트가 있고 아직 판정되지 않았다면
             {
                 nearest.TryHit(Time.time); // 입력 시간으로 판정
-                toRemove.Add(nearest); // 처리한 노트는 리스트에서 삭제 예정
+                
+                if (nearest.noteType == NoteType.Short)
+                    toRemove.Add(nearest); // 처리한 노트는 리스트에서 삭제 예정
             }
         }
 

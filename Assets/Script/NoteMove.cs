@@ -62,44 +62,22 @@ public class NoteMove : MonoBehaviour
                 // hasBeenHit = true;
             }
             
-            //firstTickFinish = false;
-            //hasBeenHit = false;
             Destroy(gameObject);
             return;
         }
         
         // 롱노트 판정
-        if (noteType == NoteType.Long && isHolding)
+        if (noteType == NoteType.Long && isHolding && hasBeenHit)
         {
             if (Time.time >= nextTickTime)
             {
-                if (!firstTickFinish)
-                {
-                    result = Judge.Judgement(Time.time, targetTime);
-                    judgeTextDisplay?.ResultPrefixed(result, "L.");
-                    firstTickFinish = true;
-                }
-                
-                else
-                { 
-                    result = NoteJudge.Perfect; 
-                    judgeTextDisplay?.ResultPrefixed(result, "L.");
-                    firstTickFinish = true;
-                }
-                
+                result = NoteJudge.Perfect;
+                judgeTextDisplay?.ResultPrefixed(result, "L.");
                 nextTickTime += tickInterval;
             }
             
             if (!Input.GetKey(KeyCode.Space))
             {
-                /** if (Time.time >= nextTickTime - 0.05f && Time.time <= nextTickTime + 0.05f)
-                {
-                    result = NoteJudge.Miss;
-                    judgeTextDisplay?.ResultPrefixed(result, "L.");
-                }
-
-                isHolding = false; **/
-                
                 result = NoteJudge.Miss;
                 judgeTextDisplay?.ResultPrefixed(result, "L.");
                 isHolding = false;
@@ -107,7 +85,6 @@ public class NoteMove : MonoBehaviour
                 hasBeenHit = false;
             }
         }
-
     }
 
     public JudgeText judgeTextDisplay;
@@ -122,26 +99,18 @@ public class NoteMove : MonoBehaviour
         
         // 첫 판정만 일반 판정
         if (noteType == NoteType.Long)
-        {
+        { 
+            result = Judge.Judgement(inputTime, targetTime);
+            judgeTextDisplay?.Result(result);
+
+            firstTickFinish = true;
+            isHolding = true;
+            hasBeenHit = true;
+            
+            nextTickTime = Time.time + tickInterval;
             float timeSinceStart = inputTime - targetTime;
             float ticksPassed = Mathf.Floor(timeSinceStart / tickInterval);
             nextTickTime = targetTime + (ticksPassed + 1) * tickInterval;
-
-            if (!firstTickFinish && Mathf.Abs(inputTime - targetTime) <= tickInterval / 2f)
-            { 
-                result = Judge.Judgement(inputTime, targetTime);
-                judgeTextDisplay?.Result(result);
-                firstTickFinish = true;
-            }
-
-            else
-            {
-                result = NoteJudge.Perfect;
-                judgeTextDisplay?.ResultPrefixed(result, "L.");
-            }
-            
-            isHolding = true;
-            hasBeenHit = true;
         }
         
         else
