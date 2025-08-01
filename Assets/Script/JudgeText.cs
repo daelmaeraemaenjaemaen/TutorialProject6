@@ -4,14 +4,14 @@ public class JudgeText : MonoBehaviour
 {
     public TextMeshProUGUI judgeText;
     
-    private string lastShownResult = "";
+    private string _lastShownResult = "";
     
     public void Result(NoteJudge result)
     {
         string text = result.ToString();
         
         judgeText.text = text;
-        lastShownResult = text;
+        _lastShownResult = text;
     }
 
     public void ResultPrefixed(NoteJudge result, string prefix)
@@ -19,6 +19,6 @@ public class JudgeText : MonoBehaviour
         string text = prefix + result.ToString();
 
         judgeText.text = text;
-        lastShownResult = text;
+        _lastShownResult = text;
     }
 }
