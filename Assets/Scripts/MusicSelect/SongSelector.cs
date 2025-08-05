@@ -5,6 +5,8 @@ using TMPro;
 
 using System.IO;
 
+using UnityEngine.SceneManagement;
+
 public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Image miniCover;
@@ -41,5 +43,17 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     public void OnPointerUp(PointerEventData eventData)
     {
         //Debug.Log("Pointer Up");
+    }
+
+    private void Start()
+    {
+        StartBtn.onClick.AddListener(OnStartBtnClicked);
+    }
+
+    private void OnStartBtnClicked()
+    {
+        PlayerPrefs.SetInt("selectedSong", (int)songCode);
+        PlayerPrefs.Save();
+        SceneManager.LoadScene("GamePlay");
     }
 }
