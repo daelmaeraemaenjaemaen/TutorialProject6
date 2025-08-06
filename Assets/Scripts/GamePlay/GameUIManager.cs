@@ -13,13 +13,10 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI introSongNameText;    
     [SerializeField] private TextMeshProUGUI introSongArtistText;  
 
-    // 본 게임 UI
-    [SerializeField] private GameObject gameUIPanel;               
+    // 본 게임 UI               
     [SerializeField] private Image gameCoverImage;                 
     [SerializeField] private TextMeshProUGUI gameSongNameText;     
 
-    // NoteLine
-    [SerializeField] private GameObject player;
 
     private List<Song> songs = new();
 
@@ -83,14 +80,11 @@ public class GameUIManager : MonoBehaviour
         introSongNameText.text = selectedSong.getsongName();
         introSongArtistText.text = selectedSong.getsongArtist();
         if (gameSongNameText != null) gameSongNameText.text = selectedSong.getsongName();
-
-        // NoteLine 처음에 안보이게 함
-        if (player != null) player.SetActive(false);
+        
 
         // UI 전환
         introPanel.alpha = 1f;
         introPanel.gameObject.SetActive(true);
-        gameUIPanel.SetActive(false);
 
         StartCoroutine(IntroFadeAndSwitch());
     }
@@ -108,9 +102,6 @@ public class GameUIManager : MonoBehaviour
         }
         introPanel.alpha = 0f;
         introPanel.gameObject.SetActive(false); // 인트로 숨김
-
-        gameUIPanel.SetActive(true); // 본 게임 UI
-        if (player != null) player.SetActive(true); // NoteLine 보이게 하기
 
         StartGame();
     }
