@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class NoteSpawn : MonoBehaviour
 {
-    public float noteTarget = 2.0f; // 쳐야 할 시간
+    public static float noteTarget = 2.0f; // 쳐야 할 시간
     
     public GameObject shortNotePrefab; // 단노트 프리팹
     public GameObject longNotePrefab; // 롱노트 프리팹
@@ -43,16 +43,12 @@ public class NoteSpawn : MonoBehaviour
 
         GameObject prefab;
         bool isLong;
-        Transform spawnpoint;
-        Transform targetLine;
-        Transform judgeLine;
+        Transform spawnpoint = GameObject.Find("SpawnPoint")?.transform;
+        Transform judgeLine= GameObject.Find("JudgeLine")?.transform;
         
-        if (UnityEngine.Random.value < 0.5f)
+        if (Random.value < 0.5f)
         {
             // 롱노트
-            spawnpoint = GameObject.Find("LongSpawnPoint")?.transform;
-            targetLine = GameObject.Find("LongTargetLine")?.transform;
-            judgeLine = GameObject.Find("LongJudgeLine")?.transform;
             prefab = longNotePrefab;
             isLong = true;
         }
@@ -60,9 +56,6 @@ public class NoteSpawn : MonoBehaviour
         else
         {
             // 단노트
-            spawnpoint = GameObject.Find("ShortSpawnPoint")?.transform;
-            targetLine = GameObject.Find("ShortTargetLine")?.transform;
-            judgeLine = GameObject.Find("ShortJudgeLine")?.transform;
             prefab = shortNotePrefab;
             isLong = false;
         }
@@ -72,7 +65,7 @@ public class NoteSpawn : MonoBehaviour
         NoteMove noteScript = note.GetComponent<NoteMove>();
         noteScript.noteType = isLong ? NoteType.Long : NoteType.Short;
         noteScript.targetTime = Time.time + noteTarget; // 다음 노트 쳐야 할 시간
-        noteScript.targetLine = targetLine;
+        noteScript.tickNumber = isLong ? 1 : 0;
         noteScript.judgeLine = judgeLine;
         noteScript.judgeTextDisplay = judgeTextDisplay;
         

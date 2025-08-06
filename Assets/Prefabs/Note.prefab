@@ -95,10 +95,16 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8704616938136363327}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1089d1688c7755b46851f85fde19a2ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   targetTime: 0
-  targetLine: {fileID: 0}
+  totalTime: 2
+  spawnTime: 0
+  timeProgress: 0
+  judgeLine: {fileID: 0}
+  noteType: 0
+  tickNumber: 0
+  judgeTextDisplay: {fileID: 0}

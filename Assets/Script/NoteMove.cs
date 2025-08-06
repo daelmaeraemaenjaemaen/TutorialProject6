@@ -9,14 +9,9 @@ public enum NoteType
 public class NoteMove : MonoBehaviour
 {
     public float targetTime; // 도달해야 할 시간
-    public float spawnTime; // 노트가 생긴 시간
     public float timeProgress; // 사이 시간이 얼마나 지났는지
     public Transform judgeLine; // 판정선
-    public Transform targetLine; // 실제 내려갈 위치
 
-    private Vector3 start; // 시작 위치
-    private Vector3 end; // 끝 위치
-    private bool initialized = false;
     private bool judged = false;
     public bool IsJudged => judged;
     
@@ -28,38 +23,34 @@ public class NoteMove : MonoBehaviour
     
     private bool isHolding = false; // 롱노트를 누르고 있는지
     private float nextTickTime = 0f; // 다음 틱까지의 시간
-    private float tickInterval = 0.2f; // 틱 간격
+    private float tickInterval = 0f; // 틱 간격
+    public int tickNumber; //틱 수
     private bool hasBeenHit = false; // 롱노트를 입력했는지 여부
-
 
     void Update()
     {
-        if (targetTime <= 0f || targetLine == null || judgeLine == null)
+        if (targetTime <= 0f || judgeLine == null)
             return; // 아직 설정 안 됐으면 무시
-        
-        float totalTime = 2.0f;
-        
-        if (!initialized)
+
+        float t = 10 / (NoteSpawn.noteTarget * Application.targetFrameRate); // 프레임당 이동거리 계산
+        transform.position += new Vector3(0, -t, 0); // 시작 위치부터 종료 위치까지 움직이게 하기
+
+        // 롱노트 틱 계산
+        if (noteType == NoteType.Long && tickInterval == 0f)
         {
-            start = transform.position; // 시작 위치
-            end = targetLine.position; // 실제 이동할 최종 위치
-            spawnTime = targetTime - totalTime; // 노트가 생성된 시간 계산
-            initialized = true;
+            // BPM * 비트 = 초당 노트 개수 * 240
+            tickInterval = Metronome.bpm / 30;
         }
         
-        float timeProgress = (Time.time - spawnTime) / totalTime; // 시간이 얼마나 지났는지 계산
-        float t = Mathf.Clamp01(timeProgress); // timeProgress 0과 1 사이로 제한
-        transform.position = Vector3.Lerp(start, end, t); // 시작 위치부터 종료 위치까지 움직이게 하기
-        
         // 롱노트 자동 파괴: targetTime을 기준으로 제거
-        if (noteType == NoteType.Long && Time.time >= targetTime) 
+        if (noteType == NoteType.Long && Time.time >= targetTime + tickNumber * tickInterval) 
         {
             if (!hasBeenHit)
             {
                 result = NoteJudge.Miss;
                 judgeTextDisplay?.ResultPrefixed(result, "L.");
             }
-            
+
             Destroy(gameObject);
             return;
         }
