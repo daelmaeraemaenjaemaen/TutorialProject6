@@ -2,7 +2,7 @@ using UnityEngine;
 using System;
 public class Metronome : MonoBehaviour
 {
-    public float bpm = 30f; // BPM 설정
+    public static float bpm = 150f; // BPM 설정
     private float _interval; // 박자 간 시간
     private float _nextTick;
 

@@ -22,9 +22,11 @@ public class NoteMove : MonoBehaviour
     public NoteType noteType = NoteType.Short;
 
     private float nextTickTime = 0f; // 다음 틱까지의 시간
-    private float tickInterval = 0.2f; // 틱 간격
-
-    public float moveSpeed = 5f;
+    public float tickInterval; // 틱 간격
+    public int tickNumber;
+    // 이동 속도, 이것만 변경하면 관련 수치 변경이 자동으로 이루어지게 static으로 변경했습니다
+    // 옵션에서 이 수치를 0.1 단위로 변경할 수 있게 하면 됩니다
+    public static float moveSpeed = 7.2f; 
 
     public JudgeText judgeTextDisplay;
 
@@ -34,6 +36,9 @@ public class NoteMove : MonoBehaviour
             return;
 
         transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+
+        // 롱노트 길이 조정(롱노트 길이 = 초당 이동거리 * 틱 간격 * 틱 수)
+        if (noteType == NoteType.Long) transform.localScale = new Vector3(1f, tickInterval * moveSpeed * tickNumber, 1f);
         
         // 롱노트 자동 Miss 판정
         if (noteType == NoteType.Long && !judged)
@@ -72,12 +77,6 @@ public class NoteMove : MonoBehaviour
 
             if (Time.time >= tailTime)
             {
-                NoteJudge tailJudge = Input.GetKey(KeyCode.Space)
-                    ? Judge.Judgement(Time.time, tailTime)
-                    : NoteJudge.Miss;
-                result = (tailJudge == NoteJudge.Miss) ? NoteJudge.Miss : NoteJudge.Perfect;
-                judgeTextDisplay?.ResultPrefixed(result, "L.");
-                Debug.Log("L." + result);
                 Destroy(gameObject);
             }
         }

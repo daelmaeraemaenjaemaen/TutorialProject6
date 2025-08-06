@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 8704616938136363327}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 5.25, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 2, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -95,10 +95,15 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8704616938136363327}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1089d1688c7755b46851f85fde19a2ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetTime: 0
-  targetLine: {fileID: 0}
+  headTime: 0
+  tailTime: 0
+  spawnTime: 0
+  judgeLine: {fileID: 0}
+  noteType: 0
+  moveSpeed: 0
+  judgeTextDisplay: {fileID: 0}

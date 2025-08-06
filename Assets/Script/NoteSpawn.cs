@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class NoteSpawn : MonoBehaviour
 {
-    public float noteTarget = 2.0f; // 노트가 판정선(judgeLine)에 도착하는데 걸리는 시간
-
     public GameObject shortNotePrefab; // 단노트 프리팹
     public GameObject longNotePrefab; // 롱노트 프리팹
 
@@ -14,7 +12,7 @@ public class NoteSpawn : MonoBehaviour
     public NoteInput noteInput; // NoteInput 컴포넌트를 연결
 
     private int _beatCounter = 0;
-    public int beatsPerSpawn = 5; // 몇 박자마다 노트 생성할지
+    public int beatsPerSpawn = 8; // 몇 박자마다 노트 생성할지
 
     void OnEnable() // 오브젝트를 활성화 시켰을 때
     {
@@ -42,22 +40,18 @@ public class NoteSpawn : MonoBehaviour
 
         GameObject prefab;
         bool isLong;
-        Transform spawnpoint;
-        Transform judgeLine;
+        Transform spawnpoint = GameObject.Find("SpawnPoint")?.transform;
+        Transform judgeLine = GameObject.Find("JudgeLine")?.transform;
 
-        if (UnityEngine.Random.value < 0.5f)
+        if (Random.value < 0.5f)
         {
             // 롱노트
-            spawnpoint = GameObject.Find("LongSpawnPoint")?.transform;
-            judgeLine = GameObject.Find("JudgeLine")?.transform;
             prefab = longNotePrefab;
             isLong = true;
         }
         else
         {
             // 단노트
-            spawnpoint = GameObject.Find("ShortSpawnPoint")?.transform;
-            judgeLine = GameObject.Find("JudgeLine")?.transform;
             prefab = shortNotePrefab;
             isLong = false;
         }
@@ -66,29 +60,18 @@ public class NoteSpawn : MonoBehaviour
 
         NoteMove noteScript = note.GetComponent<NoteMove>();
         noteScript.noteType = isLong ? NoteType.Long : NoteType.Short;
+        noteScript.tickInterval = 30 / Metronome.bpm;
+        noteScript.tickNumber = isLong ? 4 : 0;
         noteScript.judgeLine = judgeLine;
         noteScript.judgeTextDisplay = judgeTextDisplay;
 
         // headTime, tailTime 자동 계산
-        float headTime = Time.time + noteTarget;
+        // 롱노트 길이를 기반으로 tailtime을 계산하는 것은 부정확하다고 여겨 틱 기반으로 교체했습니다
+        float headTime = Time.time + 10 / NoteMove.moveSpeed;
+        float tailTime = headTime + noteScript.tickInterval * noteScript.tickNumber;
 
         if (isLong)
         {
-            // 롱노트 길이를 프리팹 구조에서 자동 계산
-            Transform head = note.transform.Find("Head"); // Head 오브젝트
-            Transform tail = note.transform.Find("Tail"); // Tail 오브젝트
-
-            float noteLengthY = 1.0f; // 기본값(실패시)
-
-            if (head != null && tail != null)
-            {
-                noteLengthY = Mathf.Abs(head.localPosition.y - tail.localPosition.y); // Head~Tail Y좌표 차이로 길이 자동 계산
-            }
-
-            float moveSpeed = noteScript.moveSpeed; // NoteMove의 moveSpeed와 동일하게
-
-            float tailTime = headTime + (noteLengthY / moveSpeed);
-
             noteScript.headTime = headTime;
             noteScript.tailTime = tailTime;
         }
