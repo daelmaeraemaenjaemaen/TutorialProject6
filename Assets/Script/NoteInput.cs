@@ -13,22 +13,13 @@ public class NoteInput : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) // 스페이스 키를 눌렀을 때
         {
             NoteMove nearest = FindNote(); // 근처에 노트가 있는지 확인
-            if (nearest != null && !nearest.IsJudged) // 근처에 노트가 있고 아직 판정되지 않았다면
+            // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
+            if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
             {
-                nearest.TryHit(Time.time); // 입력 시간으로 판정
-                
-                if (nearest.noteType == NoteType.Short)
-                    toRemove.Add(nearest); // 처리한 노트는 리스트에서 삭제 예정
-            }
-        }
+                nearest.TryHit(Time.time);
 
-        // 시간이 초과된 노트 자동 Miss 판정
-        foreach (var note in activeNotes) // activeNotes에 있는 모든 노트를 돌면서
-        {
-            if (note.noteType == NoteType.Short && !note.IsJudged && Time.time - note.targetTime > 0.15f) // 타겟보다 150ms 초과하면
-            {
-                note.TryHit(Time.time); // Miss 판정을 일부러 강제로 발생시킴
-                toRemove.Add(note); // 삭제 대상에 추가
+                if (nearest.noteType == NoteType.Short)
+                    toRemove.Add(nearest);
             }
         }
 
@@ -47,7 +38,8 @@ public class NoteInput : MonoBehaviour
 
         foreach (var note in activeNotes) // activeNotes에 있는 모든 노트를 돌면서
         {
-            float diff = (note.targetTime - Time.time) * 1000f; // 오차 (초)
+            // targetTime -> headTime으로 변경!
+            float diff = (note.headTime - Time.time) * 1000f; // 오차 (ms)
 
             // 유효한 판정 범위 내에 있는 노트만 고려
             if (diff >= -150f && diff <= 700f)

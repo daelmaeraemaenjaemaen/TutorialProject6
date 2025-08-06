@@ -2,122 +2,119 @@ using UnityEngine;
 
 public enum NoteType
 {
-	Short,
-	Long
+    Short,
+    Long
 }
 
 public class NoteMove : MonoBehaviour
 {
-    public float targetTime; // 도달해야 할 시간
-    public float timeProgress; // 사이 시간이 얼마나 지났는지
+    public float headTime;
+    public float tailTime; // 롱노트 끝 판정 시간
+    public float spawnTime; // 노트가 생긴 시간
     public Transform judgeLine; // 판정선
 
     private bool judged = false;
     public bool IsJudged => judged;
-    
+
     public NoteJudge result { get; private set; }
-    
+
     // 롱노트 기능
-    
     public NoteType noteType = NoteType.Short;
-    
-    private bool isHolding = false; // 롱노트를 누르고 있는지
+
     private float nextTickTime = 0f; // 다음 틱까지의 시간
-    private float tickInterval = 0f; // 틱 간격
-    public int tickNumber; //틱 수
-    private bool hasBeenHit = false; // 롱노트를 입력했는지 여부
+    private float tickInterval = 0.2f; // 틱 간격
+
+    public float moveSpeed = 5f;
+
+    public JudgeText judgeTextDisplay;
 
     void Update()
     {
-        if (targetTime <= 0f || judgeLine == null)
-            return; // 아직 설정 안 됐으면 무시
+        if (headTime <= 0f || judgeLine == null)
+            return;
 
-        float t = 10 / (NoteSpawn.noteTarget * Application.targetFrameRate); // 프레임당 이동거리 계산
-        transform.position += new Vector3(0, -t, 0); // 시작 위치부터 종료 위치까지 움직이게 하기
-
-        // 롱노트 틱 계산
-        if (noteType == NoteType.Long && tickInterval == 0f)
-        {
-            // BPM * 비트 = 초당 노트 개수 * 240
-            tickInterval = Metronome.bpm / 30;
-        }
+        transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
         
-        // 롱노트 자동 파괴: targetTime을 기준으로 제거
-        if (noteType == NoteType.Long && Time.time >= targetTime + tickNumber * tickInterval) 
+        // 롱노트 자동 Miss 판정
+        if (noteType == NoteType.Long && !judged)
         {
-            if (!hasBeenHit)
+            if ((Time.time - headTime) * 1000f > Judge.MissLate)
             {
                 result = NoteJudge.Miss;
-                judgeTextDisplay?.ResultPrefixed(result, "L.");
+                judgeTextDisplay?.Result(result);
+                Debug.Log(result);
+                judged = true;  // Head 판정 완료 표시
+                return;
             }
-
-            Destroy(gameObject);
-            return;
         }
-        
-        // 롱노트 판정
-        if (noteType == NoteType.Long && isHolding && hasBeenHit)
+
+        // Body~Tail 틱별 판정
+        if (noteType == NoteType.Long && judged) // Head가 먼저 판정되도록 함
         {
-            if (Time.time >= nextTickTime)
+            if (nextTickTime == 0f) nextTickTime = headTime;
+
+            while (Time.time >= nextTickTime && nextTickTime < tailTime)
             {
-                result = NoteJudge.Perfect;
+                if (Input.GetKey(KeyCode.Space))
+                {
+                    NoteJudge tickJudge = Judge.Judgement(Time.time, nextTickTime);
+                    result = (tickJudge == NoteJudge.Miss) ? NoteJudge.Miss : NoteJudge.Perfect;
+                }
+                else
+                {
+                    result = NoteJudge.Miss;
+                }
                 judgeTextDisplay?.ResultPrefixed(result, "L.");
+                Debug.Log("L." + result);
+
                 nextTickTime += tickInterval;
             }
-            
-            if (!Input.GetKey(KeyCode.Space))
+
+            if (Time.time >= tailTime)
             {
-                result = NoteJudge.Miss;
+                NoteJudge tailJudge = Input.GetKey(KeyCode.Space)
+                    ? Judge.Judgement(Time.time, tailTime)
+                    : NoteJudge.Miss;
+                result = (tailJudge == NoteJudge.Miss) ? NoteJudge.Miss : NoteJudge.Perfect;
                 judgeTextDisplay?.ResultPrefixed(result, "L.");
-                isHolding = false;
-                hasBeenHit = false;
+                Debug.Log("L." + result);
+                Destroy(gameObject);
             }
+        }
+
+        // 단노트 자동 Miss 판정
+        if (noteType == NoteType.Short && !IsJudged && (headTime - Time.time) * 1000f < Judge.FMm)
+        {
+            TryHit(Time.time);
         }
     }
 
-    public JudgeText judgeTextDisplay;
-    
     public void TryHit(float inputTime)
     {
-        if (judged && noteType == NoteType.Short)
-        {
-            Destroy(gameObject); // 중복 방지용
-            return;
-        }
-        
-        // 첫 판정만 일반 판정
-        if (noteType == NoteType.Long)
-        { 
-            result = Judge.Judgement(inputTime, targetTime);
-            judgeTextDisplay?.Result(result);
-            isHolding = true;
-            hasBeenHit = true;
-            
-            nextTickTime = Time.time + tickInterval;
-            float timeSinceStart = inputTime - targetTime;
-            float ticksPassed = Mathf.Floor(timeSinceStart / tickInterval);
-            nextTickTime = targetTime + (ticksPassed + 1) * tickInterval;
-        }
-        
-        else
+        // 단노트 판정
+        if (noteType == NoteType.Short)
         {
             if (judged) return;
-            
             judged = true;
-            result = Judge.Judgement(inputTime, targetTime); // 판정
+            result = Judge.Judgement(inputTime, headTime);
             judgeTextDisplay.Result(result);
             Destroy(gameObject);
             return;
         }
-        
-        
+
+        // 롱노트 판정
+        if (noteType == NoteType.Long && !judged)
+        {
+            judged = true;
+            result = Judge.Judgement(inputTime, headTime);
+            judgeTextDisplay?.Result(result);
+            Debug.Log(result);
+        }
     }
-    
+
     public System.Action<NoteMove> onDestroyed;
     void OnDestroy()
     {
-        isHolding = false;
         onDestroyed?.Invoke(this);
     }
-    
 }
