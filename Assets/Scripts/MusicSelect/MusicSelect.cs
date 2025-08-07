@@ -7,6 +7,8 @@ using System.Collections.Generic;
 
 public class MusicSelect : MonoBehaviour
 {
+    public static MusicSelect instance;
+    
     //Unity Inspector에서 연결하는 객체
     public Image cover;
     public TextMeshProUGUI songName;
@@ -26,6 +28,11 @@ public class MusicSelect : MonoBehaviour
     private string _selectedCategory;
     public static string selectedCategory;
 
+    void Awake()
+    {
+        instance = this;
+    }
+    
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -112,6 +119,8 @@ public class MusicSelect : MonoBehaviour
         }
 
         int firstSong = -1; //정렬된 곡 리스트의 첫 곡
+        GameObject firstSongSelectorObj = null;
+        
         //구성
         for (int i = 0; i < Song.songCount; i++)
         {
@@ -120,7 +129,11 @@ public class MusicSelect : MonoBehaviour
             item.GetComponent<SongSelector>().setSongSelector(songs[i]);
             item.transform.SetParent(songContent);
             item.transform.localScale = Vector2.one;
-            if (firstSong == -1) firstSong = (int)songs[i].getSongID();
+            if (firstSong == -1)
+            {
+                firstSong = (int)songs[i].getSongID();
+                firstSongSelectorObj = item;
+            }
         }
 
         //카테고리에 곡이 없을 시 예외 처리
@@ -139,6 +152,12 @@ public class MusicSelect : MonoBehaviour
             selectedSong = (uint)firstSong;
             _selectedSong = (uint)firstSong;
             setSelectedSong(selectedSong);
+            
+            if (firstSongSelectorObj != null)
+            {
+                var selector = firstSongSelectorObj.GetComponent<SongSelector>();
+                selector.PlayPreviewFromFile(selector.songFileName);
+            }
         }
     }
 
@@ -158,5 +177,11 @@ public class MusicSelect : MonoBehaviour
         songName.text = song.getsongName();
         songArtist.text = song.getsongArtist();
         _selectedSong = selectedSong;
+    }
+    
+    public void SetSelectedSongImmediate(uint ID)
+    {
+        setSelectedSong(ID); // 기존 곡 정보 갱신 함수
+        _selectedSong = selectedSong = ID; // 내부 상태까지 동기화
     }
 }

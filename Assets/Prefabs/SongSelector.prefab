@@ -170,6 +170,7 @@ MonoBehaviour:
   miniCover: {fileID: 9096426521343683753}
   miniName: {fileID: 259798742828291681}
   StartBtn: {fileID: 5382790182205947720}
+  previewAudioSource: {fileID: 0}
 --- !u!61 &925142058402022574
 BoxCollider2D:
   m_ObjectHideFlags: 0
