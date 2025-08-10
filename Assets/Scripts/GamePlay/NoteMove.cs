@@ -22,7 +22,8 @@ public class NoteMove : MonoBehaviour
 
     private float nextTickTime = 0f; // 다음 틱까지의 시간
     public float tickInterval; // 틱 간격
-    public int tickNumber;
+    public float tickNumber;
+    
     // 이동 속도, 이것만 변경하면 관련 수치 변경이 자동으로 이루어지게 static으로 변경했습니다
     // 옵션에서 이 수치를 0.1 단위로 변경할 수 있게 하면 됩니다
     public static float moveSpeed = 7.2f; 

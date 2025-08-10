@@ -2,57 +2,31 @@ using UnityEngine;
 
 public class NoteSpawn : MonoBehaviour
 {
-    public GameObject shortNotePrefab; // 단노트 프리팹
-    public GameObject longNotePrefab; // 롱노트 프리팹
+    [SerializeField] private GameObject shortNotePrefab; // 단노트 프리팹
+    [SerializeField] private GameObject longNotePrefab; // 롱노트 프리팹
 
-    [SerializeField] private JudgeText judgeTextDisplay;
+    [SerializeField] private JudgeText judgeTextDisplayL;
+    [SerializeField] private JudgeText judgeTextDisplayR;
 
-    private bool _isSubscribed = false; // 중복 방지
+    [SerializeField] private NoteInput noteInput; // NoteInput 컴포넌트를 연결
 
-    public NoteInput noteInput; // NoteInput 컴포넌트를 연결
-
-    private int _beatCounter = 0;
-    public int beatsPerSpawn = 8; // 몇 박자마다 노트 생성할지
-
-    void OnEnable() // 오브젝트를 활성화 시켰을 때
+    public void SpawnNote(int line, float tickNumber) //단노트는 tickNumber == 0
     {
-        if (!_isSubscribed)
-        {
-            Metronome.OnTick += SpawnNote; // SpawnNote() 함수 실행
-            _isSubscribed = true;
-        }
-    }
-
-    void OnDisable() // 오브젝트를 비활성화 시켰을 때
-    {
-        if (_isSubscribed)
-        {
-            Metronome.OnTick -= SpawnNote; // SpawnNote() 함수 해제
-            _isSubscribed = false;
-        }
-    }
-
-    void SpawnNote()
-    {
-        _beatCounter++;
-        if (_beatCounter % beatsPerSpawn != 0)
-            return;
-
         GameObject prefab;
         bool isLong;
-        Transform spawnpoint = GameObject.Find("SpawnPoint")?.transform;
+        Transform spawnpoint = GameObject.Find("SpawnPoint" + line.ToString())?.transform; //SpawnPoint1~SpawnPoint6
 
-        if (Random.value < 0.5f)
-        {
-            // 롱노트
-            prefab = longNotePrefab;
-            isLong = true;
-        }
-        else
+        if (tickNumber == 0)
         {
             // 단노트
             prefab = shortNotePrefab;
             isLong = false;
+        }
+        else
+        {
+            // 롱노트
+            prefab = longNotePrefab;
+            isLong = true;
         }
 
         GameObject note = Instantiate(prefab, spawnpoint.position, Quaternion.identity); // 노트 복제
@@ -60,8 +34,8 @@ public class NoteSpawn : MonoBehaviour
         NoteMove noteScript = note.GetComponent<NoteMove>();
         noteScript.noteType = isLong ? NoteType.Long : NoteType.Short;
         noteScript.tickInterval = 30 / Metronome.bpm;
-        noteScript.tickNumber = isLong ? 4 : 0;
-        noteScript.judgeTextDisplay = judgeTextDisplay;
+        noteScript.tickNumber = tickNumber;
+        noteScript.judgeTextDisplay = line <= 3 ? judgeTextDisplayL : judgeTextDisplayR;
 
         // headTime, tailTime 자동 계산
         // 롱노트 길이를 기반으로 tailtime을 계산하는 것은 부정확하다고 여겨 틱 기반으로 교체했습니다

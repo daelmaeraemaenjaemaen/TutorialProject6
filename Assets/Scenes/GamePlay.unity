@@ -265,6 +265,7 @@ GameObject:
   - component: {fileID: 113678424}
   - component: {fileID: 113678426}
   - component: {fileID: 113678425}
+  - component: {fileID: 113678427}
   m_Layer: 0
   m_Name: Judge(2P)
   m_TagString: Untagged
@@ -280,15 +281,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113678423}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -183.19586}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1022813851}
+  m_Father: {fileID: 836878288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 675, y: -170}
+  m_AnchoredPosition: {x: 675, y: -200}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &113678425
@@ -390,6 +391,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 113678423}
   m_CullTransparentMesh: 1
+--- !u!114 &113678427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113678423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d4550792a1baa40aa52c9237738531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  judgeText: {fileID: 113678425}
 --- !u!1 &137696958
 GameObject:
   m_ObjectHideFlags: 0
@@ -416,15 +430,15 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 137696958}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -183.19586}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1022813851}
+  m_Father: {fileID: 836878288}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 675, y: 316}
+  m_AnchoredPosition: {x: 675, y: 286}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &137696960
@@ -881,8 +895,8 @@ GameObject:
   m_Component:
   - component: {fileID: 444060323}
   - component: {fileID: 444060322}
-  - component: {fileID: 444060321}
   - component: {fileID: 444060320}
+  - component: {fileID: 444060321}
   m_Layer: 0
   m_Name: ScriptActor
   m_TagString: Untagged
@@ -904,9 +918,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shortNotePrefab: {fileID: 2308515986407156369, guid: c1abbaf9c137ccf4dbe473dc631645f9, type: 3}
   longNotePrefab: {fileID: 8870558028969860574, guid: b8ef4bc0f88e285419e87c659663e6b5, type: 3}
-  judgeTextDisplay: {fileID: 0}
+  judgeTextDisplayL: {fileID: 1316195671}
+  judgeTextDisplayR: {fileID: 113678427}
   noteInput: {fileID: 444060321}
-  beatsPerSpawn: 8
 --- !u!114 &444060321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -932,6 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83228766ec9b9604ab5ee4bcaadcc18e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noteSpawn: {fileID: 444060320}
 --- !u!4 &444060323
 Transform:
   m_ObjectHideFlags: 0
@@ -1381,6 +1396,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1497759677}
+  - {fileID: 137696959}
+  - {fileID: 113678424}
   m_Father: {fileID: 1011093621}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &843950078
@@ -1521,6 +1538,7 @@ MonoBehaviour:
   gameCoverImage: {fileID: 1467561695}
   gameSongNameText: {fileID: 1744982547}
   musicAudioSource: {fileID: 1365267273}
+  metronome: {fileID: 444060322}
 --- !u!1 &909465556
 GameObject:
   m_ObjectHideFlags: 0
@@ -1724,8 +1742,6 @@ Transform:
   m_Children:
   - {fileID: 1467561694}
   - {fileID: 1744982546}
-  - {fileID: 137696959}
-  - {fileID: 113678424}
   m_Father: {fileID: 1740574299}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1061764626
@@ -2686,6 +2702,7 @@ GameObject:
   - component: {fileID: 1316195668}
   - component: {fileID: 1316195670}
   - component: {fileID: 1316195669}
+  - component: {fileID: 1316195671}
   m_Layer: 0
   m_Name: Judge(1P)
   m_TagString: Untagged
@@ -2811,6 +2828,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1316195667}
   m_CullTransparentMesh: 1
+--- !u!114 &1316195671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1316195667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0d4550792a1baa40aa52c9237738531, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  judgeText: {fileID: 1316195669}
 --- !u!1 &1328016177
 GameObject:
   m_ObjectHideFlags: 0

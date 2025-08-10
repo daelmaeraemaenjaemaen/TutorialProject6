@@ -22,6 +22,9 @@ public class GameUIManager : MonoBehaviour
     [Header("오디오")]
     [SerializeField] private AudioSource musicAudioSource; // Inspector에서 연결
 
+    [Header("패턴")]
+    [SerializeField] private Metronome metronome;
+
     private List<Song> songs = new();
     private Song selectedSong;
 
@@ -90,6 +93,7 @@ public class GameUIManager : MonoBehaviour
 
     IEnumerator IntroFadeAndStartMusic()
     {
+        metronome.setPlayData(selectedSong, true); //TODO: 난이도 선택 구현 이후 선택한 난이도에 맞게 수정 필요
         yield return new WaitForSeconds(2f);
         
         float duration = 0.5f;
@@ -120,6 +124,8 @@ public class GameUIManager : MonoBehaviour
             return;
         }
 
+        //TODO: 싱크 조절 기능을 넣을 시, 아래 두 이벤트의 간격을 조절해 구현합니다
+        metronome.StartPlay();
         StartCoroutine(PlayWavAndGotoNextScene(filePath));
     }
     
