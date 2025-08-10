@@ -45,8 +45,15 @@ public class MusicSelect : MonoBehaviour
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    if (line[0] == '#') continue;
+                    if (string.IsNullOrWhiteSpace(line) || line[0] == '#') continue;
+                    
                     string[] lines = line.Split(" ");
+                    if(lines.Length < 5) 
+                    {
+                        Debug.LogWarning($"Slist malformed: {line}");
+                        continue; 
+                    }
+                    
                     Song song = new Song(lines[0], lines[1], lines[2], lines[4] == "-" ? "dummy.png" : lines[4]);
                     songs.Add(song);
                 }
@@ -69,8 +76,15 @@ public class MusicSelect : MonoBehaviour
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
-                    if (line[0] == '#') continue;
+                    if (string.IsNullOrWhiteSpace(line) || line[0] == '#') continue;
+                    
                     string[] lines = line.Split(" ");
+                    if (lines.Length < 2)
+                    {
+                        Debug.LogWarning($"Clist malformed: {line}");
+                        continue;
+                    }
+                    
                     Category c = new Category(lines[0], lines[1]);
                     categories.Add(c);
                 }
@@ -88,8 +102,7 @@ public class MusicSelect : MonoBehaviour
         {
             var item = Instantiate(categorySelector);
             item.GetComponent<CategorySelector>().setCategorySelector(categories[i]);
-            item.transform.SetParent(categoryContent);
-            item.transform.localScale = Vector2.one;
+            item.transform.SetParent(categoryContent, false);
         }
         selectedCategory = "all";
         _selectedCategory = "all";
@@ -113,7 +126,7 @@ public class MusicSelect : MonoBehaviour
     private void setSongList()
     {
         //초기화
-        for (int i = 0; i < songContent.childCount; i++)
+        for (int i =  songContent.childCount - 1; i >= 0; i--)
         {
             Destroy(songContent.GetChild(i).gameObject);
         }
@@ -122,13 +135,13 @@ public class MusicSelect : MonoBehaviour
         GameObject firstSongSelectorObj = null;
         
         //구성
-        for (int i = 0; i < Song.songCount; i++)
+        for (int i = 0; i < songs.Count; i++)
         {
             if (!selectedCategory.Equals("all") && !selectedCategory.Equals(songs[i].getSongCategory())) continue;
             var item = Instantiate(songSelector);
             item.GetComponent<SongSelector>().setSongSelector(songs[i]);
-            item.transform.SetParent(songContent);
-            item.transform.localScale = Vector2.one;
+            item.transform.SetParent(songContent, false);
+            
             if (firstSong == -1)
             {
                 firstSong = (int)songs[i].getSongID();
@@ -145,7 +158,13 @@ public class MusicSelect : MonoBehaviour
                 Debug.Log("There is no song data");
                 Application.Quit();
             }
-            else selectedCategory = "all";
+            else
+            {   Debug.LogWarning($"'{selectedCategory}' 카테고리에 곡 없음 -> 'all'로 복귀");
+                selectedCategory = "all";
+                _selectedCategory = "all";
+                setSongList();
+            }
+            return;
         }
         else
         {
@@ -165,13 +184,29 @@ public class MusicSelect : MonoBehaviour
     private void setSelectedSong(uint ID)
     {
         Song song = songs.Find(s => s.getSongID() == ID);
-
-        byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + song.getsongCover());
-        Texture2D texture = new Texture2D(500, 500);
-        if (texture.LoadImage(fileData))
+        if (song == null)
         {
-            Sprite sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-            cover.sprite = sprite;
+            Debug.LogWarning($"ID={ID} 곡을 못 찾음. 첫 곡으로 보정");
+            if (songs.Count == 0) return;
+            song = songs[0];
+            selectedSong = _selectedSong = song.getSongID();
+        }
+        
+        string coverPath = Application.dataPath + "/Images/Cover/" + song.getsongCover();
+
+        if (File.Exists(coverPath))
+        {
+            byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + song.getsongCover());
+            Texture2D texture = new Texture2D(500, 500);
+            if (texture.LoadImage(fileData))
+            {
+                Sprite sprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+                cover.sprite = sprite;
+            }
+        }
+        else
+        {
+            Debug.LogWarning($"커버 이미지 없음: {coverPath}");
         }
 
         songName.text = song.getsongName();

@@ -90,7 +90,9 @@ public class GameUIManager : MonoBehaviour
 
     IEnumerator IntroFadeAndStartMusic()
     {
-        float duration = 5f;
+        yield return new WaitForSeconds(2f);
+        
+        float duration = 0.5f;
         float t = 0f;
 
         // 인트로 페이드 아웃
@@ -103,6 +105,8 @@ public class GameUIManager : MonoBehaviour
         introPanel.alpha = 0f;
         introPanel.gameObject.SetActive(false);
 
+        yield return new WaitForSeconds(1f);
+            
         PlaySelectedSong();
     }
 
@@ -143,6 +147,8 @@ public class GameUIManager : MonoBehaviour
 
                 yield return new WaitForSeconds(clip.length);
 
+                yield return new WaitForSeconds(1f);
+                
                 SceneManager.LoadScene("Result");
             }
         }
