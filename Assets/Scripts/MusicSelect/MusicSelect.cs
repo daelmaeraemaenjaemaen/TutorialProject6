@@ -42,19 +42,30 @@ public class MusicSelect : MonoBehaviour
         {
             using (var reader = new StreamReader(filePath))
             {
+                Song.resetSongCount();
                 while (!reader.EndOfStream)
                 {
                     var line = reader.ReadLine();
                     if (string.IsNullOrWhiteSpace(line) || line[0] == '#') continue;
-                    
-                    string[] lines = line.Split(" ");
-                    if(lines.Length < 5) 
+
+                    string[] lines = line.Split("|");
+                    if (lines.Length < 9)
                     {
                         Debug.LogWarning($"Slist malformed: {line}");
-                        continue; 
+                        continue;
                     }
-                    
-                    Song song = new Song(lines[0], lines[1], lines[2], lines[4] == "-" ? "dummy.png" : lines[4]);
+
+                    Song song = new(
+                        lines[0],
+                        lines[1],
+                        lines[2],
+                        lines[3],
+                        lines[4],
+                        lines[5] == "" ? 0 : float.Parse(lines[5]),
+                        lines[6] == "" ? 0 : float.Parse(lines[6]),
+                        lines[7],
+                        lines[8]
+                        );
                     songs.Add(song);
                 }
             }
@@ -78,7 +89,7 @@ public class MusicSelect : MonoBehaviour
                     var line = reader.ReadLine();
                     if (string.IsNullOrWhiteSpace(line) || line[0] == '#') continue;
                     
-                    string[] lines = line.Split(" ");
+                    string[] lines = line.Split("|");
                     if (lines.Length < 2)
                     {
                         Debug.LogWarning($"Clist malformed: {line}");
@@ -192,11 +203,12 @@ public class MusicSelect : MonoBehaviour
             selectedSong = _selectedSong = song.getSongID();
         }
         
-        string coverPath = Application.dataPath + "/Images/Cover/" + song.getsongCover();
+        string songCover = song.getsongCover() == "" ? "dummy.png" : song.getsongCover();
+        string coverPath = Application.dataPath + "/Images/Cover/" + songCover;
 
         if (File.Exists(coverPath))
         {
-            byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + song.getsongCover());
+            byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + songCover);
             Texture2D texture = new Texture2D(500, 500);
             if (texture.LoadImage(fileData))
             {

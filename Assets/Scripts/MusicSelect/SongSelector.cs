@@ -28,7 +28,8 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void setSongSelector(Song song)
     {
-        byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + song.getsongCover());
+        string cover = song.getsongCover() == "" ? "dummy.png" : song.getsongCover();
+        byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + cover);
         Texture2D texture = new Texture2D(500, 500);
         if (texture.LoadImage(fileData))
         {
@@ -40,7 +41,7 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         songCode = song.getSongID();
 
         // 곡의 실제 파일명 저장
-        songFileName = song.getsongName() + ".wav";
+        songFileName = song.getSongFileName();
     }
 
     void Update()
@@ -70,7 +71,7 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     private void OnStartBtnClicked()
     {
-        PlayerPrefs.SetString("selectedSongName", miniName.text);
+        PlayerPrefs.SetInt("selectedSongID", (int)songCode);
         PlayerPrefs.Save();
         SceneManager.LoadScene("GamePlay");
     }

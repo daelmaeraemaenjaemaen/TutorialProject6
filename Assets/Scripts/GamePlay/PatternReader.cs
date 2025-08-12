@@ -1,3 +1,4 @@
+using UnityEngine;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,15 +14,14 @@ public class PatternReader
 
     public List<NotePart> ReadPattern(string fileName)
     {
-        fileName = "../../Resources/Pattern/" + fileName;
-        string path = Path.Combine(Environment.CurrentDirectory, fileName);
+        string path = Application.dataPath + "/Resources/Pattern/" + fileName;
         StreamReader sr = new(path);
 
         try
         {
-            string line = sr.ReadLine();
-            while (line != null)
+            while (!sr.EndOfStream)
             {
+                string line = sr.ReadLine();
                 string[] words = line.Split(' ');
                 if (words.Length == 5) // Part 작성
                 {

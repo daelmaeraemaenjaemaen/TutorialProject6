@@ -1,5 +1,4 @@
 using UnityEngine;
-using System;
 using System.Collections.Generic;
 public class Metronome : MonoBehaviour
 {
@@ -14,7 +13,7 @@ public class Metronome : MonoBehaviour
     private NoteBeat noteBeatL, noteBeatR;
     private int partCount, lCount, rCount;
     private Song song;
-    private PatternReader patternReader;
+    private PatternReader patternReader = new();
     [SerializeField] private NoteSpawn noteSpawn;
 
     public void setPlayData(Song s, bool isEasy)
@@ -64,8 +63,8 @@ public class Metronome : MonoBehaviour
             if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1);
             if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2);
             if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3);
-            lCount++;
             noteBeatL = notePart.noteL[lCount];
+            lCount++;
             _nextTickL += _intervalL;
         }
         while (frameTime >= _nextTickR)
@@ -73,8 +72,8 @@ public class Metronome : MonoBehaviour
             if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1);
             if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2);
             if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3);
-            rCount++;
             noteBeatR = notePart.noteR[rCount];
+            rCount++;
             _nextTickR += _intervalR;
         }
         while (frameTime >= songEnd) _isPlaying = false;

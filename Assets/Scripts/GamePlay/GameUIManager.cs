@@ -40,28 +40,34 @@ public class GameUIManager : MonoBehaviour
 
         using (var reader = new StreamReader(filePath))
         {
+            Song.resetSongCount();
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
                 if (string.IsNullOrWhiteSpace(line) || line[0] == '#') continue;
-                string[] lines = line.Split(" ");
+                string[] lines = line.Split("|");
                 if (lines.Length < 5) continue;
-                Song song = new Song(
+                Song song = new(
                     lines[0],
                     lines[1],
                     lines[2],
-                    lines[4] == "-" ? "dummy.png" : lines[4]
-                );
+                    lines[3],
+                    lines[4],
+                    lines[5] == "" ? 0 : float.Parse(lines[5]),
+                    lines[6] == "" ? 0 : float.Parse(lines[6]),
+                    lines[7],
+                    lines[8]
+                    );
                 songs.Add(song);
             }
         }
 
         // 2. 선택 곡 ID 찾기
-        string selectedSongName = PlayerPrefs.GetString("selectedSongName", "");
-        selectedSong = songs.Find(s => s.getsongName() == selectedSongName);
+        uint selectedSongID = (uint)PlayerPrefs.GetInt("selectedSongID", -1);
+        selectedSong = songs.Find(s => s.getSongID() == selectedSongID);
         if (selectedSong == null)
         {
-            Debug.LogError($"선택된 곡을 찾을 수 없습니다. (Name: {selectedSongName})");
+            Debug.LogError($"선택된 곡을 찾을 수 없습니다. (ID: {selectedSongID})");
             return;
         }
 
@@ -116,7 +122,7 @@ public class GameUIManager : MonoBehaviour
 
     void PlaySelectedSong()
     {
-        string songFileName = selectedSong.getsongName() + ".wav";
+        string songFileName = selectedSong.getSongFileName();
         string filePath = Application.dataPath + "/Resources/Audio/" + songFileName;
         if (!File.Exists(filePath))
         {
