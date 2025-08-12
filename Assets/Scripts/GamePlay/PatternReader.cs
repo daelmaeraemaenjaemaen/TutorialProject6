@@ -224,7 +224,7 @@ public class PatternReader
         int lastBeat = line > 3 ? noteParts[partCount].beatL : noteParts[partCount].beatR;
         float firstTick = BeatConvert(firstBeat) - longPartbt[line] / firstBeat * 8;
         float lastTick = lastCount / lastBeat * 8;
-        float tick = (partCount - longPartNm[line]) * 2 + firstTick + lastTick;
+        float tick = (partCount - longPartNm[line] - 1) * 2 + firstTick + lastTick - 1;
         switch (line)
         {
             case 0:

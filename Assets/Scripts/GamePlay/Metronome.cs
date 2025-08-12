@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
 public class Metronome : MonoBehaviour
 {
     public static float bpm = 150f; // BPM 설정
@@ -19,6 +20,7 @@ public class Metronome : MonoBehaviour
     public void setPlayData(Song s, bool isEasy)
     {
         // 곡 및 패턴 데이터 불러오기
+        _isPlaying = false;
         song = s;
         bpm = song.getSongBPM();
         string fileName = isEasy ? song.getEasyFileName() : song.getHardFileName();
@@ -49,33 +51,50 @@ public class Metronome : MonoBehaviour
     {
         if (!_isPlaying) return;
         float frameTime = Time.time;
+        //while (frameTime >= songEnd) _isPlaying = false;
         while (frameTime >= _nextTick)
         {
+            if (partCount < noteParts.Count)
+            {
+                notePart = noteParts[partCount];
+                _intervalL = 240 / (notePart.beatL * bpm);
+                _intervalR = 240 / (notePart.beatR * bpm);
+                lCount = rCount = 0;
+                noteBeatL = notePart.noteL[lCount];
+                noteBeatR = notePart.noteR[rCount];
+                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1);
+                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2);
+                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3);
+                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1);
+                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2);
+                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3);
+            }
             partCount++;
-            notePart = noteParts[partCount];
-            _intervalL = 240 / (notePart.beatL * bpm);
-            _intervalR = 240 / (notePart.beatR * bpm);
-            lCount = rCount = 0;
             _nextTick += _interval; // 다음 틱 시간 처리
         }
         while (frameTime >= _nextTickL)
         {
-            if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1);
-            if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2);
-            if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3);
-            noteBeatL = notePart.noteL[lCount];
+            if (lCount < notePart.noteL.Length && lCount != 0)
+            {
+                noteBeatL = notePart.noteL[lCount];
+                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1);
+                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2);
+                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3);
+            }
             lCount++;
             _nextTickL += _intervalL;
         }
         while (frameTime >= _nextTickR)
         {
-            if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1);
-            if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2);
-            if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3);
-            noteBeatR = notePart.noteR[rCount];
+            if (rCount < notePart.noteR.Length && rCount != 0)
+            {
+                noteBeatR = notePart.noteR[rCount];
+                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1);
+                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2);
+                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3);
+            }
             rCount++;
             _nextTickR += _intervalR;
         }
-        while (frameTime >= songEnd) _isPlaying = false;
     }
 }
