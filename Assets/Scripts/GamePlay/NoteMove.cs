@@ -16,6 +16,7 @@ public class NoteMove : MonoBehaviour
     public bool IsJudged => judged;
 
     public NoteJudge result { get; private set; }
+    public int lineNumber;
 
     // 롱노트 기능
     public NoteType noteType = NoteType.Short;
@@ -60,7 +61,7 @@ public class NoteMove : MonoBehaviour
 
             while (Time.time >= nextTickTime && nextTickTime < tailTime)
             {
-                if (Input.GetKey(KeyCode.Space))
+                if (Input.GetKey(NoteInput.getLineKey(lineNumber)))
                 {
                     NoteJudge tickJudge = Judge.Judgement(Time.time, nextTickTime);
                     result = (tickJudge == NoteJudge.Miss) ? NoteJudge.Miss : NoteJudge.Perfect;

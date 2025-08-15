@@ -36,6 +36,7 @@ public class NoteSpawn : MonoBehaviour
         noteScript.tickInterval = 30 / Metronome.bpm;
         noteScript.tickNumber = tickNumber;
         noteScript.judgeTextDisplay = line <= 3 ? judgeTextDisplayL : judgeTextDisplayR;
+        noteScript.lineNumber = line;
 
         // headTime, tailTime 자동 계산
         // 롱노트 길이를 기반으로 tailtime을 계산하는 것은 부정확하다고 여겨 틱 기반으로 교체했습니다
