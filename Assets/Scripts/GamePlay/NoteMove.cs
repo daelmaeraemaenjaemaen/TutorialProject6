@@ -47,8 +47,7 @@ public class NoteMove : MonoBehaviour
             if ((Time.time - headTime) * 1000f > Judge.MissLate)
             {
                 result = NoteJudge.Miss;
-                gameTextDisplay?.JudgeResult(result, lineNumber);
-                gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
+                gameTextDisplay?.Result(result, lineNumber);
                 Debug.Log(result);
                 judged = true;  // Head 판정 완료 표시
                 return;
@@ -71,8 +70,7 @@ public class NoteMove : MonoBehaviour
                 {
                     result = NoteJudge.Miss;
                 }
-                gameTextDisplay?.JudgeResult(result, lineNumber);
-                gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
+                gameTextDisplay?.Result(result, lineNumber);
                 Debug.Log("L." + result);
 
                 nextTickTime += tickInterval;
@@ -99,8 +97,7 @@ public class NoteMove : MonoBehaviour
             if (judged) return;
             judged = true;
             result = Judge.Judgement(inputTime, headTime);
-            gameTextDisplay.JudgeResult(result, lineNumber);
-            gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
+            gameTextDisplay.Result(result, lineNumber);
             Destroy(gameObject);
             return;
         }
@@ -110,8 +107,7 @@ public class NoteMove : MonoBehaviour
         {
             judged = true;
             result = Judge.Judgement(inputTime, headTime);
-            gameTextDisplay?.JudgeResult(result, lineNumber);
-            gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
+            gameTextDisplay?.Result(result, lineNumber);
             Debug.Log(result);
         }
     }
