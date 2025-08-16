@@ -5,8 +5,7 @@ public class NoteSpawn : MonoBehaviour
     [SerializeField] private GameObject shortNotePrefab; // 단노트 프리팹
     [SerializeField] private GameObject longNotePrefab; // 롱노트 프리팹
 
-    [SerializeField] private JudgeText judgeTextDisplayL;
-    [SerializeField] private JudgeText judgeTextDisplayR;
+    [SerializeField] private GameText gameTextDisplay;
 
     [SerializeField] private NoteInput noteInput; // NoteInput 컴포넌트를 연결
 
@@ -35,7 +34,7 @@ public class NoteSpawn : MonoBehaviour
         noteScript.noteType = isLong ? NoteType.Long : NoteType.Short;
         noteScript.tickInterval = 30 / Metronome.bpm;
         noteScript.tickNumber = tickNumber;
-        noteScript.judgeTextDisplay = line <= 3 ? judgeTextDisplayL : judgeTextDisplayR;
+        noteScript.gameTextDisplay = gameTextDisplay;
         noteScript.lineNumber = line;
 
         // headTime, tailTime 자동 계산

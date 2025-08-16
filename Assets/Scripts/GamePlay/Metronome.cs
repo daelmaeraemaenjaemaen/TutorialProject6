@@ -35,6 +35,9 @@ public class Metronome : MonoBehaviour
         noteBeatR = noteParts[0].noteR[0];
         _intervalL = 240 / (notePart.beatL * bpm);
         _intervalR = 240 / (notePart.beatR * bpm);
+
+        //점수, 콤보 등 초기화
+        Combo.ComboReset();
     }
 
     public void StartPlay()

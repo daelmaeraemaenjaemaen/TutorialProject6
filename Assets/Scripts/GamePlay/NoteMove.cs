@@ -29,7 +29,7 @@ public class NoteMove : MonoBehaviour
     // 옵션에서 이 수치를 0.1 단위로 변경할 수 있게 하면 됩니다
     public static float moveSpeed = 7.2f; 
 
-    public JudgeText judgeTextDisplay;
+    public GameText gameTextDisplay;
 
     void Update()
     {
@@ -47,7 +47,8 @@ public class NoteMove : MonoBehaviour
             if ((Time.time - headTime) * 1000f > Judge.MissLate)
             {
                 result = NoteJudge.Miss;
-                judgeTextDisplay?.Result(result);
+                gameTextDisplay?.JudgeResult(result, lineNumber);
+                gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
                 Debug.Log(result);
                 judged = true;  // Head 판정 완료 표시
                 return;
@@ -70,7 +71,8 @@ public class NoteMove : MonoBehaviour
                 {
                     result = NoteJudge.Miss;
                 }
-                judgeTextDisplay?.Result(result);
+                gameTextDisplay?.JudgeResult(result, lineNumber);
+                gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
                 Debug.Log("L." + result);
 
                 nextTickTime += tickInterval;
@@ -97,7 +99,8 @@ public class NoteMove : MonoBehaviour
             if (judged) return;
             judged = true;
             result = Judge.Judgement(inputTime, headTime);
-            judgeTextDisplay.Result(result);
+            gameTextDisplay.JudgeResult(result, lineNumber);
+            gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
             Destroy(gameObject);
             return;
         }
@@ -107,7 +110,8 @@ public class NoteMove : MonoBehaviour
         {
             judged = true;
             result = Judge.Judgement(inputTime, headTime);
-            judgeTextDisplay?.Result(result);
+            gameTextDisplay?.JudgeResult(result, lineNumber);
+            gameTextDisplay?.ComboResult(Combo.UpdateCombo(result != NoteJudge.Miss && result != NoteJudge.FastMiss));
             Debug.Log(result);
         }
     }
