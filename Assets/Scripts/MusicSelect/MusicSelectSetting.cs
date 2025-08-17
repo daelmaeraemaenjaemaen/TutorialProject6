@@ -6,25 +6,33 @@ public class MusicSelectSetting : MonoBehaviour
 {
     [SerializeField] private GameObject MenuUI;
     [SerializeField] private GameObject SettingUI;
+    [SerializeField] private GameObject Bgset;
+    [SerializeField] private GameObject Gpset;
+    [SerializeField] private GameObject Adset;
+    
     private bool isSetting = false;
     private bool isMenu = false;
+    private bool bgset = true;
+    private bool gpset = false;
+    private bool adset = false;
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        MenuTurn(isMenu);
+        MenuTurn(false);
+        SettingTurn(false);
     }
     
     
     void MenuTurn(bool turn)
     {
-        isMenu = !isMenu;
+        isMenu = turn;
         MenuUI.SetActive(turn);
     }
 
     void SettingTurn(bool turn)
     {
-        isSetting = !isSetting;
+        isSetting = turn;
         SettingUI.SetActive(turn);
     }
     
@@ -43,10 +51,55 @@ public class MusicSelectSetting : MonoBehaviour
                 SettingTurn(!isSetting);
             }
         }
+        
+        if (isSetting)
+        {
+            if (bgset)
+            {
+                Bgset.SetActive(true);
+                Gpset.SetActive(false);
+                Adset.SetActive(false);
+            }
+            
+            else if (gpset)
+            {
+                Bgset.SetActive(false);
+                Gpset.SetActive(true);
+                Adset.SetActive(false);
+            }
+            
+            else if (adset)
+            {
+                Bgset.SetActive(false);
+                Gpset.SetActive(false);
+                Adset.SetActive(true);
+            }
+        }
     }
 
     public void Setting()
     {
         SettingTurn(!isSetting);
+    }
+    
+    public void BackGroundSet()
+    {
+        bgset = true;
+        gpset = false;
+        adset = false;
+    }
+
+    public void GameplaySet()
+    {
+        bgset = false;
+        gpset = true;
+        adset = false;
+    }
+
+    public void AudioSet()
+    {
+        bgset = false;
+        gpset = false;
+        adset = true;
     }
 }

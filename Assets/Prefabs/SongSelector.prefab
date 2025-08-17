@@ -171,6 +171,8 @@ MonoBehaviour:
   miniName: {fileID: 259798742828291681}
   StartBtn: {fileID: 5382790182205947720}
   previewAudioSource: {fileID: 0}
+  bgmGroup: {fileID: -7323675734942840518, guid: 39c187b6d2262284e876acde30cf437c, type: 2}
+  songFileName: 
 --- !u!61 &925142058402022574
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -6,6 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio; // ★ Mixer 라우팅(선택)
 
 public class GameUIManager : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GameUIManager : MonoBehaviour
 
     [Header("오디오")]
     [SerializeField] private AudioSource musicAudioSource; // Inspector에서 연결
+    [SerializeField] private AudioMixerGroup bgmGroup;      // ★ GameMixer/BGM(선택)
 
     [Header("패턴")]
     [SerializeField] private Metronome metronome;
@@ -62,7 +64,7 @@ public class GameUIManager : MonoBehaviour
             }
         }
 
-        // 2. 선택 곡 ID 찾기
+        // 2. 선택 곡
         uint selectedSongID = (uint)PlayerPrefs.GetInt("selectedSongID", -1);
         selectedSong = songs.Find(s => s.getSongID() == selectedSongID);
         if (selectedSong == null)
@@ -71,7 +73,7 @@ public class GameUIManager : MonoBehaviour
             return;
         }
 
-        // 3. 커버 이미지 적용
+        // 3. 커버 이미지
         string coverPath = Application.dataPath + "/Images/Cover/" + selectedSong.getsongCover();
         if (File.Exists(coverPath))
         {
@@ -85,84 +87,99 @@ public class GameUIManager : MonoBehaviour
             }
         }
 
-        // 4. 곡 정보 UI 적용
+        // 4. 곡 정보 UI
         introSongNameText.text = selectedSong.getsongName();
         introSongArtistText.text = selectedSong.getsongArtist();
         if (gameSongNameText != null) gameSongNameText.text = selectedSong.getsongName();
 
-        // 5. 인트로 패널 활성화 & 페이드 시작
+        // 5. 인트로 패널 & 페이드 시작
         introPanel.alpha = 1f;
         introPanel.gameObject.SetActive(true);
-        
+
+        // ★ (선택) 라우팅
+        if (bgmGroup != null && musicAudioSource != null)
+            musicAudioSource.outputAudioMixerGroup = bgmGroup;
+
         StartCoroutine(IntroFadeAndStartMusic());
     }
 
     IEnumerator IntroFadeAndStartMusic()
     {
-        metronome.setPlayData(selectedSong, true); //TODO: 난이도 선택 구현 이후 선택한 난이도에 맞게 수정 필요
-        yield return new WaitForSeconds(2f);
-        
+        metronome.setPlayData(selectedSong, true); // TODO: 난이도 선택 반영
+        yield return new WaitForSecondsRealtime(2f); // ★ Unscaled
+
         float duration = 0.5f;
         float t = 0f;
 
-        // 인트로 페이드 아웃
+        // ★ 인트로 페이드 아웃(Unscaled)
         while (t < duration)
         {
-            t += Time.deltaTime;
+            t += Time.unscaledDeltaTime;
             introPanel.alpha = Mathf.Lerp(1f, 0f, t / duration);
             yield return null;
         }
         introPanel.alpha = 0f;
         introPanel.gameObject.SetActive(false);
 
-        yield return new WaitForSeconds(1f);
-            
+        yield return new WaitForSecondsRealtime(1f); // ★ Unscaled
         PlaySelectedSong();
     }
 
     void PlaySelectedSong()
     {
-        string songFileName = selectedSong.getSongFileName();
-        string filePath = Application.dataPath + "/Resources/Audio/" + songFileName;
-        if (!File.Exists(filePath))
+        string fileName = selectedSong.getSongFileName();
+        string nameNoExt = Path.GetFileNameWithoutExtension(fileName);
+
+        // ★ 1) Resources/Audio 우선
+        AudioClip clip = Resources.Load<AudioClip>($"Audio/{nameNoExt}");
+        if (clip != null)
         {
-            Debug.LogError("오디오 파일이 없습니다: " + filePath);
+            metronome.StartPlay();
+            StartCoroutine(PlayClipAndGotoNextScene(clip));
             return;
         }
 
-        //TODO: 싱크 조절 기능을 넣을 시, 아래 두 이벤트의 간격을 조절해 구현합니다
-        metronome.StartPlay();
-        StartCoroutine(PlayWavAndGotoNextScene(filePath));
+        // ★ 2) StreamingAssets 폴백(빌드 호환)
+        string saPath = Path.Combine(Application.streamingAssetsPath, "Audio/" + fileName);
+        StartCoroutine(PlayFromFileAndGoto(saPath));
     }
-    
-    private IEnumerator PlayWavAndGotoNextScene(string filePath)
+
+    private IEnumerator PlayClipAndGotoNextScene(AudioClip clip)
     {
-        using (var www = UnityWebRequestMultimedia.GetAudioClip("file:///" + filePath, AudioType.WAV))
+        musicAudioSource.clip = clip;
+        musicAudioSource.volume = 1f;
+        musicAudioSource.time = 0f;
+
+        metronome.StartPlay(); // TODO: 싱크 조정시 오프셋 고려
+        musicAudioSource.Play();
+
+        yield return new WaitForSecondsRealtime(clip.length);
+        yield return new WaitForSecondsRealtime(1f);
+        SceneManager.LoadScene("Result");
+    }
+
+    private IEnumerator PlayFromFileAndGoto(string fullPath)
+    {
+        // 확장자에 따른 타입 추정
+        AudioType type = AudioType.WAV;
+        string lower = fullPath.ToLowerInvariant();
+        if (lower.EndsWith(".ogg")) type = AudioType.OGGVORBIS;
+        else if (lower.EndsWith(".mp3")) type = AudioType.MPEG;
+
+        using (var www = UnityWebRequestMultimedia.GetAudioClip(fullPath.StartsWith("file://") ? fullPath : "file:///" + fullPath, type))
         {
             yield return www.SendWebRequest();
-
 #if UNITY_2020_2_OR_NEWER
             if (www.result != UnityWebRequest.Result.Success)
 #else
             if (www.isNetworkError || www.isHttpError)
 #endif
             {
-                Debug.LogError("PlayWavAndGotoNextScene 실패: " + www.error);
+                Debug.LogError("오디오 로드 실패: " + www.error);
+                yield break;
             }
-            else
-            {
-                var clip = DownloadHandlerAudioClip.GetContent(www);
-                musicAudioSource.clip = clip;
-                musicAudioSource.volume = 1f;
-                musicAudioSource.time = 0f;
-                musicAudioSource.Play();
-
-                yield return new WaitForSeconds(clip.length);
-
-                yield return new WaitForSeconds(1f);
-                
-                SceneManager.LoadScene("Result");
-            }
+            var clip = DownloadHandlerAudioClip.GetContent(www);
+            yield return PlayClipAndGotoNextScene(clip);
         }
     }
 }
