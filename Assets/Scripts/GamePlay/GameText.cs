@@ -6,12 +6,14 @@ public class GameText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI judgeText2;
     [SerializeField] private TextMeshProUGUI comboText1;
     [SerializeField] private TextMeshProUGUI comboText2;
+    [SerializeField] private Life life;
 
     // 판정에서 파생되는 이벤트가 많아질 것 같아 이를 묶어 처리하기 위한 함수입니다
     public void Result(NoteJudge result, int line)
     {
         JudgeResult(result, line);
         ComboResult(result);
+        life.SetLife(result);
     }
 
     private void JudgeResult(NoteJudge result, int line)

@@ -38,6 +38,7 @@ public class Metronome : MonoBehaviour
 
         //점수, 콤보 등 초기화
         Combo.ComboReset();
+        Life.LifeReset();
     }
 
     public void StartPlay()
@@ -53,6 +54,10 @@ public class Metronome : MonoBehaviour
     void Update()
     {
         if (!_isPlaying) return;
+        if (Life.lifeNum <= 0)
+        {
+            //TODO: 게임 오버 화면 이동
+        }
         float frameTime = Time.time;
         //while (frameTime >= songEnd) _isPlaying = false;
         while (frameTime >= _nextTick)

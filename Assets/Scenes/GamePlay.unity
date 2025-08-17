@@ -2951,6 +2951,7 @@ GameObject:
   - component: {fileID: 444060320}
   - component: {fileID: 444060321}
   - component: {fileID: 444060324}
+  - component: {fileID: 444060325}
   m_Layer: 0
   m_Name: ScriptActor
   m_TagString: Untagged
@@ -3031,6 +3032,21 @@ MonoBehaviour:
   judgeText2: {fileID: 113678425}
   comboText1: {fileID: 1109144876}
   comboText2: {fileID: 137696960}
+  life: {fileID: 444060325}
+--- !u!114 &444060325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 444060319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e517da0e27fa9c4e821f25c8296357e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeBar1p: {fileID: 631241784}
+  lifeBar2p: {fileID: 1497759676}
 --- !u!1 &485947142
 GameObject:
   m_ObjectHideFlags: 0
