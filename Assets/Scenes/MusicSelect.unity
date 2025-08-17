@@ -237,7 +237,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 33926972}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 697432865}
+        m_TargetAssemblyTypeName: InGameSetting, Assembly-CSharp
+        m_MethodName: BindP1K2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &33926972
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -672,7 +684,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: S
+  m_text: D
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1244,7 +1256,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 269624029}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 697432865}
+        m_TargetAssemblyTypeName: InGameSetting, Assembly-CSharp
+        m_MethodName: BindP2K1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &269624029
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1576,7 +1600,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 295197767}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 697432865}
+        m_TargetAssemblyTypeName: InGameSetting, Assembly-CSharp
+        m_MethodName: BindP2K3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &295197767
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3214,7 +3250,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 591795000}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 697432865}
+        m_TargetAssemblyTypeName: InGameSetting, Assembly-CSharp
+        m_MethodName: BindP1K1
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &591795000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3748,6 +3796,8 @@ GameObject:
   - component: {fileID: 697432863}
   - component: {fileID: 697432862}
   - component: {fileID: 697432864}
+  - component: {fileID: 697432866}
+  - component: {fileID: 697432865}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -3806,6 +3856,44 @@ MonoBehaviour:
   masterMute: {fileID: 87385962}
   bgmMute: {fileID: 89814894}
   sfxMute: {fileID: 1060857654}
+--- !u!114 &697432865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697432861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a53cba11ac6a7c749a6db39946648156, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  p1k1Text: {fileID: 1303258960}
+  p1k2Text: {fileID: 102568823}
+  p1k3Text: {fileID: 1255786689}
+  p2k1Text: {fileID: 1387425460}
+  p2k2Text: {fileID: 1975968908}
+  p2k3Text: {fileID: 1005591542}
+  syncSlider: {fileID: 1065281572}
+  syncValueText: {fileID: 287269613}
+  syncDownBtn: {fileID: 800112408}
+  syncUpBtn: {fileID: 767164515}
+  speedSlider: {fileID: 1828502147}
+  speedValueText: {fileID: 446327100}
+  speedDownBtn: {fileID: 1572155349}
+  speedUpBtn: {fileID: 1728835546}
+--- !u!114 &697432866
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 697432861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a3fd3b59d4df0643ad1452c2e319059, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &719415978
 GameObject:
   m_ObjectHideFlags: 0
@@ -6114,7 +6202,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2192"
+  m_text: L
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -6507,8 +6595,8 @@ MonoBehaviour:
   m_FillRect: {fileID: 1306288741}
   m_HandleRect: {fileID: 1470484792}
   m_Direction: 0
-  m_MinValue: -1
-  m_MaxValue: 1
+  m_MinValue: -5
+  m_MaxValue: 5
   m_WholeNumbers: 0
   m_Value: 0
   m_OnValueChanged:
@@ -7552,7 +7640,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: D
+  m_text: F
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -7788,7 +7876,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1272723407}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 697432865}
+        m_TargetAssemblyTypeName: InGameSetting, Assembly-CSharp
+        m_MethodName: BindP1K3
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1272723407
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7884,7 +7984,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: A
+  m_text: S
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -8257,7 +8357,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1322417792}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 697432865}
+        m_TargetAssemblyTypeName: InGameSetting, Assembly-CSharp
+        m_MethodName: BindP2K2
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1322417792
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8491,7 +8603,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2190"
+  m_text: J
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11502,7 +11614,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u2193"
+  m_text: K
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

@@ -19,8 +19,7 @@ public class GamePlaySetting : MonoBehaviour
     private bool bgset = true;
     private bool gpset = false;
     private bool adset = false;
-
-    // ★ 추가: 카운트다운 제어
+    
     private bool isCountingDown = false;
     private Coroutine countdownRoutine = null;
 
@@ -79,7 +78,7 @@ public class GamePlaySetting : MonoBehaviour
 
         if (turn)
         {
-            // 메뉴 열기: 즉시 일시정지 + 진행 중 카운트다운 중단
+            // 메뉴 열기
             Time.timeScale = 0f;
             AudioListener.pause = true;
 
@@ -94,7 +93,7 @@ public class GamePlaySetting : MonoBehaviour
         }
         else
         {
-            // 메뉴 닫기: 일시정지 해제는 카운트다운에서만!
+            // 메뉴 닫기
         }
     }
 
@@ -102,7 +101,7 @@ public class GamePlaySetting : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (!intro) return; // 인트로 중엔 무시 (원하면 허용 가능)
+            if (!intro) return; // 인트로 중엔 무시
 
             if (!isMenu) // 메뉴 열기
             {
@@ -116,7 +115,7 @@ public class GamePlaySetting : MonoBehaviour
                 }
                 else
                 {
-                    // 메뉴 닫고 카운트다운 시작(중복 방지)
+                    // 메뉴 닫고 카운트다운 시작
                     MenuTurn(false);
                     if (!isCountingDown)
                         countdownRoutine = StartCoroutine(ResumeWithCountdown());

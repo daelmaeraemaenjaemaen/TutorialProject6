@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio; // ★ Mixer 라우팅(선택)
+using UnityEngine.Audio; // Mixer 라우팅
 
 public class GameUIManager : MonoBehaviour
 {
@@ -21,8 +21,8 @@ public class GameUIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI gameSongNameText;
 
     [Header("오디오")]
-    [SerializeField] private AudioSource musicAudioSource; // Inspector에서 연결
-    [SerializeField] private AudioMixerGroup bgmGroup;      // ★ GameMixer/BGM(선택)
+    [SerializeField] private AudioSource musicAudioSource;
+    [SerializeField] private AudioMixerGroup bgmGroup;
 
     [Header("패턴")]
     [SerializeField] private Metronome metronome;
@@ -106,12 +106,12 @@ public class GameUIManager : MonoBehaviour
     IEnumerator IntroFadeAndStartMusic()
     {
         metronome.setPlayData(selectedSong, true); // TODO: 난이도 선택 반영
-        yield return new WaitForSecondsRealtime(2f); // ★ Unscaled
+        yield return new WaitForSecondsRealtime(2f);
 
         float duration = 0.5f;
         float t = 0f;
 
-        // ★ 인트로 페이드 아웃(Unscaled)
+        // 인트로 페이드 아웃
         while (t < duration)
         {
             t += Time.unscaledDeltaTime;
@@ -121,7 +121,7 @@ public class GameUIManager : MonoBehaviour
         introPanel.alpha = 0f;
         introPanel.gameObject.SetActive(false);
 
-        yield return new WaitForSecondsRealtime(1f); // ★ Unscaled
+        yield return new WaitForSecondsRealtime(1f);
         PlaySelectedSong();
     }
 
@@ -130,16 +130,16 @@ public class GameUIManager : MonoBehaviour
         string fileName = selectedSong.getSongFileName();
         string nameNoExt = Path.GetFileNameWithoutExtension(fileName);
 
-        // ★ 1) Resources/Audio 우선
+        // 1) Resources/Audio
         AudioClip clip = Resources.Load<AudioClip>($"Audio/{nameNoExt}");
         if (clip != null)
         {
-            metronome.StartPlay();
+            // metronome.StartPlay(); (싱크)
             StartCoroutine(PlayClipAndGotoNextScene(clip));
             return;
         }
 
-        // ★ 2) StreamingAssets 폴백(빌드 호환)
+        // 2) StreamingAssets
         string saPath = Path.Combine(Application.streamingAssetsPath, "Audio/" + fileName);
         StartCoroutine(PlayFromFileAndGoto(saPath));
     }
@@ -150,8 +150,21 @@ public class GameUIManager : MonoBehaviour
         musicAudioSource.volume = 1f;
         musicAudioSource.time = 0f;
 
-        metronome.StartPlay(); // TODO: 싱크 조정시 오프셋 고려
-        musicAudioSource.Play();
+        float offsetSec = PlayerSettings.syncSec;
+
+        if (offsetSec >= 0f)
+        {
+            metronome.StartPlay(); // TODO: 싱크 조정시 오프셋 고려
+            yield return new WaitForSecondsRealtime(offsetSec);
+            musicAudioSource.Play();
+        }
+
+        else
+        {
+            musicAudioSource.Play();
+            yield return new WaitForSecondsRealtime(-offsetSec);
+            metronome.StartPlay(); // TODO: 싱크 조정시 오프셋 고려
+        }
 
         yield return new WaitForSecondsRealtime(clip.length);
         yield return new WaitForSecondsRealtime(1f);
