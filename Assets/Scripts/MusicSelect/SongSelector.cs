@@ -6,48 +6,23 @@ using System.Collections;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
-using UnityEngine.Audio; // ★ Mixer 라우팅을 위해 추가
 
 public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     [SerializeField] private Image miniCover;
     [SerializeField] private TextMeshProUGUI miniName;
     [SerializeField] private Button StartBtn;
-    [SerializeField] private AudioSource previewAudioSource;   // 프리뷰 재생용 오디오 소스 (없으면 Awake에서 생성)
+    [SerializeField] private AudioSource previewAudioSource;
     private Coroutine previewLoopRoutine;
 
-    // === 추가: Mixer 라우팅 ===
-    [Header("Mixer Routing")]
-    [SerializeField] private AudioMixerGroup bgmGroup; // GameMixer의 BGM 그룹을 드래그
+    // ★ 추가: 전역 프리뷰 토큰(가장 최근에 시작한 프리뷰만 유효하게)
+    private static int s_GlobalPreviewToken = 0;
 
     private uint songCode;
-    public string songFileName; // 실제 파일명(예: "Track01.ogg")
-
-    private void Awake()
-    {
-        // 프리뷰용 소스가 비어 있으면 안전하게 확보
-        if (previewAudioSource == null)
-        {
-            var go = GameObject.Find("AudioSource"); // 기존에 쓰던 이름이 있으면 먼저 시도
-            if (go != null) previewAudioSource = go.GetComponent<AudioSource>();
-            if (previewAudioSource == null)
-            {
-                var newGO = new GameObject("[PreviewAudioSource]");
-                previewAudioSource = newGO.AddComponent<AudioSource>();
-                previewAudioSource.playOnAwake = false;
-                previewAudioSource.loop = false;
-                previewAudioSource.spatialBlend = 0f; // 2D
-            }
-        }
-
-        // Mixer 라우팅
-        if (bgmGroup != null && previewAudioSource != null)
-            previewAudioSource.outputAudioMixerGroup = bgmGroup;
-    }
+    public string songFileName; // 실제 파일명
 
     public void setSongSelector(Song song)
     {
-        // 커버 이미지 로드 (기존 방식 유지)
         string cover = song.getsongCover() == "" ? "dummy.png" : song.getsongCover();
         byte[] fileData = File.ReadAllBytes(Application.dataPath + "/Images/Cover/" + cover);
         Texture2D texture = new Texture2D(500, 500);
@@ -62,23 +37,15 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         songFileName = song.getSongFileName(); // 실제 파일명
     }
 
-    private void Start()
-    {
-        if (StartBtn != null)
-            StartBtn.onClick.AddListener(OnStartBtnClicked);
-    }
-
     void Update()
     {
-        // 현재 선택곡과 같을 때만 Start 버튼 노출
-        if (StartBtn != null)
-            StartBtn.gameObject.SetActive(songCode == MusicSelect.selectedSong);
+        StartBtn.gameObject.SetActive(songCode == MusicSelect.selectedSong);
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
         MusicSelect.selectedSong = songCode;
-        PlayPreviewFromFile(songFileName); // 프리뷰 재생(아래에서 Resources 우선)
+        PlayPreviewFromFile(songFileName);
 
         if (MusicSelect.instance != null)
             MusicSelect.instance.SetSelectedSongImmediate(songCode);
@@ -86,7 +53,12 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        // 필요하면 포인터 업 시점 처리
+        //Debug.Log("Pointer Up");
+    }
+
+    private void Start()
+    {
+        StartBtn.onClick.AddListener(OnStartBtnClicked);
     }
 
     private void OnStartBtnClicked()
@@ -110,32 +82,50 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
         }
     }
 
-    // === 빌드 안전: Resources 우선 → 실패 시 기존 절대경로(에디터 폴백) ===
+    // === 핵심: Resources 우선 → 없으면 절대경로 폴백 + 전역 토큰으로 경쟁 차단 ===
     public void PlayPreviewFromFile(string fileName)
     {
-        StopPreview(); // 중복 재생 방지
+        StopPreview(); // 내 코루틴 중지
+        if (previewAudioSource == null)
+        {
+            // 씬에 "AudioSource" 오브젝트가 있다면 먼저 가져옴(프로젝트 기존 구조 유지)
+            var go = GameObject.Find("AudioSource");
+            if (go != null) previewAudioSource = go.GetComponent<AudioSource>();
+            if (previewAudioSource == null)
+            {
+                var newGO = new GameObject("[PreviewAudioSource]");
+                previewAudioSource = newGO.AddComponent<AudioSource>();
+                previewAudioSource.playOnAwake = false;
+                previewAudioSource.loop = false;
+                previewAudioSource.spatialBlend = 0f; // 2D
+            }
+        }
 
+        // ★ 전역 프리뷰 토큰 갱신(이 호출이 "가장 최신"임을 선언)
+        int myToken = ++s_GlobalPreviewToken;
+
+        // 1) Resources/PreviewAudio/<name> 우선(빌드 안전)
         var nameNoExt = Path.GetFileNameWithoutExtension(fileName);
         var resClip = Resources.Load<AudioClip>($"PreviewAudio/{nameNoExt}");
         if (resClip != null)
         {
-            previewLoopRoutine = StartCoroutine(LoopPreviewWithFadeOut(resClip));
-            return; // Resources에 있으면 여기서 끝
+            previewLoopRoutine = StartCoroutine(LoopPreviewWithFadeOut(resClip, myToken));
+            return;
         }
 
-        // 폴백(주로 에디터에서만): Assets/Resources/PreviewAudio/<fileName>
+        // 2) (주로 에디터) Assets/Resources/PreviewAudio/<fileName> 폴백
         string absPath = Path.Combine(Application.dataPath, "Resources/PreviewAudio/" + fileName);
         if (!File.Exists(absPath))
         {
-            Debug.LogWarning("미리듣기 파일 없음: " + absPath);
+            Debug.LogWarning("[Preview] 파일 없음: " + absPath);
             return;
         }
-        StartCoroutine(PlayAudioFromAbsolutePath(absPath));
+        previewLoopRoutine = StartCoroutine(PlayAudioFromAbsolutePath(absPath, myToken));
     }
 
-    private IEnumerator PlayAudioFromAbsolutePath(string filePath)
+    private IEnumerator PlayAudioFromAbsolutePath(string filePath, int myToken)
     {
-        // 확장자에 맞춰 AudioType 추정(간단 버전)
+        // 확장자에 맞춰 AudioType 추정
         AudioType type = AudioType.WAV;
         string lower = filePath.ToLowerInvariant();
         if (lower.EndsWith(".ogg")) type = AudioType.OGGVORBIS;
@@ -150,20 +140,24 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             if (www.isNetworkError || www.isHttpError)
 #endif
             {
-                Debug.LogError("오디오 파일 불러오기 실패: " + www.error);
+                Debug.LogError("[Preview] 로드 실패: " + www.error);
+                yield break;
             }
-            else
-            {
-                AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
-                previewLoopRoutine = StartCoroutine(LoopPreviewWithFadeOut(clip));
-            }
+
+            // ★ 도중에 더 최신 프리뷰가 시작됐다면 즉시 중단
+            if (myToken != s_GlobalPreviewToken) yield break;
+
+            AudioClip clip = DownloadHandlerAudioClip.GetContent(www);
+            previewLoopRoutine = StartCoroutine(LoopPreviewWithFadeOut(clip, myToken));
         }
     }
 
-    private IEnumerator LoopPreviewWithFadeOut(AudioClip clip)
+    private IEnumerator LoopPreviewWithFadeOut(AudioClip clip, int myToken)
     {
         while (true)
         {
+            // ★ 최신이 아니면 즉시 종료(이전 코루틴 무력화)
+            if (myToken != s_GlobalPreviewToken) yield break;
             if (previewAudioSource == null) yield break;
 
             previewAudioSource.Stop();
@@ -172,24 +166,33 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             previewAudioSource.time = 0f;
             previewAudioSource.Play();
 
-            // 끝에서 1초는 페이드아웃
-            yield return new WaitForSeconds(Mathf.Max(0.1f, clip.length - 1f));
-
-            float fadeDuration = 1f;
+            // 본재생 구간
+            float playFor = Mathf.Max(0.1f, clip.length - 1f);
             float t = 0f;
+            while (t < playFor)
+            {
+                if (myToken != s_GlobalPreviewToken) yield break; // ★ 중간에도 체크
+                t += Time.deltaTime;
+                yield return null;
+            }
+
+            // 페이드아웃
+            float fadeDuration = 1f;
+            t = 0f;
             while (t < fadeDuration)
             {
+                if (myToken != s_GlobalPreviewToken) yield break; // ★ 중간에도 체크
                 t += Time.deltaTime;
-                if (previewAudioSource == null) yield break;
                 previewAudioSource.volume = Mathf.Lerp(1f, 0f, t / fadeDuration);
                 yield return null;
             }
-            if (previewAudioSource == null) yield break;
+
+            // 다음 루프(재시작) 전에 최신 여부 재확인
+            if (myToken != s_GlobalPreviewToken) yield break;
+
             previewAudioSource.Stop();
             previewAudioSource.volume = 1f;
+            // loop 계속
         }
     }
-
-    private void OnDisable() => StopPreview();
-    private void OnDestroy() => StopPreview();
 }
