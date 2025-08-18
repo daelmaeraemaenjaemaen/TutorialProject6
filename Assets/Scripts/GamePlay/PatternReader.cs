@@ -16,6 +16,7 @@ public class PatternReader
     {
         string path = Application.dataPath + "/Resources/Pattern/" + fileName;
         StreamReader sr = new(path);
+        int totalNote = 0; // 롱노트는 1개로 간주
 
         try
         {
@@ -51,17 +52,20 @@ public class PatternReader
                             case "s":
                                 nb1.is1 = true;
                                 nb1.tick1 = 0;
+                                totalNote++;
                                 break;
                             case "l":
                                 nb1.is1 = true;
                                 nb1.tick1 = 1;
                                 longPartNm[0] = partCount;
                                 longPartbt[0] = count;
+                                totalNote++;
                                 break;
                             case "le":
                                 nb1.is1 = false;
                                 nb1.tick1 = 0;
                                 countTick(0, count);
+                                totalNote++; // 롱노트 1개분 추가
                                 break;
                             default:
                                 nb1.is1 = false;
@@ -74,17 +78,20 @@ public class PatternReader
                             case "s":
                                 nb1.is2 = true;
                                 nb1.tick2 = 0;
+                                totalNote++;
                                 break;
                             case "l":
                                 nb1.is2 = true;
                                 nb1.tick2 = 1;
                                 longPartNm[1] = partCount;
                                 longPartbt[1] = count;
+                                totalNote++;
                                 break;
                             case "le":
                                 nb1.is2 = false;
                                 nb1.tick2 = 0;
                                 countTick(1, count);
+                                totalNote++;
                                 break;
                             default:
                                 nb1.is2 = false;
@@ -97,17 +104,20 @@ public class PatternReader
                             case "s":
                                 nb1.is3 = true;
                                 nb1.tick3 = 0;
+                                totalNote++;
                                 break;
                             case "l":
                                 nb1.is3 = true;
                                 nb1.tick3 = 1;
                                 longPartNm[2] = partCount;
                                 longPartbt[2] = count;
+                                totalNote++;
                                 break;
                             case "le":
                                 nb1.is3 = false;
                                 nb1.tick3 = 0;
                                 countTick(2, count);
+                                totalNote++;
                                 break;
                             default:
                                 nb1.is3 = false;
@@ -123,17 +133,20 @@ public class PatternReader
                             case "s":
                                 nb2.is1 = true;
                                 nb2.tick1 = 0;
+                                totalNote++;
                                 break;
                             case "l":
                                 nb2.is1 = true;
                                 nb2.tick1 = 1;
                                 longPartNm[3] = partCount;
                                 longPartbt[3] = count;
+                                totalNote++;
                                 break;
                             case "le":
                                 nb2.is1 = false;
                                 nb2.tick1 = 0;
                                 countTick(3, count);
+                                totalNote++;
                                 break;
                             default:
                                 nb2.is1 = false;
@@ -146,17 +159,20 @@ public class PatternReader
                             case "s":
                                 nb2.is2 = true;
                                 nb2.tick2 = 0;
+                                totalNote++;
                                 break;
                             case "l":
                                 nb2.is2 = true;
                                 nb2.tick2 = 1;
                                 longPartNm[4] = partCount;
                                 longPartbt[4] = count;
+                                totalNote++;
                                 break;
                             case "le":
                                 nb2.is2 = false;
                                 nb2.tick2 = 0;
                                 countTick(4, count);
+                                totalNote++;
                                 break;
                             default:
                                 nb2.is2 = false;
@@ -169,17 +185,20 @@ public class PatternReader
                             case "s":
                                 nb2.is3 = true;
                                 nb2.tick3 = 0;
+                                totalNote++;
                                 break;
                             case "l":
                                 nb2.is3 = true;
                                 nb2.tick3 = 1;
                                 longPartNm[5] = partCount;
                                 longPartbt[5] = count;
+                                totalNote++;
                                 break;
                             case "le":
                                 nb2.is3 = false;
                                 nb2.tick3 = 0;
                                 countTick(5, count);
+                                totalNote++;
                                 break;
                             default:
                                 nb2.is3 = false;
@@ -198,6 +217,7 @@ public class PatternReader
             sr.Close();
         }
 
+        Score.setBaseScore(totalNote);
         return noteParts;
     }
 

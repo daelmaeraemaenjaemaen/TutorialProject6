@@ -47,7 +47,7 @@ public class NoteMove : MonoBehaviour
             if ((Time.time - headTime) * 1000f > Judge.MissLate)
             {
                 result = NoteJudge.Miss;
-                gameTextDisplay?.Result(result, lineNumber);
+                gameTextDisplay?.Result(result, lineNumber, 0);
                 Debug.Log(result);
                 judged = true;  // Head 판정 완료 표시
                 return;
@@ -70,7 +70,7 @@ public class NoteMove : MonoBehaviour
                 {
                     result = NoteJudge.Miss;
                 }
-                gameTextDisplay?.Result(result, lineNumber);
+                gameTextDisplay?.Result(result, lineNumber, (int)tickNumber);
                 Debug.Log("L." + result);
 
                 nextTickTime += tickInterval;
@@ -97,7 +97,7 @@ public class NoteMove : MonoBehaviour
             if (judged) return;
             judged = true;
             result = Judge.Judgement(inputTime, headTime);
-            gameTextDisplay.Result(result, lineNumber);
+            gameTextDisplay.Result(result, lineNumber, 0);
             Destroy(gameObject);
             return;
         }
@@ -107,7 +107,7 @@ public class NoteMove : MonoBehaviour
         {
             judged = true;
             result = Judge.Judgement(inputTime, headTime);
-            gameTextDisplay?.Result(result, lineNumber);
+            gameTextDisplay?.Result(result, lineNumber, 0);
             Debug.Log(result);
         }
     }
