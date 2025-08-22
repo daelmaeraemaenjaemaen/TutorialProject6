@@ -67,7 +67,7 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     {
         PlayerPrefs.SetInt("selectedSongID", (int)songCode);
         PlayerPrefs.Save();
-        SceneManager.LoadScene("GamePlay");
+        SceneManager.LoadScene("3_GamePlay");
     }
 
     public void StopPreview()

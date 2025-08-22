@@ -57,11 +57,11 @@ public class Life : MonoBehaviour
 
     public void Restart()
     {
-        SceneManager.LoadScene("GamePlay");
+        SceneManager.LoadScene("3_GamePlay");
     }
 
     public void Exit()
     {
-        SceneManager.LoadScene("MusicSelect");
+        SceneManager.LoadScene("2_MusicSelect");
     }
 }

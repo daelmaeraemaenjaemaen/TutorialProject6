@@ -150,7 +150,7 @@ public class GamePlaySetting : MonoBehaviour
     public void Quit()
     {
         CleanupBeforeSceneChange();
-        SceneManager.LoadScene("MusicSelect");
+        SceneManager.LoadScene("2_MusicSelect");
     }
 
     public void Setting()
@@ -161,7 +161,7 @@ public class GamePlaySetting : MonoBehaviour
     public void Restart()
     {
         CleanupBeforeSceneChange();
-        SceneManager.LoadScene("GamePlay");
+        SceneManager.LoadScene("3_GamePlay");
     }
 
     private void CleanupBeforeSceneChange()

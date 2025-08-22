@@ -156,6 +156,32 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -634,7 +660,28 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      "\uD310\uC815 2_0": -5942338276888125766
+      "\uD310\uC815 2_1": 2336156175301553291
+      "\uD310\uC815 2_10": -3711666223800137250
+      "\uD310\uC815 2_11": 3474317605124066230
+      "\uD310\uC815 2_12": -2794353059879795070
+      "\uD310\uC815 2_13": 8051404749707758846
+      "\uD310\uC815 2_14": -4994994595194497177
+      "\uD310\uC815 2_15": 5434326209246698363
+      "\uD310\uC815 2_16": 2891874657258843846
+      "\uD310\uC815 2_17": -111448410485687447
+      "\uD310\uC815 2_18": 8134868702572769404
+      "\uD310\uC815 2_19": 3496595886031251716
+      "\uD310\uC815 2_2": -6334496618070278625
+      "\uD310\uC815 2_20": 4550929883513761641
+      "\uD310\uC815 2_3": 5500334093061039461
+      "\uD310\uC815 2_4": -4941729587077355854
+      "\uD310\uC815 2_5": -1663955938815992056
+      "\uD310\uC815 2_6": 8674567781214105099
+      "\uD310\uC815 2_7": -4299137862353225652
+      "\uD310\uC815 2_8": 3318035578175063909
+      "\uD310\uC815 2_9": -683516024243327234
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

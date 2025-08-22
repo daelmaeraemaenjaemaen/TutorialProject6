@@ -168,7 +168,7 @@ public class GameUIManager : MonoBehaviour
 
         yield return new WaitForSecondsRealtime(clip.length);
         yield return new WaitForSecondsRealtime(1f);
-        SceneManager.LoadScene("Result");
+        SceneManager.LoadScene("4_Result");
     }
 
     private IEnumerator PlayFromFileAndGoto(string fullPath)

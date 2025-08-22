@@ -100,7 +100,7 @@ public class ButtonSetting : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene("MusicSelect");
+        SceneManager.LoadScene("2_MusicSelect");
     }
 
     public void Quit()
