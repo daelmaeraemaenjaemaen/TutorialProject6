@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Audio;
 
 public class Life : MonoBehaviour
 {
@@ -51,7 +52,9 @@ public class Life : MonoBehaviour
         if (lifeNum <= 0)
         {
             Time.timeScale = 0f;
+            
             GameOver.SetActive(true);
+            AudioListener.pause = true;
         }
     }
 
