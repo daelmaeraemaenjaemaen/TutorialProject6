@@ -6,7 +6,7 @@ using System.Collections;
 using System.IO;
 using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
-using UnityEngine.Audio; // ★ Mixer 사용
+using UnityEngine.Audio;
 
 public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
@@ -19,6 +19,7 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     // Mixer 라우팅
     [Header("Mixer Routing")]
     [SerializeField] private AudioMixerGroup bgmGroup;
+    [SerializeField] private AudioMixerGroup sfxGroup;
     
     private static int s_GlobalPreviewToken = 0;
 

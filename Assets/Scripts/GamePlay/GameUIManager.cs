@@ -6,7 +6,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio; // Mixer 라우팅
+using UnityEngine.Audio;
 
 public class GameUIManager : MonoBehaviour
 {
@@ -23,6 +23,7 @@ public class GameUIManager : MonoBehaviour
     [Header("오디오")]
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioMixerGroup bgmGroup;
+    [SerializeField] private AudioMixerGroup sfxGroup;
 
     [Header("패턴")]
     [SerializeField] private Metronome metronome;
@@ -95,8 +96,7 @@ public class GameUIManager : MonoBehaviour
         // 5. 인트로 패널 & 페이드 시작
         introPanel.alpha = 1f;
         introPanel.gameObject.SetActive(true);
-
-        // ★ (선택) 라우팅
+        
         if (bgmGroup != null && musicAudioSource != null)
             musicAudioSource.outputAudioMixerGroup = bgmGroup;
 

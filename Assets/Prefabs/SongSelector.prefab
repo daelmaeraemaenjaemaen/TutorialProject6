@@ -138,15 +138,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 3112796154180244660, guid: c5aedbf8120892d459a3ef3313cbf4d7, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -172,6 +172,7 @@ MonoBehaviour:
   StartBtn: {fileID: 5382790182205947720}
   previewAudioSource: {fileID: 0}
   bgmGroup: {fileID: -7323675734942840518, guid: 39c187b6d2262284e876acde30cf437c, type: 2}
+  sfxGroup: {fileID: -1798553114454377567, guid: 39c187b6d2262284e876acde30cf437c, type: 2}
   songFileName: 
 --- !u!61 &925142058402022574
 BoxCollider2D:
@@ -447,8 +448,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 36
+  m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

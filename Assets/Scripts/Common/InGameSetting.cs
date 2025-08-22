@@ -10,10 +10,10 @@ public class InGameSetting : MonoBehaviour
     [SerializeField] TMP_Text p2k1Text, p2k2Text, p2k3Text;
 
     [Header("Sync (sec)")]
-    [SerializeField] Slider syncSlider;      // Min=-5, Max=5
+    [SerializeField] Slider syncSlider;      // Min=-0.5, Max=0.5
     [SerializeField] TMP_Text syncValueText;
-    [SerializeField] Button syncDownBtn;     // -0.1
-    [SerializeField] Button syncUpBtn;       // +0.1
+    [SerializeField] Button syncDownBtn;     // -0.01
+    [SerializeField] Button syncUpBtn;       // +0.01
 
     [Header("Speed")]
     [SerializeField] Slider speedSlider;     // Min=1, Max=10
@@ -27,16 +27,39 @@ public class InGameSetting : MonoBehaviour
     void OnEnable()
     {
         PlayerSettings.Load();
+        
+        if (syncSlider != null) syncSlider.wholeNumbers = false;
+        if (speedSlider != null) speedSlider.wholeNumbers = false;
+
         RefreshUI();
+        
+        syncSlider.onValueChanged.RemoveAllListeners();
+        speedSlider.onValueChanged.RemoveAllListeners();
+        syncDownBtn.onClick.RemoveAllListeners();
+        syncUpBtn.onClick.RemoveAllListeners();
+        speedDownBtn.onClick.RemoveAllListeners();
+        speedUpBtn.onClick.RemoveAllListeners();
 
         syncSlider.onValueChanged.AddListener(OnSyncChanged);
         speedSlider.onValueChanged.AddListener(OnSpeedChanged);
-
-        syncDownBtn.onClick.AddListener(() => syncSlider.value = Round1(syncSlider.value - 0.1f));
-        syncUpBtn.onClick.AddListener(() =>   syncSlider.value = Round1(syncSlider.value + 0.1f));
-
-        speedDownBtn.onClick.AddListener(() => speedSlider.value = Round1(speedSlider.value - 0.1f));
-        speedUpBtn.onClick.AddListener(() =>   speedSlider.value = Round1(speedSlider.value + 0.1f));
+        
+        syncDownBtn.onClick.AddListener(() => {
+            syncSlider.value = Round(syncSlider.value - 0.01f, 2);
+            OnSyncChanged(syncSlider.value);
+        });
+        syncUpBtn.onClick.AddListener(() => {
+            syncSlider.value = Round(syncSlider.value + 0.01f, 2);
+            OnSyncChanged(syncSlider.value);
+        });
+        
+        speedDownBtn.onClick.AddListener(() => {
+            speedSlider.value = Round(speedSlider.value - 0.1f, 1);
+            OnSpeedChanged(speedSlider.value);
+        });
+        speedUpBtn.onClick.AddListener(() => {
+            speedSlider.value = Round(speedSlider.value + 0.1f, 1);
+            OnSpeedChanged(speedSlider.value);
+        });
     }
 
     void OnDisable()
@@ -53,14 +76,13 @@ public class InGameSetting : MonoBehaviour
         p2k1Text.text = Label(PlayerSettings.p2k1);
         p2k2Text.text = Label(PlayerSettings.p2k2);
         p2k3Text.text = Label(PlayerSettings.p2k3);
-
+        
         syncSlider.SetValueWithoutNotify(PlayerSettings.syncSec);
-        syncValueText.text = $"{PlayerSettings.syncSec:0.0}";
+        syncValueText.text = $"{PlayerSettings.syncSec:0.00}";
         speedSlider.SetValueWithoutNotify(PlayerSettings.velocity);
         speedValueText.text = $"{PlayerSettings.velocity:0.0}";
     }
-
-    // === 키 리바인딩 버튼 OnClick에 연결 ===
+    
     public void BindP1K1() => StartBind(k => { PlayerSettings.p1k1 = k; p1k1Text.text = Label(k); });
     public void BindP1K2() => StartBind(k => { PlayerSettings.p1k2 = k; p1k2Text.text = Label(k); });
     public void BindP1K3() => StartBind(k => { PlayerSettings.p1k3 = k; p1k3Text.text = Label(k); });
@@ -103,7 +125,7 @@ public class InGameSetting : MonoBehaviour
         }
         return KeyCode.None;
     }
-    
+
     static string Label(KeyCode k)
     {
         switch (k)
@@ -125,18 +147,23 @@ public class InGameSetting : MonoBehaviour
 
     void OnSyncChanged(float v)
     {
-        PlayerSettings.syncSec = Mathf.Clamp(Round1(v), -5f, 5f);
-        syncValueText.text = $"{PlayerSettings.syncSec:0.0}";
-        PlayerSettings.Save();
-    }
-
-    void OnSpeedChanged(float v)
-    {
-        PlayerSettings.velocity = Mathf.Clamp(Round1(v), 1f, 10f);
-        speedValueText.text = $"{PlayerSettings.velocity:0.0}";
+        PlayerSettings.syncSec = Mathf.Clamp(Round(v, 2), -0.50f, 0.50f);
+        syncValueText.text = $"{PlayerSettings.syncSec:0.00}"; // ⬅ 표시도 둘째 자리
         PlayerSettings.Save();
         PlayerSettings.ApplyToRuntime();
     }
 
-    static float Round1(float v) => Mathf.Round(v * 10f) / 10f;
+    void OnSpeedChanged(float v)
+    {
+        PlayerSettings.velocity = Mathf.Clamp(Round(v, 1), 1f, 10f);
+        speedValueText.text = $"{PlayerSettings.velocity:0.0}";
+        PlayerSettings.Save();
+        PlayerSettings.ApplyToRuntime();
+    }
+    
+    static float Round(float v, int decimals)
+    {
+        float m = Mathf.Pow(10f, decimals);
+        return Mathf.Round(v * m) / m;
+    }
 }

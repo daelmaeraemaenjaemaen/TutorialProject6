@@ -1,6 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 public class Life : MonoBehaviour
 {
+    [SerializeField] private GameObject GameOver;
+    
     public static int lifeNum { get; private set; } = 100;
 
     public static void LifeReset()
@@ -35,5 +39,29 @@ public class Life : MonoBehaviour
         if (lifeNum >= 100) lifeNum = 100;
         else if (lifeNum <= 0) lifeNum = 0;
         return lifeNum;
+    }
+
+    public void Start()
+    {
+        Time.timeScale = 1f;
+        GameOver.SetActive(false);
+    }
+    public void Update()
+    {
+        if (lifeNum <= 0)
+        {
+            Time.timeScale = 0f;
+            GameOver.SetActive(true);
+        }
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene("GamePlay");
+    }
+
+    public void Exit()
+    {
+        SceneManager.LoadScene("MusicSelect");
     }
 }
