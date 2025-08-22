@@ -1,0 +1,660 @@
+1 1 16 16 def
+1 s  s  s 
+2      
+3     s 
+4      
+1 2 16 16 def
+1     s 
+2      
+3     s 
+4      
+1 3 16 16 def
+1     s 
+2      
+3     s 
+4 s     s
+1 4 16 16 def
+1   s   
+2 s    s 
+3   s s  
+4 s   s  
+2 1 16 16 def
+1  s    s
+2      
+3     s 
+4      
+2 2 16 16 def
+1      s
+2      
+3     s 
+4      
+2 3 16 16 def
+1      s
+2      
+3     s 
+4   s   s
+2 4 16 16 def
+1 s     
+2   s  s 
+3 s   s  
+4   s s  
+3 1 16 16 def
+1  s    s
+2      
+3      s
+4      
+3 2 16 16 def
+1      s
+2      
+3      s
+4      
+3 3 16 16 def
+1     s 
+2      
+3     s 
+4 s     s
+3 4 16 16 def
+1  s    
+2 s    s 
+3  s  s  
+4 s   s  
+4 1 16 16 def
+1   s  s 
+2      
+3     s 
+4      
+4 2 16 16 def
+1      s
+2      
+3      s
+4      
+4 3 16 16 def
+1  s  l  l
+2  s    
+3   s   
+4  s    
+4 4 16 16 def
+1   s   
+2  s    
+3 s   le  le
+4 s     
+5 1 16 16 def
+1  s    s
+2      
+3  s    s
+4      
+5 2 16 16 def
+1  s    s
+2      
+3  s    s
+4      
+5 3 16 16 def
+1  s    s
+2      
+3  s    s
+4   s s  
+5 4 16 16 def
+1      s
+2   s s  
+3  s    s
+4 s   s  
+6 1 16 16 def
+1   s  s 
+2      
+3  s  s  
+4      
+6 2 16 16 def
+1   s s  
+2      
+3  s  s  
+4      
+6 3 16 16 def
+1   s s  
+2      
+3  s  s  
+4   s   s
+6 4 16 16 def
+1     s 
+2   s   s
+3  s   s 
+4 s     s
+7 1 16 16 def
+1  s  s  
+2      
+3  s    s
+4      
+7 2 16 16 def
+1   s s  
+2      
+3  s   s 
+4      
+7 3 16 16 def
+1   s s  
+2      
+3  s  s  
+4   s   s
+7 4 16 16 def
+1     s 
+2  s    s
+3 s    s 
+4 s   s  
+8 1 16 16 def
+1 s    s 
+2      
+3 s   s  
+4      
+8 2 16 16 def
+1  s   s 
+2      
+3   s   s
+4      
+8 3 16 16 def
+1  s   l 
+2  s    
+3   s   
+4   s   
+8 4 16 16 def
+1  s    
+2  s   le 
+3 s     
+4 s     
+9 1 16 16 ref
+1  s    
+2      
+3 s     
+4      
+9 2 16 16 ref
+1  s    
+2 s     
+3  s    
+4   s   
+9 3 16 16 ref
+1  s    
+2      
+3 s     
+4  s    
+9 4 16 16 ref
+1 s     
+2  s    
+3   s   
+4 s s    
+10 1 16 16 ref
+1   s   
+2      
+3  s    
+4      
+10 2 16 16 ref
+1  s    
+2      
+3 s     
+4  s    
+10 3 16 16 ref
+1      
+2  s    
+3 l     
+4      
+10 4 16 16 ref
+1      
+2      
+3 le     
+4      
+11 1 16 16 ref
+1  s    
+2      
+3 s     
+4      
+11 2 16 16 ref
+1  s    
+2 s     
+3  s    
+4   s   
+11 3 16 16 ref
+1  s    
+2      
+3 s     
+4  s    
+11 4 16 16 ref
+1 s     
+2  s    
+3   s   
+4  s    
+12 1 16 16 ref
+1   s   
+2      
+3  s    
+4      
+12 2 16 16 ref
+1  s    
+2      
+3 s     
+4  s    
+12 3 16 16 ref
+1      
+2  s    
+3 s     
+4      
+12 4 16 16 ref
+1 s     
+2  s    
+3  s    
+4   s   
+13 1 16 16 ref
+1     s 
+2      
+3    s  
+4      
+13 2 16 16 ref
+1     s 
+2     s 
+3     s 
+4     s 
+13 3 16 16 ref
+1      s
+2      
+3     s 
+4     s 
+13 4 16 16 ref
+1    s  
+2     s 
+3      s
+4     s 
+14 1 16 16 ref
+1      s
+2      
+3     s 
+4      
+14 2 16 16 ref
+1     s 
+2      
+3    s  
+4     s 
+14 3 16 16 ref
+1      
+2     s 
+3    s  
+4      
+14 4 16 16 ref
+1    s  
+2     s 
+3     s 
+4      s
+15 1 16 16 ref
+1     s 
+2      
+3    s  
+4      
+15 2 16 16 ref
+1     s 
+2    s  
+3     s 
+4      s
+15 3 16 16 ref
+1     s 
+2      
+3    s  
+4     s 
+15 4 16 16 ref
+1    s  
+2     s 
+3      s
+4    s  
+16 1 16 16 def
+1 s  s  s 
+2      
+3  s   s 
+4      
+16 2 16 16 def
+1   s   s
+2      
+3  s   s 
+4   s   s
+16 3 16 16 def
+1      
+2  s   s 
+3 s   s  
+4      
+16 4 16 16 def
+1 l  l l  l
+2      
+3 le  le le  le
+4      
+17 1 16 16 def
+1   s   s
+2     s 
+3   s s  
+4      s
+17 2 16 16 def
+1   s   
+2     s 
+3   s s  
+4    s  
+17 3 16 16 def
+1   s  s 
+2    s  
+3   s s  
+4 s     s
+17 4 16 16 def
+1   s   
+2 s    s 
+3   s s  
+4 s   s  
+18 1 16 16 def
+1  s   s 
+2      s
+3 s   s  
+4     s 
+18 2 16 16 def
+1 s     
+2      s
+3 s   s  
+4    s  
+18 3 16 16 def
+1 s    s 
+2    s  
+3 s     s
+4   s  s 
+18 4 16 16 def
+1  s    
+2   s s  
+3  s   s 
+4   s  s 
+19 1 16 16 def
+1 s     s
+2     s 
+3   s s  
+4     s 
+19 2 16 16 def
+1 s     
+2     s 
+3  s  s  
+4    s  
+19 3 16 16 def
+1 s    s 
+2      s
+3 s   s  
+4   s  s 
+19 4 16 16 def
+1  s    
+2   s  s 
+3  s  s  
+4 s    s 
+20 1 16 16 def
+1  s  s  
+2      
+3 s   s  
+4      
+20 2 16 16 def
+1  s   s 
+2      
+3   s   s
+4      
+20 3 16 16 def
+1 s   s  
+2   s  s 
+3 s   s  
+4  s    s
+20 4 16 16 def
+1 l    l 
+2      
+3 le    le 
+4      
+21 1 16 16 def
+1   s   s
+2  s    
+3 s     s
+4   s   
+21 2 16 16 def
+1      s
+2  s    
+3 s     s
+4 s     
+21 3 16 16 def
+1  s    s
+2 s     
+3 s     s
+4   s s  
+21 4 16 16 def
+1      s
+2  s  s  
+3 s     s
+4 s   s  
+22 1 16 16 def
+1  s   s 
+2   s   
+3 s   s  
+4  s    
+22 2 16 16 def
+1    s  
+2   s   
+3 s   s  
+4 s     
+22 3 16 16 def
+1  s  s  
+2 s     
+3   s s  
+4  s    s
+22 4 16 16 def
+1     s 
+2 s     s
+3  s   s 
+4  s    s
+23 1 16 16 def
+1   s s  
+2  s    
+3 s     s
+4  s    
+23 2 16 16 def
+1    s  
+2  s    
+3 s    s 
+4 s     
+23 3 16 16 def
+1  s  s  
+2   s   
+3 s   s  
+4  s    s
+23 4 16 16 def
+1     s 
+2  s    s
+3 s    s 
+4  s  s  
+24 1 16 16 def
+1 s    s 
+2      
+3 s   s  
+4      
+24 2 16 16 def
+1  s   s 
+2      
+3   s   s
+4      
+24 3 16 16 def
+1 s   s  
+2  s    s
+3 s   s  
+4   s  s 
+24 4 16 16 def
+1  s  s  
+2      
+3      
+4      
+25 1 16 16 rev
+1  s   s 
+2      
+3  s   s 
+4      
+25 2 16 16 rev
+1  s   s 
+2      
+3  s   s 
+4      
+25 3 16 16 rev
+1  s   s 
+2      
+3  s   s 
+4   s   s
+25 4 16 16 rev
+1      
+2 s    s 
+3   s   s
+4  s  s  
+26 1 16 16 rev
+1 s     s
+2      
+3  s   s 
+4      
+26 2 16 16 rev
+1   s   s
+2      
+3  s   s 
+4      
+26 3 16 16 rev
+1   s   s
+2      
+3  s   s 
+4   s   s
+26 4 16 16 rev
+1      
+2  s   s 
+3 s     s
+4  s  s  
+27 1 16 16 rev
+1   s  s 
+2      
+3  s   s 
+4      
+27 2 16 16 rev
+1   s   s
+2      
+3  s   s 
+4      
+27 3 16 16 rev
+1   s   s
+2      
+3  s   s 
+4   s   s
+27 4 16 16 rev
+1      
+2  s  s  
+3 s    s 
+4   s s  
+28 1 16 16 rev
+1  s   s 
+2      
+3  s   s 
+4      
+28 2 16 16 rev
+1   s   s
+2      
+3   s   s
+4      
+28 3 16 16 rev
+1 s     s
+2 s     s
+3  s   s 
+4  s   s 
+28 4 16 16 rev
+1   s s  
+2 s     s
+3   s s  
+4  s   s 
+29 1 16 16 def
+1   s s  
+2      
+3   s   s
+4      
+29 2 16 16 def
+1   s  s 
+2      
+3   s   s
+4      
+29 3 16 16 def
+1   s s  
+2      
+3      s
+4     s 
+29 4 16 16 def
+1      
+2 s    s 
+3   s s  
+4 s    s 
+30 1 16 16 def
+1  s    s
+2      
+3  s    s
+4      
+30 2 16 16 def
+1  s  s  
+2      
+3  s    s
+4      
+30 3 16 16 def
+1  s   s 
+2      
+3    s  
+4     s 
+30 4 16 16 def
+1      
+2 s     s
+3   s  s 
+4 s     s
+31 1 16 16 def
+1  s  s  
+2      
+3 s     s
+4      
+31 2 16 16 def
+1 s    s 
+2      
+3 s     s
+4      
+31 3 16 16 def
+1 s   s  
+2      
+3      s
+4     s 
+31 4 16 16 def
+1      
+2 s   s  
+3   s   s
+4 s    s 
+32 1 16 16 def
+1  s  s  
+2      
+3  s  s  
+4      
+32 2 16 16 def
+1   s  s 
+2      
+3   s  s 
+4      
+32 3 16 16 def
+1 s   s  
+2   s   s
+3 s   s  
+4   s   s
+32 4 16 16 def
+1  s   s 
+2   s   s
+3  s   s 
+4 s   s  
+33 1 16 16 def
+1  l   l 
+2      
+3      
+4      
+33 2 16 16 def
+1      
+2      
+3      
+4      
+33 3 16 16 def
+1      
+2      
+3  le   le 
+4      
+33 4 16 16 def
+1      
+2      
+3      
+4      
