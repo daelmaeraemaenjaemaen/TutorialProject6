@@ -27,15 +27,51 @@ public class GameText : MonoBehaviour
         JudgeResult(result, line);
         ComboResult(result);
         LifeResult(result);
-        ScoreResult(result, tick);
+        ScoreResult(result, line, tick);
     }
 
     private void JudgeResult(NoteJudge result, int line)
     {
         string text = result.ToString();
 
-        if (line <= 3) judgeText1.text = text;
-        else judgeText2.text = text;
+        if (line <= 3)
+        {
+            judgeText1.text = text;
+            switch (result)
+            {
+                case NoteJudge.Perfect:
+                    Judge.judgeCount1P[0]++;
+                    break;
+                case NoteJudge.Great:
+                    Judge.judgeCount1P[1]++;
+                    break;
+                case NoteJudge.Good:
+                    Judge.judgeCount1P[2]++;
+                    break;
+                default: // miss, fastmiss
+                    Judge.judgeCount1P[3]++;
+                    break;
+            }
+        }
+        else
+        {
+            judgeText2.text = text;
+            switch (result)
+            {
+                case NoteJudge.Perfect:
+                    Judge.judgeCount2P[0]++;
+                    break;
+                case NoteJudge.Great:
+                    Judge.judgeCount2P[1]++;
+                    break;
+                case NoteJudge.Good:
+                    Judge.judgeCount2P[2]++;
+                    break;
+                default: // miss, fastmiss
+                    Judge.judgeCount2P[3]++;
+                    break;
+            }
+        } 
     }
 
     private void ComboResult(NoteJudge result)
@@ -56,9 +92,9 @@ public class GameText : MonoBehaviour
         rectTran2.localScale = new Vector3(1f, height2p * lifeNum / 100, 1f);
     }
 
-    private void ScoreResult(NoteJudge result, int tick)
+    private void ScoreResult(NoteJudge result, int line, int tick)
     {
         if (result == NoteJudge.FastMiss || result == NoteJudge.Miss) return;
-        scoreText.text = Score.setScore(result, tick).ToString();
+        scoreText.text = Score.setScore(result, line, tick).ToString();
     }
 }

@@ -39,6 +39,7 @@ public class Metronome : MonoBehaviour
         //점수, 콤보 등 초기화
         Combo.ComboReset();
         Life.LifeReset();
+        Judge.ResetJudgeCount();
     }
 
     public void StartPlay()
