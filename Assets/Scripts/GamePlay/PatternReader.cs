@@ -47,6 +47,20 @@ public class PatternReader
                     NoteBeat nb2 = new();
                     if (BeatConvert(beatL) > count)
                     {
+                        nb1.isVisible1 = true;
+                        nb1.isVisible2 = true;
+                        nb1.isVisible3 = true;
+                        for (int i = 1; i <= 3; i++)
+                        {
+                            if (words[i].Length <= 0) continue;
+                            if (words[i][0].Equals("!"))
+                            {
+                                if (i == 1) nb1.isVisible1 = false;
+                                else if (i == 2) nb1.isVisible2 = false;
+                                else nb1.isVisible3 = false;
+                                words[i].Remove(0, 1);
+                            }
+                        }
                         switch (words[1])
                         {
                             case "s":
@@ -128,6 +142,20 @@ public class PatternReader
 
                     if (BeatConvert(beatR) > count)
                     {
+                        nb2.isVisible1 = true;
+                        nb2.isVisible2 = true;
+                        nb2.isVisible3 = true;
+                        for (int i = 4; i <= 6; i++)
+                        {
+                            if (words[i].Length <= 0) continue;
+                            if (words[i][0].Equals("!"))
+                            {
+                                if (i == 4) nb2.isVisible1 = false;
+                                else if (i == 5) nb2.isVisible2 = false;
+                                else nb2.isVisible3 = false;
+                                words[i].Remove(0, 1);
+                            }
+                        }
                         switch (words[4])
                         {
                             case "s":
@@ -283,9 +311,15 @@ public class NotePart
 
 public class NoteBeat
 {
+    // 노트가 존재하는가?
     public bool is1;
     public bool is2;
     public bool is3;
+
+    // 노트가 보이는가?
+    public bool isVisible1;
+    public bool isVisible2;
+    public bool isVisible3;
 
     // 단노트: 0, 롱노트: 1 이상
     public float tick1;

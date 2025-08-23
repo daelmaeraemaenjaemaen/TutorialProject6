@@ -20,6 +20,7 @@ public class NoteMove : MonoBehaviour
 
     // 롱노트 기능
     public NoteType noteType = NoteType.Short;
+    public bool isVisible = true;
 
     private float nextTickTime = 0f; // 다음 틱까지의 시간
     public float tickInterval; // 틱 간격
@@ -37,6 +38,12 @@ public class NoteMove : MonoBehaviour
             return;
 
         transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+
+        // 노트 표시 여부 설정
+        Transform noteChild;
+        if (noteType == NoteType.Short) noteChild = transform.Find("ShortNote");
+        else noteChild = transform.Find("LongNote");
+        noteChild.GetComponent<Renderer>().enabled = isVisible;
 
         // 롱노트 길이 조정(롱노트 길이 = 초당 이동거리 * 틱 간격 * 틱 수)
         if (noteType == NoteType.Long) transform.localScale = new Vector3(1f, tickInterval * moveSpeed * tickNumber, 1f);
