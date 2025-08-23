@@ -39,6 +39,7 @@ public class Metronome : MonoBehaviour
         //점수, 콤보 등 초기화
         Combo.ComboReset();
         Life.LifeReset();
+        Judge.ResetJudgeCount();
     }
 
     public void StartPlay()
@@ -68,14 +69,15 @@ public class Metronome : MonoBehaviour
                 _intervalL = 240 / (notePart.beatL * bpm);
                 _intervalR = 240 / (notePart.beatR * bpm);
                 lCount = rCount = 0;
+                noteSpawn.setReverse(notePart.gim.Equals("rev"));
                 noteBeatL = notePart.noteL[lCount];
                 noteBeatR = notePart.noteR[rCount];
-                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1);
-                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2);
-                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3);
-                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1);
-                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2);
-                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3);
+                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1, noteBeatL.isVisible1);
+                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2, noteBeatL.isVisible2);
+                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3, noteBeatL.isVisible3);
+                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1, noteBeatR.isVisible1);
+                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2, noteBeatR.isVisible2);
+                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3, noteBeatR.isVisible3);
             }
             partCount++;
             _nextTick += _interval; // 다음 틱 시간 처리
@@ -85,9 +87,9 @@ public class Metronome : MonoBehaviour
             if (lCount < notePart.noteL.Length && lCount != 0)
             {
                 noteBeatL = notePart.noteL[lCount];
-                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1);
-                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2);
-                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3);
+                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1, noteBeatL.isVisible1);
+                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2, noteBeatL.isVisible2);
+                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3, noteBeatL.isVisible3);
             }
             lCount++;
             _nextTickL += _intervalL;
@@ -97,9 +99,9 @@ public class Metronome : MonoBehaviour
             if (rCount < notePart.noteR.Length && rCount != 0)
             {
                 noteBeatR = notePart.noteR[rCount];
-                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1);
-                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2);
-                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3);
+                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1, noteBeatR.isVisible1);
+                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2, noteBeatR.isVisible2);
+                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3, noteBeatR.isVisible3);
             }
             rCount++;
             _nextTickR += _intervalR;

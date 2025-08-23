@@ -9,11 +9,19 @@ public class NoteSpawn : MonoBehaviour
 
     [SerializeField] private NoteInput noteInput; // NoteInput 컴포넌트를 연결
 
-    public void SpawnNote(int line, float tickNumber) //단노트는 tickNumber == 0
+    private bool isReversed = false;
+
+    public void SpawnNote(int line, float tickNumber, bool isVisible) //단노트는 tickNumber == 0
     {
         GameObject prefab;
         bool isLong;
-        Transform spawnpoint = GameObject.Find("SpawnPoint" + line.ToString())?.transform; //SpawnPoint1~SpawnPoint6
+        int lineNum = line;
+        if (isReversed) // 리버스 기믹 처리 시 스폰 위치만 꼬아서 구현
+        {
+            if (lineNum <= 3) lineNum += 3;
+            else lineNum -= 3;
+        }
+        Transform spawnpoint = GameObject.Find("SpawnPoint" + lineNum.ToString())?.transform; //SpawnPoint1~SpawnPoint6
 
         if (tickNumber == 0)
         {
@@ -36,6 +44,7 @@ public class NoteSpawn : MonoBehaviour
         noteScript.tickNumber = tickNumber;
         noteScript.gameTextDisplay = gameTextDisplay;
         noteScript.lineNumber = line;
+        noteScript.isVisible = isVisible;
 
         // headTime, tailTime 자동 계산
         // 롱노트 길이를 기반으로 tailtime을 계산하는 것은 부정확하다고 여겨 틱 기반으로 교체했습니다
@@ -55,5 +64,10 @@ public class NoteSpawn : MonoBehaviour
         }
 
         noteInput.activeNotes.Add(noteScript); // 리스트에 등록
+    }
+
+    public void setReverse(bool b)
+    {
+        isReversed = b;
     }
 }

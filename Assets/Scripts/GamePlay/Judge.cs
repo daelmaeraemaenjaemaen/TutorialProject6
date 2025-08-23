@@ -19,16 +19,26 @@ public static class Judge
     public static float GoR = 150f;
     
     public static float MissLate = 150f;
+
+    // Perfect Great Good Miss
+    public static int[] judgeCount1P = new int[4];
+    public static int[] judgeCount2P = new int[4];
+
+    public static void ResetJudgeCount()
+    {
+        judgeCount1P = new int[4];
+        judgeCount2P = new int[4];
+    }
     
     public static NoteJudge Judgement(float inputTime, float noteTime)
     {
         float diff = (inputTime - noteTime) * 1000f; // 노트를 친 시간 차이(ms)
-        
+
         if (diff >= FMm && diff <= FMM)
             return NoteJudge.FastMiss;
-        
+
         float abs = Mathf.Abs(diff);
-        
+
         if (abs <= PR) return NoteJudge.Perfect;
         else if (abs <= GrR) return NoteJudge.Great;
         else if (abs <= GoR) return NoteJudge.Good;
