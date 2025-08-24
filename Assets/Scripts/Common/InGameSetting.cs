@@ -27,12 +27,12 @@ public class InGameSetting : MonoBehaviour
     void OnEnable()
     {
         PlayerSettings.Load();
-        
+
         if (syncSlider != null) syncSlider.wholeNumbers = false;
         if (speedSlider != null) speedSlider.wholeNumbers = false;
 
         RefreshUI();
-        
+
         syncSlider.onValueChanged.RemoveAllListeners();
         speedSlider.onValueChanged.RemoveAllListeners();
         syncDownBtn.onClick.RemoveAllListeners();
@@ -42,7 +42,7 @@ public class InGameSetting : MonoBehaviour
 
         syncSlider.onValueChanged.AddListener(OnSyncChanged);
         speedSlider.onValueChanged.AddListener(OnSpeedChanged);
-        
+
         syncDownBtn.onClick.AddListener(() => {
             syncSlider.value = Round(syncSlider.value - 0.01f, 2);
             OnSyncChanged(syncSlider.value);
@@ -51,7 +51,7 @@ public class InGameSetting : MonoBehaviour
             syncSlider.value = Round(syncSlider.value + 0.01f, 2);
             OnSyncChanged(syncSlider.value);
         });
-        
+
         speedDownBtn.onClick.AddListener(() => {
             speedSlider.value = Round(speedSlider.value - 0.1f, 1);
             OnSpeedChanged(speedSlider.value);
@@ -76,19 +76,19 @@ public class InGameSetting : MonoBehaviour
         p2k1Text.text = Label(PlayerSettings.p2k1);
         p2k2Text.text = Label(PlayerSettings.p2k2);
         p2k3Text.text = Label(PlayerSettings.p2k3);
-        
+
         syncSlider.SetValueWithoutNotify(PlayerSettings.syncSec);
         syncValueText.text = $"{PlayerSettings.syncSec:0.00}";
         speedSlider.SetValueWithoutNotify(PlayerSettings.velocity);
         speedValueText.text = $"{PlayerSettings.velocity:0.0}";
     }
-    
-    public void BindP1K1() => StartBind(k => { PlayerSettings.p1k1 = k; p1k1Text.text = Label(k); });
-    public void BindP1K2() => StartBind(k => { PlayerSettings.p1k2 = k; p1k2Text.text = Label(k); });
-    public void BindP1K3() => StartBind(k => { PlayerSettings.p1k3 = k; p1k3Text.text = Label(k); });
-    public void BindP2K1() => StartBind(k => { PlayerSettings.p2k1 = k; p2k1Text.text = Label(k); });
-    public void BindP2K2() => StartBind(k => { PlayerSettings.p2k2 = k; p2k2Text.text = Label(k); });
-    public void BindP2K3() => StartBind(k => { PlayerSettings.p2k3 = k; p2k3Text.text = Label(k); });
+
+    public void BindP1K1() => StartBind(k => { ClearDuplicate(k); PlayerSettings.p1k1 = k; p1k1Text.text = Label(k); });
+    public void BindP1K2() => StartBind(k => { ClearDuplicate(k); PlayerSettings.p1k2 = k; p1k2Text.text = Label(k); });
+    public void BindP1K3() => StartBind(k => { ClearDuplicate(k); PlayerSettings.p1k3 = k; p1k3Text.text = Label(k); });
+    public void BindP2K1() => StartBind(k => { ClearDuplicate(k); PlayerSettings.p2k1 = k; p2k1Text.text = Label(k); });
+    public void BindP2K2() => StartBind(k => { ClearDuplicate(k); PlayerSettings.p2k2 = k; p2k2Text.text = Label(k); });
+    public void BindP2K3() => StartBind(k => { ClearDuplicate(k); PlayerSettings.p2k3 = k; p2k3Text.text = Label(k); });
 
     void StartBind(System.Action<KeyCode> onBound)
     {
@@ -125,9 +125,23 @@ public class InGameSetting : MonoBehaviour
         }
         return KeyCode.None;
     }
+    
+    void ClearDuplicate(KeyCode k)
+    {
+        if (k == KeyCode.None) return;
+
+        if (PlayerSettings.p1k1 == k) { PlayerSettings.p1k1 = KeyCode.None; if (p1k1Text) p1k1Text.text = ""; }
+        if (PlayerSettings.p1k2 == k) { PlayerSettings.p1k2 = KeyCode.None; if (p1k2Text) p1k2Text.text = ""; }
+        if (PlayerSettings.p1k3 == k) { PlayerSettings.p1k3 = KeyCode.None; if (p1k3Text) p1k3Text.text = ""; }
+        if (PlayerSettings.p2k1 == k) { PlayerSettings.p2k1 = KeyCode.None; if (p2k1Text) p2k1Text.text = ""; }
+        if (PlayerSettings.p2k2 == k) { PlayerSettings.p2k2 = KeyCode.None; if (p2k2Text) p2k2Text.text = ""; }
+        if (PlayerSettings.p2k3 == k) { PlayerSettings.p2k3 = KeyCode.None; if (p2k3Text) p2k3Text.text = ""; }
+    }
 
     static string Label(KeyCode k)
     {
+        if (k == KeyCode.None) return ""; // 비워진 슬롯은 공백 표시
+
         switch (k)
         {
             case KeyCode.LeftArrow:  return "←";
@@ -148,7 +162,7 @@ public class InGameSetting : MonoBehaviour
     void OnSyncChanged(float v)
     {
         PlayerSettings.syncSec = Mathf.Clamp(Round(v, 2), -0.50f, 0.50f);
-        syncValueText.text = $"{PlayerSettings.syncSec:0.00}"; // ⬅ 표시도 둘째 자리
+        syncValueText.text = $"{PlayerSettings.syncSec:0.00}";
         PlayerSettings.Save();
         PlayerSettings.ApplyToRuntime();
     }
@@ -160,7 +174,7 @@ public class InGameSetting : MonoBehaviour
         PlayerSettings.Save();
         PlayerSettings.ApplyToRuntime();
     }
-    
+
     static float Round(float v, int decimals)
     {
         float m = Mathf.Pow(10f, decimals);
