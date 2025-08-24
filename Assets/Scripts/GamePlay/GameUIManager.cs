@@ -23,7 +23,6 @@ public class GameUIManager : MonoBehaviour
     [Header("오디오")]
     [SerializeField] private AudioSource musicAudioSource;
     [SerializeField] private AudioMixerGroup bgmGroup;
-    [SerializeField] private AudioMixerGroup sfxGroup;
 
     [Header("패턴")]
     [SerializeField] private Metronome metronome;

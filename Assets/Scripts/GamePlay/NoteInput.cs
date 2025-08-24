@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Audio;
+using System.Collections;
 
 public class NoteInput : MonoBehaviour
 {
@@ -12,6 +14,13 @@ public class NoteInput : MonoBehaviour
     public static KeyCode key4 = KeyCode.J;
     public static KeyCode key5 = KeyCode.K;
     public static KeyCode key6 = KeyCode.L;
+    
+    [Header("오디오")]
+    [SerializeField] private AudioSource sfxAudioSource;
+    [SerializeField] private AudioMixerGroup sfxGroup;
+    [SerializeField] private AudioClip note;
+    
+    private bool isStart;
 
     public static KeyCode getLineKey(int line)
     {
@@ -34,6 +43,21 @@ public class NoteInput : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        isStart = false;
+        
+        if (sfxGroup != null && sfxAudioSource != null)
+            sfxAudioSource.outputAudioMixerGroup = sfxGroup;
+        
+        StartCoroutine(Delay());
+    }
+
+    IEnumerator Delay()
+    {
+        yield return new WaitForSecondsRealtime(3.5f);
+        isStart = true;
+    }
     void Update()
     {
         List<NoteMove> toRemove = new List<NoteMove>(); // 삭제 대상 저장
@@ -41,6 +65,8 @@ public class NoteInput : MonoBehaviour
         // 사용자 입력 판정
         if (Input.GetKeyDown(key1)) // 1번 키를 눌렀을 때
         {
+            if (isStart) PlayClickSound();
+            
             NoteMove nearest = FindNote(1); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
             if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
@@ -53,6 +79,8 @@ public class NoteInput : MonoBehaviour
         }
         if (Input.GetKeyDown(key2)) // 2번 키를 눌렀을 때
         {
+            if (isStart) PlayClickSound();
+            
             NoteMove nearest = FindNote(2); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
             if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
@@ -65,6 +93,8 @@ public class NoteInput : MonoBehaviour
         }
         if (Input.GetKeyDown(key3)) // 3번 키를 눌렀을 때
         {
+            if (isStart) PlayClickSound();
+            
             NoteMove nearest = FindNote(3); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
             if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
@@ -77,6 +107,8 @@ public class NoteInput : MonoBehaviour
         }
         if (Input.GetKeyDown(key4)) // 4번 키를 눌렀을 때
         {
+            if (isStart) PlayClickSound();
+
             NoteMove nearest = FindNote(4); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
             if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
@@ -89,6 +121,8 @@ public class NoteInput : MonoBehaviour
         }
         if (Input.GetKeyDown(key5)) // 5번 키를 눌렀을 때
         {
+            if (isStart) PlayClickSound();
+
             NoteMove nearest = FindNote(5); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
             if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
@@ -101,6 +135,8 @@ public class NoteInput : MonoBehaviour
         }
         if (Input.GetKeyDown(key6)) // 6번 키를 눌렀을 때
         {
+            if (isStart) PlayClickSound();
+
             NoteMove nearest = FindNote(6); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
             if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
@@ -144,5 +180,13 @@ public class NoteInput : MonoBehaviour
         }
 
         return best;
+    }
+    
+    void PlayClickSound()
+    {
+        if (note != null)
+        {
+            sfxAudioSource.PlayOneShot(note, 1f);
+        }
     }
 }
