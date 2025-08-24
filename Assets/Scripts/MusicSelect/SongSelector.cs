@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -16,17 +17,20 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     [SerializeField] private AudioSource previewAudioSource;
     private Coroutine previewLoopRoutine;
     
+    [Header("오디오")]
+    [SerializeField] private AudioSource sfxAudioSource;
+    [SerializeField] private AudioMixerGroup sfxGroup;
+    [SerializeField] private AudioClip click;
 
     // Mixer 라우팅
     [Header("Mixer Routing")]
     [SerializeField] private AudioMixerGroup bgmGroup;
-    [SerializeField] private AudioMixerGroup sfxGroup;
     
     private static int s_GlobalPreviewToken = 0;
 
     private uint songCode;
     public string songFileName;
-
+    
     public void setSongSelector(Song song)
     {
         string cover = song.getsongCover() == "" ? "dummy.png" : song.getsongCover();
@@ -62,6 +66,33 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     private void Start()
     {
         StartBtn.onClick.AddListener(OnStartBtnClicked);
+
+        if (sfxAudioSource == null)
+        {
+            var obj = GameObject.Find("AudioSource_sfx");
+            if (obj != null) sfxAudioSource = obj.GetComponent<AudioSource>();
+        }
+
+        if (click == null)
+        {
+            click = Resources.Load<AudioClip>("sfx/click");
+        }
+
+        if (sfxGroup == null)
+        {
+            var groups = Resources.FindObjectsOfTypeAll<AudioMixerGroup>();
+            foreach (var g in groups)
+            {
+                if (g.name == "SFX")
+                {
+                    sfxGroup = g;
+                    break;
+                }
+            }
+        }
+        
+        if (sfxGroup != null && sfxAudioSource != null)
+            sfxAudioSource.outputAudioMixerGroup = sfxGroup;
     }
 
     private void OnStartBtnClicked()
@@ -192,5 +223,11 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
             previewAudioSource.Stop();
             previewAudioSource.volume = 1f;
         }
+    }
+    
+    public void Click()
+    {
+        if (click != null && sfxAudioSource != null)
+            sfxAudioSource.PlayOneShot(click, 1f);
     }
 }

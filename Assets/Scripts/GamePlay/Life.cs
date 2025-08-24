@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Audio;
 
 public class Life : MonoBehaviour
 {
     [SerializeField] private GameObject GameOver;
+    [SerializeField] private AudioSource bgmSource;
     
     public static int lifeNum { get; private set; } = 100;
 
@@ -45,7 +45,7 @@ public class Life : MonoBehaviour
     public void Start()
     {
         Time.timeScale = 1f;
-        GameOver.SetActive(false);
+        bgmSource.UnPause();
     }
     public void Update()
     {
@@ -54,7 +54,7 @@ public class Life : MonoBehaviour
             Time.timeScale = 0f;
             
             GameOver.SetActive(true);
-            AudioListener.pause = true;
+            bgmSource.Pause();
         }
     }
 
@@ -66,7 +66,7 @@ public class Life : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene("2_MusicSelect");
-        AudioListener.pause = false;
+        bgmSource.UnPause();
         Time.timeScale = 1f;
     }
 }

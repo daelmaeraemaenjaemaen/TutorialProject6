@@ -48,10 +48,12 @@ MonoBehaviour:
   headTime: 0
   tailTime: 0
   spawnTime: 0
+  lineNumber: 0
   noteType: 0
+  isVisible: 1
   tickInterval: 0
   tickNumber: 0
-  judgeTextDisplay: {fileID: 0}
+  gameTextDisplay: {fileID: 0}
 --- !u!1 &6218461826231586095
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,8 +135,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
-  m_Color: {r: 0.2784314, g: 0.37647063, b: 0.48627454, a: 1}
+  m_Sprite: {fileID: 9145377508955870383, guid: 6a7733614fd53694b91875ddfe33a608, type: 3}
+  m_Color: {r: 1, g: 0.96470594, b: 0.8705883, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

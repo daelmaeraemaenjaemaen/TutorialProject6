@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GamePlaySetting : MonoBehaviour
 {
+    [SerializeField] private AudioSource bgmSource;
     [SerializeField] private GameObject MenuUI;
     [SerializeField] private GameObject SettingUI;
     [SerializeField] private GameObject CountDown;
@@ -31,14 +32,14 @@ public class GamePlaySetting : MonoBehaviour
         CountDownText.gameObject.SetActive(false);
         CountDown.SetActive(false);
         Time.timeScale = 1f;
-        AudioListener.pause = false;
+        bgmSource.UnPause();
 
         StartCoroutine(introDelay());
     }
 
     IEnumerator introDelay()
     {
-        yield return new WaitForSecondsRealtime(2.5f);
+        yield return new WaitForSecondsRealtime(3.5f);
         intro = true;
     }
 
@@ -65,7 +66,7 @@ public class GamePlaySetting : MonoBehaviour
         CountDown.SetActive(false);
 
         Time.timeScale = 1f;
-        AudioListener.pause = false;
+        bgmSource.UnPause();
 
         isCountingDown = false;
         countdownRoutine = null;
@@ -80,7 +81,7 @@ public class GamePlaySetting : MonoBehaviour
         {
             // 메뉴 열기
             Time.timeScale = 0f;
-            AudioListener.pause = true;
+            bgmSource.Pause();
 
             if (countdownRoutine != null)
             {
@@ -167,7 +168,7 @@ public class GamePlaySetting : MonoBehaviour
     private void CleanupBeforeSceneChange()
     {
         Time.timeScale = 1f;
-        AudioListener.pause = false;
+        if (bgmSource != null) bgmSource.UnPause();
 
         if (countdownRoutine != null)
         {

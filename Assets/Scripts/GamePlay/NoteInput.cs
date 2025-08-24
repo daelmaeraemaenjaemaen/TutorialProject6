@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using System.Collections;
+using UnityEditor;
 
 public class NoteInput : MonoBehaviour
 {
@@ -14,6 +15,14 @@ public class NoteInput : MonoBehaviour
     public static KeyCode key4 = KeyCode.J;
     public static KeyCode key5 = KeyCode.K;
     public static KeyCode key6 = KeyCode.L;
+
+    [Header("효과")]
+    [SerializeField] private GameObject L1;
+    [SerializeField] private GameObject L2;
+    [SerializeField] private GameObject L3;
+    [SerializeField] private GameObject L4;
+    [SerializeField] private GameObject L5;
+    [SerializeField] private GameObject L6;
     
     [Header("오디오")]
     [SerializeField] private AudioSource sfxAudioSource;
@@ -62,6 +71,60 @@ public class NoteInput : MonoBehaviour
     {
         List<NoteMove> toRemove = new List<NoteMove>(); // 삭제 대상 저장
 
+        if (Input.GetKey(key1))
+        {
+            L1.gameObject.SetActive(true);
+        }
+        else
+        {
+            L1.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKey(key2))
+        {
+            L2.gameObject.SetActive(true);
+        }
+        else
+        {
+            L2.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKey(key3))
+        {
+            L3.gameObject.SetActive(true);
+        }
+        else
+        {
+            L3.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKey(key4))
+        {
+            L4.gameObject.SetActive(true);
+        }
+        else
+        {
+            L4.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKey(key5))
+        {
+            L5.gameObject.SetActive(true);
+        }
+        else
+        {
+            L5.gameObject.SetActive(false);
+        }
+
+        if (Input.GetKey(key6))
+        {
+            L6.gameObject.SetActive(true);
+        }
+        else
+        {
+            L6.gameObject.SetActive(false);
+        }
+        
         // 사용자 입력 판정
         if (Input.GetKeyDown(key1)) // 1번 키를 눌렀을 때
         {
@@ -77,9 +140,11 @@ public class NoteInput : MonoBehaviour
                     toRemove.Add(nearest);
             }
         }
+        
         if (Input.GetKeyDown(key2)) // 2번 키를 눌렀을 때
         {
             if (isStart) PlayClickSound();
+            L2.gameObject.SetActive(true);
             
             NoteMove nearest = FindNote(2); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
@@ -91,9 +156,11 @@ public class NoteInput : MonoBehaviour
                     toRemove.Add(nearest);
             }
         }
+        
         if (Input.GetKeyDown(key3)) // 3번 키를 눌렀을 때
         {
             if (isStart) PlayClickSound();
+            L3.gameObject.SetActive(true);
             
             NoteMove nearest = FindNote(3); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
@@ -105,9 +172,11 @@ public class NoteInput : MonoBehaviour
                     toRemove.Add(nearest);
             }
         }
+        
         if (Input.GetKeyDown(key4)) // 4번 키를 눌렀을 때
         {
             if (isStart) PlayClickSound();
+            L4.gameObject.SetActive(true);
 
             NoteMove nearest = FindNote(4); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
@@ -119,9 +188,11 @@ public class NoteInput : MonoBehaviour
                     toRemove.Add(nearest);
             }
         }
+        
         if (Input.GetKeyDown(key5)) // 5번 키를 눌렀을 때
         {
             if (isStart) PlayClickSound();
+            L5.gameObject.SetActive(true);
 
             NoteMove nearest = FindNote(5); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
@@ -133,9 +204,11 @@ public class NoteInput : MonoBehaviour
                     toRemove.Add(nearest);
             }
         }
+        
         if (Input.GetKeyDown(key6)) // 6번 키를 눌렀을 때
         {
             if (isStart) PlayClickSound();
+            L6.gameObject.SetActive(true);
 
             NoteMove nearest = FindNote(6); // 근처에 노트가 있는지 확인
             // 단노트는 !IsJudged, 롱노트는 무조건 TryHit

@@ -16,6 +16,11 @@ public class AudioSettings : MonoBehaviour
     [SerializeField] private Toggle masterMute;
     [SerializeField] private Toggle bgmMute;
     [SerializeField] private Toggle sfxMute;
+    
+    [Header("오디오")]
+    [SerializeField] private AudioSource sfxAudioSource;
+    [SerializeField] private AudioMixerGroup sfxGroup;
+    [SerializeField] private AudioClip click;
 
     // Exposed parameter names (AudioMixer)
     private const string MASTER = "MasterVol"; 
@@ -53,6 +58,9 @@ public class AudioSettings : MonoBehaviour
 
     void Start()
     {
+        if (sfxGroup != null && sfxAudioSource != null)
+            sfxAudioSource.outputAudioMixerGroup = sfxGroup;
+        
         Load();
         // 처음 적용
         ApplyAll();
@@ -174,5 +182,11 @@ public class AudioSettings : MonoBehaviour
         masterMute.SetIsOnWithoutNotify(PlayerPrefs.GetInt(K_MM, 0) == 1);
         bgmMute.SetIsOnWithoutNotify(PlayerPrefs.GetInt(K_MB, 0) == 1);
         sfxMute.SetIsOnWithoutNotify(PlayerPrefs.GetInt(K_MS, 0) == 1);
+    }
+
+    public void Click()
+    {
+        if (click != null && sfxAudioSource != null)
+            sfxAudioSource.PlayOneShot(click, 1f);
     }
 }
