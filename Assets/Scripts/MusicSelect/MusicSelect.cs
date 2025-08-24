@@ -19,6 +19,10 @@ public class MusicSelect : MonoBehaviour
     [SerializeField] private GameObject songSelector;
     [SerializeField] private GameObject categorySelector;
     public ScrollRect category;
+    public bool isEasy { get; private set; }
+    [SerializeField] private TMP_Text level;
+    [SerializeField] private Button hardButton;
+    
 
     //그 외 내부 변수
     private List<Song> songs = new();
@@ -36,6 +40,12 @@ public class MusicSelect : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        AudioListener.pause = false;
+        Time.timeScale = 1f;
+        
+        isEasy = true;
+        level.text = " 난이도: 쉬움";
+        
         //Song 리스트 불러오기
         var filePath = Application.dataPath + "/Data/Slist";
         if (File.Exists(filePath))
@@ -194,6 +204,10 @@ public class MusicSelect : MonoBehaviour
     //곡 선택 시 정보 표시
     private void setSelectedSong(uint ID)
     {
+        isEasy = true;
+        level.text = " 난이도: 쉬움";
+        SaveDifficultySelection();
+        
         Song song = songs.Find(s => s.getSongID() == ID);
         if (song == null)
         {
@@ -220,6 +234,9 @@ public class MusicSelect : MonoBehaviour
         {
             Debug.LogWarning($"커버 이미지 없음: {coverPath}");
         }
+        
+        var existHard = song.getHardFileName();
+        hardButton.gameObject.SetActive(existHard != "");
 
         songName.text = song.getsongName();
         songArtist.text = song.getsongArtist();
@@ -230,5 +247,28 @@ public class MusicSelect : MonoBehaviour
     {
         setSelectedSong(ID); // 기존 곡 정보 갱신 함수
         _selectedSong = selectedSong = ID; // 내부 상태까지 동기화
+    }
+    
+    void SaveDifficultySelection()
+    {
+        string diff = isEasy ? "easy" : "hard";
+        
+        PlayerPrefs.SetString("SelectedDifficulty", diff);
+        PlayerPrefs.Save();
+    }
+
+
+    public void Easy()
+    {
+        isEasy = true;
+        level.text = " 난이도: 쉬움";
+        SaveDifficultySelection();
+    }
+
+    public void Hard()
+    {
+        isEasy = false;
+        level.text = " 난이도: 어려움";
+        SaveDifficultySelection();
     }
 }

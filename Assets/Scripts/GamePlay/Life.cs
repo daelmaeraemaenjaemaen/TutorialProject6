@@ -66,5 +66,7 @@ public class Life : MonoBehaviour
     public void Exit()
     {
         SceneManager.LoadScene("2_MusicSelect");
+        AudioListener.pause = false;
+        Time.timeScale = 1f;
     }
 }

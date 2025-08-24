@@ -30,9 +30,16 @@ public class GameUIManager : MonoBehaviour
 
     private List<Song> songs = new();
     private Song selectedSong;
-
+    
+    private string diff;
+    private bool isEasy;
+    
     void Start()
     {
+        // 0. 난이도
+        diff = PlayerPrefs.GetString("SelectedDifficulty", "easy");
+        isEasy = !diff.Equals("hard", System.StringComparison.OrdinalIgnoreCase);
+        
         // 1. Slist에서 Song 읽기
         string filePath = Application.dataPath + "/Data/Slist";
         if (!File.Exists(filePath))
@@ -105,8 +112,9 @@ public class GameUIManager : MonoBehaviour
 
     IEnumerator IntroFadeAndStartMusic()
     {
-        metronome.setPlayData(selectedSong, true); // TODO: 난이도 선택 반영
-        PlayerPrefs.SetString("selectedDiff", "easy"); // TODO: 난이도 선택 구현 시 easy/hard로 반영 필요
+        metronome.setPlayData(selectedSong, isEasy); // TODO: 난이도 선택 반영
+        PlayerPrefs.GetString("selectedDiff", diff); // TODO: 난이도 선택 구현 시 easy/hard로 반영 필요
+        
         yield return new WaitForSecondsRealtime(2f);
 
         float duration = 0.5f;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class MusicSelectSetting : MonoBehaviour
 {
@@ -78,6 +79,11 @@ public class MusicSelectSetting : MonoBehaviour
     public void Setting()
     {
         SettingTurn(!isSetting);
+    }
+
+    public void Quit()
+    {
+        SceneManager.LoadScene("1_Main");
     }
     
     public void BackGroundSet()

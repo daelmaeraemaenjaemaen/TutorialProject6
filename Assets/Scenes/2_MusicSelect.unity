@@ -5442,7 +5442,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 796352486}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1765342638}
+        m_TargetAssemblyTypeName: MusicSelect, Assembly-CSharp
+        m_MethodName: Easy
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &796352486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7111,7 +7123,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 989945825}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 697432862}
+        m_TargetAssemblyTypeName: MusicSelectSetting, Assembly-CSharp
+        m_MethodName: Quit
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &989945825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10151,7 +10175,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1417580608}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1765342638}
+        m_TargetAssemblyTypeName: MusicSelect, Assembly-CSharp
+        m_MethodName: Hard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1417580608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12580,6 +12616,8 @@ MonoBehaviour:
   songSelector: {fileID: 1652271887962776440, guid: 95f9adf790c71b14d9a48441df7b08e8, type: 3}
   categorySelector: {fileID: 2893542611232258763, guid: ae06fe7a52f9c5b45b5ed39b5080ba44, type: 3}
   category: {fileID: 1891683112}
+  level: {fileID: 2069282710}
+  hardButton: {fileID: 1417580607}
 --- !u!1 &1771291663
 GameObject:
   m_ObjectHideFlags: 0
@@ -14126,8 +14164,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -208.89359, y: 76.457}
-  m_SizeDelta: {x: 145.8742, y: 62.531}
+  m_AnchoredPosition: {x: -150.50504, y: 76.457}
+  m_SizeDelta: {x: 262.6512, y: 62.531}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2069282710
 MonoBehaviour:
@@ -14149,7 +14187,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uB09C\uC774\uB3C4"
+  m_text: " \uB09C\uC774\uB3C4: \uC26C\uC6C0"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3de4a9f82d5fb014989f84751680350b, type: 2}
   m_sharedMaterial: {fileID: -775505804427890941, guid: 3de4a9f82d5fb014989f84751680350b, type: 2}
@@ -14183,7 +14221,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0

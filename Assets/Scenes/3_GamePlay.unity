@@ -730,7 +730,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 675, y: -200}
-  m_SizeDelta: {x: 300, y: 100}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &113678425
 MonoBehaviour:
@@ -3137,10 +3137,10 @@ MonoBehaviour:
   noteSpawn: {fileID: 444060320}
   patternLogo: {fileID: 1725976236}
   defImg: {fileID: 1978827612164257216, guid: e3b5c26fd929e3a44a51f006284491a2, type: 3}
-  refImg: {fileID: -2439270961401109820, guid: 59a13ff95641bb541a9ba1d86b5212dd, type: 3}
+  refImg: {fileID: 21300000, guid: 59a13ff95641bb541a9ba1d86b5212dd, type: 3}
   remImg: {fileID: -705144651409070445, guid: c6290e37a8b697f4695027e5b60b708e, type: 3}
-  revImg: {fileID: -3138130754379116934, guid: 6f6428169babccc4f9f92afea9019b27, type: 3}
-  rflImg: {fileID: -5294169815523266550, guid: ad0abdbf692b54343a266e37b778b04f, type: 3}
+  revImg: {fileID: 21300000, guid: 6f6428169babccc4f9f92afea9019b27, type: 3}
+  rflImg: {fileID: 21300000, guid: ad0abdbf692b54343a266e37b778b04f, type: 3}
 --- !u!4 &444060323
 Transform:
   m_ObjectHideFlags: 0
@@ -9917,7 +9917,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -675, y: -200}
-  m_SizeDelta: {x: 300, y: 100}
+  m_SizeDelta: {x: 500, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1316195669
 MonoBehaviour:
@@ -13705,7 +13705,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 217.3914}
-  m_SizeDelta: {x: 246.9612, y: 246.9612}
+  m_SizeDelta: {x: 400, y: 400}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1725976238
 MonoBehaviour:

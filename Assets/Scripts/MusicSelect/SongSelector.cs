@@ -15,6 +15,7 @@ public class SongSelector : MonoBehaviour, IPointerDownHandler, IPointerUpHandle
     [SerializeField] private Button StartBtn;
     [SerializeField] private AudioSource previewAudioSource;
     private Coroutine previewLoopRoutine;
+    
 
     // Mixer 라우팅
     [Header("Mixer Routing")]
