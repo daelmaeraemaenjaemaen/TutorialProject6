@@ -106,6 +106,7 @@ public class GameUIManager : MonoBehaviour
     IEnumerator IntroFadeAndStartMusic()
     {
         metronome.setPlayData(selectedSong, true); // TODO: 난이도 선택 반영
+        PlayerPrefs.SetString("selectedDiff", "easy"); // TODO: 난이도 선택 구현 시 easy/hard로 반영 필요
         yield return new WaitForSecondsRealtime(2f);
 
         float duration = 0.5f;
