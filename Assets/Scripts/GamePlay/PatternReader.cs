@@ -47,25 +47,12 @@ public class PatternReader
                     NoteBeat nb2 = new();
                     if (BeatConvert(beatL) > count)
                     {
-                        nb1.isVisible1 = true;
-                        nb1.isVisible2 = true;
-                        nb1.isVisible3 = true;
-                        for (int i = 1; i <= 3; i++)
-                        {
-                            if (words[i].Length <= 0) continue;
-                            if (words[i][0].Equals("!"))
-                            {
-                                if (i == 1) nb1.isVisible1 = false;
-                                else if (i == 2) nb1.isVisible2 = false;
-                                else nb1.isVisible3 = false;
-                                words[i].Remove(0, 1);
-                            }
-                        }
                         switch (words[1])
                         {
                             case "s":
                                 nb1.is1 = true;
                                 nb1.tick1 = 0;
+                                nb1.isVisible1 = true;
                                 totalNote++;
                                 break;
                             case "l":
@@ -73,12 +60,35 @@ public class PatternReader
                                 nb1.tick1 = 1;
                                 longPartNm[0] = partCount;
                                 longPartbt[0] = count;
+                                nb1.isVisible1 = true;
                                 totalNote++;
                                 break;
                             case "le":
                                 nb1.is1 = false;
                                 nb1.tick1 = 0;
                                 countTick(0, count);
+                                nb1.isVisible1 = true;
+                                totalNote++; // 롱노트 1개분 추가
+                                break;
+                            case "!s":
+                                nb1.is1 = true;
+                                nb1.tick1 = 0;
+                                totalNote++;
+                                nb1.isVisible1 = false;
+                                break;
+                            case "!l":
+                                nb1.is1 = true;
+                                nb1.tick1 = 1;
+                                longPartNm[0] = partCount;
+                                longPartbt[0] = count;
+                                nb1.isVisible1 = false;
+                                totalNote++;
+                                break;
+                            case "!le":
+                                nb1.is1 = false;
+                                nb1.tick1 = 0;
+                                countTick(0, count);
+                                nb1.isVisible1 = false;
                                 totalNote++; // 롱노트 1개분 추가
                                 break;
                             default:
@@ -92,6 +102,7 @@ public class PatternReader
                             case "s":
                                 nb1.is2 = true;
                                 nb1.tick2 = 0;
+                                nb1.isVisible2 = true;
                                 totalNote++;
                                 break;
                             case "l":
@@ -99,13 +110,36 @@ public class PatternReader
                                 nb1.tick2 = 1;
                                 longPartNm[1] = partCount;
                                 longPartbt[1] = count;
+                                nb1.isVisible2 = true;
                                 totalNote++;
                                 break;
                             case "le":
                                 nb1.is2 = false;
                                 nb1.tick2 = 0;
                                 countTick(1, count);
+                                nb1.isVisible2 = true;
                                 totalNote++;
+                                break;
+                            case "!s":
+                                nb1.is2 = true;
+                                nb1.tick2 = 0;
+                                totalNote++;
+                                nb1.isVisible2 = false;
+                                break;
+                            case "!l":
+                                nb1.is2 = true;
+                                nb1.tick2 = 1;
+                                longPartNm[1] = partCount;
+                                longPartbt[1] = count;
+                                nb1.isVisible2 = false;
+                                totalNote++;
+                                break;
+                            case "!le":
+                                nb1.is2 = false;
+                                nb1.tick2 = 0;
+                                countTick(1, count);
+                                nb1.isVisible2 = false;
+                                totalNote++; // 롱노트 1개분 추가
                                 break;
                             default:
                                 nb1.is2 = false;
@@ -118,6 +152,7 @@ public class PatternReader
                             case "s":
                                 nb1.is3 = true;
                                 nb1.tick3 = 0;
+                                nb1.isVisible3 = true;
                                 totalNote++;
                                 break;
                             case "l":
@@ -125,13 +160,36 @@ public class PatternReader
                                 nb1.tick3 = 1;
                                 longPartNm[2] = partCount;
                                 longPartbt[2] = count;
+                                nb1.isVisible3 = true;
                                 totalNote++;
                                 break;
                             case "le":
                                 nb1.is3 = false;
                                 nb1.tick3 = 0;
                                 countTick(2, count);
+                                nb1.isVisible3 = true;
                                 totalNote++;
+                                break;
+                            case "!s":
+                                nb1.is3 = true;
+                                nb1.tick3 = 0;
+                                totalNote++;
+                                nb1.isVisible3 = false;
+                                break;
+                            case "!l":
+                                nb1.is3 = true;
+                                nb1.tick3 = 1;
+                                longPartNm[2] = partCount;
+                                longPartbt[2] = count;
+                                nb1.isVisible3 = false;
+                                totalNote++;
+                                break;
+                            case "!le":
+                                nb1.is3 = false;
+                                nb1.tick3 = 0;
+                                countTick(2, count);
+                                nb1.isVisible3 = false;
+                                totalNote++; // 롱노트 1개분 추가
                                 break;
                             default:
                                 nb1.is3 = false;
@@ -142,25 +200,12 @@ public class PatternReader
 
                     if (BeatConvert(beatR) > count)
                     {
-                        nb2.isVisible1 = true;
-                        nb2.isVisible2 = true;
-                        nb2.isVisible3 = true;
-                        for (int i = 4; i <= 6; i++)
-                        {
-                            if (words[i].Length <= 0) continue;
-                            if (words[i][0].Equals("!"))
-                            {
-                                if (i == 4) nb2.isVisible1 = false;
-                                else if (i == 5) nb2.isVisible2 = false;
-                                else nb2.isVisible3 = false;
-                                words[i].Remove(0, 1);
-                            }
-                        }
                         switch (words[4])
                         {
                             case "s":
                                 nb2.is1 = true;
                                 nb2.tick1 = 0;
+                                nb2.isVisible1 = true;
                                 totalNote++;
                                 break;
                             case "l":
@@ -168,12 +213,35 @@ public class PatternReader
                                 nb2.tick1 = 1;
                                 longPartNm[3] = partCount;
                                 longPartbt[3] = count;
+                                nb2.isVisible1 = true;
                                 totalNote++;
                                 break;
                             case "le":
                                 nb2.is1 = false;
                                 nb2.tick1 = 0;
                                 countTick(3, count);
+                                nb2.isVisible1 = true;
+                                totalNote++;
+                                break;
+                            case "!s":
+                                nb2.is1 = true;
+                                nb2.tick1 = 0;
+                                nb2.isVisible1 = false;
+                                totalNote++;
+                                break;
+                            case "!l":
+                                nb2.is1 = true;
+                                nb2.tick1 = 1;
+                                longPartNm[3] = partCount;
+                                longPartbt[3] = count;
+                                nb2.isVisible1 = false;
+                                totalNote++;
+                                break;
+                            case "!le":
+                                nb2.is1 = false;
+                                nb2.tick1 = 0;
+                                countTick(3, count);
+                                nb2.isVisible1 = false;
                                 totalNote++;
                                 break;
                             default:
@@ -187,6 +255,7 @@ public class PatternReader
                             case "s":
                                 nb2.is2 = true;
                                 nb2.tick2 = 0;
+                                nb2.isVisible2 = true;
                                 totalNote++;
                                 break;
                             case "l":
@@ -194,12 +263,35 @@ public class PatternReader
                                 nb2.tick2 = 1;
                                 longPartNm[4] = partCount;
                                 longPartbt[4] = count;
+                                nb2.isVisible2 = true;
                                 totalNote++;
                                 break;
                             case "le":
                                 nb2.is2 = false;
                                 nb2.tick2 = 0;
                                 countTick(4, count);
+                                nb2.isVisible2 = true;
+                                totalNote++;
+                                break;
+                            case "!s":
+                                nb2.is2 = true;
+                                nb2.tick2 = 0;
+                                nb2.isVisible2 = false;
+                                totalNote++;
+                                break;
+                            case "!l":
+                                nb2.is2 = true;
+                                nb2.tick2 = 1;
+                                longPartNm[4] = partCount;
+                                longPartbt[4] = count;
+                                nb2.isVisible2 = false;
+                                totalNote++;
+                                break;
+                            case "!le":
+                                nb2.is2 = false;
+                                nb2.tick2 = 0;
+                                countTick(4, count);
+                                nb2.isVisible2 = false;
                                 totalNote++;
                                 break;
                             default:
@@ -213,6 +305,7 @@ public class PatternReader
                             case "s":
                                 nb2.is3 = true;
                                 nb2.tick3 = 0;
+                                nb2.isVisible3 = true;
                                 totalNote++;
                                 break;
                             case "l":
@@ -220,12 +313,35 @@ public class PatternReader
                                 nb2.tick3 = 1;
                                 longPartNm[5] = partCount;
                                 longPartbt[5] = count;
+                                nb2.isVisible3 = true;
                                 totalNote++;
                                 break;
                             case "le":
                                 nb2.is3 = false;
                                 nb2.tick3 = 0;
                                 countTick(5, count);
+                                nb2.isVisible3 = true;
+                                totalNote++;
+                                break;
+                            case "!s":
+                                nb2.is3 = true;
+                                nb2.tick3 = 0;
+                                nb2.isVisible3 = false;
+                                totalNote++;
+                                break;
+                            case "!l":
+                                nb2.is3 = true;
+                                nb2.tick3 = 1;
+                                longPartNm[5] = partCount;
+                                longPartbt[5] = count;
+                                nb2.isVisible3 = false;
+                                totalNote++;
+                                break;
+                            case "!le":
+                                nb2.is3 = false;
+                                nb2.tick3 = 0;
+                                countTick(5, count);
+                                nb2.isVisible3 = false;
                                 totalNote++;
                                 break;
                             default:
