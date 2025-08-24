@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
-using System.Linq;
 public class Metronome : MonoBehaviour
 {
     public static float bpm = 150f; // BPM 설정
+    public static string nowGim = "def";
     private float _interval, _intervalL, _intervalR; // 박자 간 시간
     private float _nextTick, _nextTickL, _nextTickR;
     private float songEnd;
@@ -16,6 +17,12 @@ public class Metronome : MonoBehaviour
     private Song song;
     private PatternReader patternReader = new();
     [SerializeField] private NoteSpawn noteSpawn;
+    [SerializeField] private GameObject patternLogo;
+    [SerializeField] private Sprite defImg;
+    [SerializeField] private Sprite refImg;
+    [SerializeField] private Sprite remImg;
+    [SerializeField] private Sprite revImg;
+    [SerializeField] private Sprite rflImg;
 
     public void setPlayData(Song s, bool isEasy)
     {
@@ -69,6 +76,29 @@ public class Metronome : MonoBehaviour
                 _intervalL = 240 / (notePart.beatL * bpm);
                 _intervalR = 240 / (notePart.beatR * bpm);
                 lCount = rCount = 0;
+                if (!notePart.gim.Equals(nowGim))
+                {
+                    Image img = patternLogo.GetComponent<Image>();
+                    switch (notePart.gim)
+                    {
+                        case "def":
+                            img.sprite = defImg;
+                            break;
+                        case "ref":
+                            img.sprite = refImg;
+                            break;
+                        case "rem":
+                            img.sprite = remImg;
+                            break;
+                        case "rev":
+                            img.sprite = revImg;
+                            break;
+                        case "rfl":
+                            img.sprite = rflImg;
+                            break;
+                    }
+                    nowGim = notePart.gim;
+                }
                 noteSpawn.setReverse(notePart.gim.Equals("rev"));
                 noteBeatL = notePart.noteL[lCount];
                 noteBeatR = notePart.noteR[rCount];
