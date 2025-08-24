@@ -3137,6 +3137,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteSpawn: {fileID: 444060320}
+  patternLogo: {fileID: 1725976236}
+  defImg: {fileID: -6440241708844039593, guid: 775a9a6ce4495ac47a4ab0cbd746ab01, type: 3}
+  refImg: {fileID: -4810502069908382041, guid: 8df742829289091458cd3213ddaaa7a8, type: 3}
+  remImg: {fileID: -705144651409070445, guid: 4417e4cd345f3ab439081d951db84a03, type: 3}
+  revImg: {fileID: -2815824438900945088, guid: 504ae98154b10f14992ba70fba6633fb, type: 3}
+  rflImg: {fileID: -5294169815523266550, guid: 2c1f5a3f89be4c040b189d1b442ced39, type: 3}
 --- !u!4 &444060323
 Transform:
   m_ObjectHideFlags: 0
@@ -12998,7 +13004,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -3272224296845415905, guid: c0174125ab18eae44b8372cd93c56665, type: 3}
+  m_Sprite: {fileID: 0}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
