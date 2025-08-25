@@ -6186,9 +6186,9 @@ MonoBehaviour:
   L1: {fileID: 1535580847}
   L2: {fileID: 2118301576}
   L3: {fileID: 900545635}
-  L4: {fileID: 840136096}
+  L4: {fileID: 774264693}
   L5: {fileID: 1436241572}
-  L6: {fileID: 774264693}
+  L6: {fileID: 840136096}
   sfxAudioSource: {fileID: 622864169}
   sfxGroup: {fileID: -1798553114454377567, guid: 39c187b6d2262284e876acde30cf437c, type: 2}
   note: {fileID: 8300000, guid: 4454ef342cf0d5e44b3d62c5bcd6f1c7, type: 3}
