@@ -4086,7 +4086,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -962.91, y: 590}
+  m_AnchoredPosition: {x: -950, y: 590}
   m_SizeDelta: {x: 24.6962, y: 74.0885}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &303812600
@@ -13148,6 +13148,8 @@ MonoBehaviour:
   Bgset: {fileID: 909907305}
   Gpset: {fileID: 1397810798}
   Adset: {fileID: 382706679}
+  barUI: {fileID: 303812598}
+  UI: {fileID: 901493105}
 --- !u!114 &901493107
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19182,7 +19184,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -962.91, y: 590}
+  m_AnchoredPosition: {x: -950, y: 590}
   m_SizeDelta: {x: 24.6962, y: 74.0885}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1328016179
@@ -20326,7 +20328,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 962.91, y: 590}
+  m_AnchoredPosition: {x: 950, y: 590}
   m_SizeDelta: {x: 24.6962, y: 74.0885}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1381211233

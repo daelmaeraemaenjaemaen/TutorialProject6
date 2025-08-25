@@ -33,6 +33,8 @@ public class GameUIManager : MonoBehaviour
     private string diff;
     private bool isEasy;
     
+    public float length { get; private set; }
+    
     void Start()
     {
         // 0. 난이도
@@ -71,7 +73,7 @@ public class GameUIManager : MonoBehaviour
             }
         }
 
-        // 2. 선택 곡
+        // 2. 선택 곡 & 곡 길이
         uint selectedSongID = (uint)PlayerPrefs.GetInt("selectedSongID", -1);
         selectedSong = songs.Find(s => s.getSongID() == selectedSongID);
         if (selectedSong == null)
@@ -79,6 +81,8 @@ public class GameUIManager : MonoBehaviour
             Debug.LogError($"선택된 곡을 찾을 수 없습니다. (ID: {selectedSongID})");
             return;
         }
+
+        length = selectedSong.getSongLength();
 
         // 3. 커버 이미지
         string coverPath = Application.dataPath + "/Images/Cover/" + selectedSong.getsongCover();
@@ -105,6 +109,7 @@ public class GameUIManager : MonoBehaviour
         
         if (bgmGroup != null && musicAudioSource != null)
             musicAudioSource.outputAudioMixerGroup = bgmGroup;
+        
 
         StartCoroutine(IntroFadeAndStartMusic());
     }
