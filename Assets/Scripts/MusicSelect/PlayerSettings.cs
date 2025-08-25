@@ -19,18 +19,37 @@ public static class PlayerSettings
     const string K_P2_1 = "p2k1", K_P2_2 = "p2k2", K_P2_3 = "p2k3";
     const string K_SYNC = "sync_sec";
     const string K_VEL  = "speed_vel";
+    private const string K_Short  = "RG1/style/short",  K_Long  = "RG1/style/long",  K_Line  = "RG1/style/lineset";
+    private const string K_Short2 = "RG1/style/short2", K_Long2 = "RG1/style/long2", K_Line2 = "RG1/style/lineset2";
+    
+    // 배경
+    public static int shortNum = 0;
+    public static int longNum = 0;
+    public static int backNum = 0;
+
+    public static int shortNum2 = 0;
+    public static int longNum2 = 0;
+    public static int backNum2 = 0;
 
     public static void Load()
     {
         p1k1 = (KeyCode)PlayerPrefs.GetInt(K_P1_1, (int)KeyCode.S);
         p1k2 = (KeyCode)PlayerPrefs.GetInt(K_P1_2, (int)KeyCode.D);
-        p1k3 = (KeyCode)PlayerPrefs.GetInt(K_P1_3, (int)KeyCode.K);
+        p1k3 = (KeyCode)PlayerPrefs.GetInt(K_P1_3, (int)KeyCode.F);
         p2k1 = (KeyCode)PlayerPrefs.GetInt(K_P2_1, (int)KeyCode.J);
         p2k2 = (KeyCode)PlayerPrefs.GetInt(K_P2_2, (int)KeyCode.K);
         p2k3 = (KeyCode)PlayerPrefs.GetInt(K_P2_3, (int)KeyCode.L);
 
         syncSec = Mathf.Clamp(PlayerPrefs.GetFloat(K_SYNC, 0f), -5f, 5f);
         velocity = Mathf.Clamp(PlayerPrefs.GetFloat(K_VEL, 7.2f), 1f, 10f);
+        
+        shortNum = Mathf.Clamp(PlayerPrefs.GetInt(K_Short, 0), 0, 2);
+        longNum  = Mathf.Clamp(PlayerPrefs.GetInt(K_Long,  0), 0, 2);
+        backNum  = Mathf.Clamp(PlayerPrefs.GetInt(K_Line,  0), 0, 2);
+
+        shortNum2 = Mathf.Clamp(PlayerPrefs.GetInt(K_Short2, 0), 0, 2);
+        longNum2  = Mathf.Clamp(PlayerPrefs.GetInt(K_Long2,  0), 0, 2);
+        backNum2  = Mathf.Clamp(PlayerPrefs.GetInt(K_Line2,  0), 0, 2);
     }
 
     public static void Save()
@@ -44,6 +63,15 @@ public static class PlayerSettings
 
         PlayerPrefs.SetFloat(K_SYNC, Mathf.Clamp(syncSec, -5f, 5f));
         PlayerPrefs.SetFloat(K_VEL,  Mathf.Clamp(velocity, 1f, 10f));
+        
+        PlayerPrefs.SetInt(K_Short, shortNum);
+        PlayerPrefs.SetInt(K_Long,  longNum);
+        PlayerPrefs.SetInt(K_Line,  backNum);
+
+        PlayerPrefs.SetInt(K_Short2, shortNum2);
+        PlayerPrefs.SetInt(K_Long2,  longNum2);
+        PlayerPrefs.SetInt(K_Line2,  backNum2);
+        
         PlayerPrefs.Save();
     }
 
@@ -58,6 +86,8 @@ public static class PlayerSettings
         NoteInput.key6 = p2k3;
 
         NoteMove.moveSpeed = Mathf.Clamp(velocity, 1f, 10f);
+
+        if (Design.I != null) Design.I.ApplyAllRuntime();
     }
     
     

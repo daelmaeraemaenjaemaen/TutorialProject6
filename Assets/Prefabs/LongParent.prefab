@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1939148014960992309}
   - component: {fileID: 8927263921397496499}
+  - component: {fileID: 3374728832240958943}
   m_Layer: 0
   m_Name: LongNote
   m_TagString: Untagged
@@ -87,6 +88,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3374728832240958943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 275234140416195703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0f11b86170b63488f72210ffafef60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kind: 1
 --- !u!1 &8870558028969860574
 GameObject:
   m_ObjectHideFlags: 0

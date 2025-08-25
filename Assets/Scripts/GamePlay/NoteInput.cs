@@ -2,7 +2,6 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using System.Collections;
-using UnityEditor;
 
 public class NoteInput : MonoBehaviour
 {
@@ -31,6 +30,9 @@ public class NoteInput : MonoBehaviour
     
     private bool isStart;
 
+    KeyCode[] keys = new KeyCode[6];
+    GameObject[] lights = new GameObject[6];
+
     public static KeyCode getLineKey(int line)
     {
         switch (line)
@@ -58,8 +60,26 @@ public class NoteInput : MonoBehaviour
         
         if (sfxGroup != null && sfxAudioSource != null)
             sfxAudioSource.outputAudioMixerGroup = sfxGroup;
-        
+
+        lights[0] = L1; lights[1] = L2; lights[2] = L3;
+        lights[3] = L4; lights[4] = L5; lights[5] = L6;
+
+        SyncKeysFromSettings();
+
         StartCoroutine(Delay());
+    }
+
+    void SyncKeysFromSettings()
+    {
+        key1 = PlayerSettings.p1k1;
+        key2 = PlayerSettings.p1k2;
+        key3 = PlayerSettings.p1k3;
+        key4 = PlayerSettings.p2k1;
+        key5 = PlayerSettings.p2k2;
+        key6 = PlayerSettings.p2k3;
+
+        keys[0] = key1; keys[1] = key2; keys[2] = key3;
+        keys[3] = key4; keys[4] = key5; keys[5] = key6;
     }
 
     IEnumerator Delay()
@@ -69,163 +89,37 @@ public class NoteInput : MonoBehaviour
     }
     void Update()
     {
-        List<NoteMove> toRemove = new List<NoteMove>(); // 삭제 대상 저장
+        if (activeNotes == null) return;
 
-        if (Input.GetKey(key1))
-        {
-            L1.gameObject.SetActive(true);
-        }
-        else
-        {
-            L1.gameObject.SetActive(false);
-        }
+        List<NoteMove> toRemove = new List<NoteMove>();
 
-        if (Input.GetKey(key2))
+        for (int i = 0; i < 6; i++)
         {
-            L2.gameObject.SetActive(true);
-        }
-        else
-        {
-            L2.gameObject.SetActive(false);
+            var light = lights[i];
+            if (light) light.SetActive(Input.GetKey(keys[i]));
         }
 
-        if (Input.GetKey(key3))
+        for (int i = 0; i < 6; i++)
         {
-            L3.gameObject.SetActive(true);
-        }
-        else
-        {
-            L3.gameObject.SetActive(false);
-        }
-
-        if (Input.GetKey(key4))
-        {
-            L4.gameObject.SetActive(true);
-        }
-        else
-        {
-            L4.gameObject.SetActive(false);
-        }
-
-        if (Input.GetKey(key5))
-        {
-            L5.gameObject.SetActive(true);
-        }
-        else
-        {
-            L5.gameObject.SetActive(false);
-        }
-
-        if (Input.GetKey(key6))
-        {
-            L6.gameObject.SetActive(true);
-        }
-        else
-        {
-            L6.gameObject.SetActive(false);
-        }
-        
-        // 사용자 입력 판정
-        if (Input.GetKeyDown(key1)) // 1번 키를 눌렀을 때
-        {
-            if (isStart) PlayClickSound();
-            
-            NoteMove nearest = FindNote(1); // 근처에 노트가 있는지 확인
-            // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
-            if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
+            if (Input.GetKeyDown(keys[i]))
             {
-                nearest.TryHit(Time.time);
+                if (isStart) PlayClickSound();
 
-                if (nearest.noteType == NoteType.Short)
-                    toRemove.Add(nearest);
-            }
-        }
-        
-        if (Input.GetKeyDown(key2)) // 2번 키를 눌렀을 때
-        {
-            if (isStart) PlayClickSound();
-            L2.gameObject.SetActive(true);
-            
-            NoteMove nearest = FindNote(2); // 근처에 노트가 있는지 확인
-            // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
-            if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
-            {
-                nearest.TryHit(Time.time);
-
-                if (nearest.noteType == NoteType.Short)
-                    toRemove.Add(nearest);
-            }
-        }
-        
-        if (Input.GetKeyDown(key3)) // 3번 키를 눌렀을 때
-        {
-            if (isStart) PlayClickSound();
-            L3.gameObject.SetActive(true);
-            
-            NoteMove nearest = FindNote(3); // 근처에 노트가 있는지 확인
-            // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
-            if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
-            {
-                nearest.TryHit(Time.time);
-
-                if (nearest.noteType == NoteType.Short)
-                    toRemove.Add(nearest);
-            }
-        }
-        
-        if (Input.GetKeyDown(key4)) // 4번 키를 눌렀을 때
-        {
-            if (isStart) PlayClickSound();
-            L4.gameObject.SetActive(true);
-
-            NoteMove nearest = FindNote(4); // 근처에 노트가 있는지 확인
-            // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
-            if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
-            {
-                nearest.TryHit(Time.time);
-
-                if (nearest.noteType == NoteType.Short)
-                    toRemove.Add(nearest);
-            }
-        }
-        
-        if (Input.GetKeyDown(key5)) // 5번 키를 눌렀을 때
-        {
-            if (isStart) PlayClickSound();
-            L5.gameObject.SetActive(true);
-
-            NoteMove nearest = FindNote(5); // 근처에 노트가 있는지 확인
-            // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
-            if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
-            {
-                nearest.TryHit(Time.time);
-
-                if (nearest.noteType == NoteType.Short)
-                    toRemove.Add(nearest);
-            }
-        }
-        
-        if (Input.GetKeyDown(key6)) // 6번 키를 눌렀을 때
-        {
-            if (isStart) PlayClickSound();
-            L6.gameObject.SetActive(true);
-
-            NoteMove nearest = FindNote(6); // 근처에 노트가 있는지 확인
-            // 단노트는 !IsJudged, 롱노트는 무조건 TryHit
-            if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
-            {
-                nearest.TryHit(Time.time);
-
-                if (nearest.noteType == NoteType.Short)
-                    toRemove.Add(nearest);
+                int line = i + 1;
+                NoteMove nearest = FindNote(line);
+                if (nearest != null && (nearest.noteType == NoteType.Long || !nearest.IsJudged))
+                {
+                    nearest.TryHit(Time.time);
+                    if (nearest.noteType == NoteType.Short)
+                        toRemove.Add(nearest);
+                }
             }
         }
 
-        // 실제 삭제 처리
         foreach (var note in toRemove)
         {
             if (note != null && activeNotes.Contains(note))
-                activeNotes.Remove(note); // 리스트에서 제거
+                activeNotes.Remove(note);
         }
     }
 

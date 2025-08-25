@@ -68,6 +68,8 @@ public class GamePlaySetting : MonoBehaviour
         barUI.GetComponent<RectTransform>().anchoredPosition = new Vector2(-950f, 590f);
         length = UI.length;
         isStart = false;
+        PlayerSettings.Load();
+        PlayerSettings.ApplyToRuntime();
         
         StartCoroutine(introDelay());
     }
