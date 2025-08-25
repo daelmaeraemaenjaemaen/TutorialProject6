@@ -4,7 +4,7 @@ using System.Collections.Generic;
 public class Metronome : MonoBehaviour
 {
     public static float bpm = 150f; // BPM 설정
-    public static string nowGim = "def";
+    public static string nowGim;
     private float _interval, _intervalL, _intervalR; // 박자 간 시간
     private float _nextTick, _nextTickL, _nextTickR;
     private float songEnd;
@@ -42,6 +42,28 @@ public class Metronome : MonoBehaviour
         noteBeatR = noteParts[0].noteR[0];
         _intervalL = 240 / (notePart.beatL * bpm);
         _intervalR = 240 / (notePart.beatR * bpm);
+
+        //기믹 데이터 먼저 불러오기
+        nowGim = noteParts[0].gim;
+        Image img = patternLogo.GetComponent<Image>();
+        switch (nowGim)
+        {
+            case "def":
+                img.sprite = defImg;
+                break;
+            case "ref":
+                img.sprite = refImg;
+                break;
+            case "rem":
+                img.sprite = remImg;
+                break;
+            case "rev":
+                img.sprite = revImg;
+                break;
+            case "rfl":
+                img.sprite = rflImg;
+                break;
+        }
 
         //점수, 콤보 등 초기화
         Combo.ComboReset();

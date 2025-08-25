@@ -6206,7 +6206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noteSpawn: {fileID: 444060320}
   patternLogo: {fileID: 1725976236}
-  defImg: {fileID: 1978827612164257216, guid: e3b5c26fd929e3a44a51f006284491a2, type: 3}
+  defImg: {fileID: -6440241708844039593, guid: e3b5c26fd929e3a44a51f006284491a2, type: 3}
   refImg: {fileID: 21300000, guid: 59a13ff95641bb541a9ba1d86b5212dd, type: 3}
   remImg: {fileID: -705144651409070445, guid: c6290e37a8b697f4695027e5b60b708e, type: 3}
   revImg: {fileID: 21300000, guid: 6f6428169babccc4f9f92afea9019b27, type: 3}
