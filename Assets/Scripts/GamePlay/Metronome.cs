@@ -100,63 +100,60 @@ public class Metronome : MonoBehaviour
                 lCount = rCount = 0;
                 if (!notePart.gim.Equals(nowGim))
                 {
-                    Image img = patternLogo.GetComponent<Image>();
-                    switch (notePart.gim)
-                    {
-                        case "def":
-                            img.sprite = defImg;
-                            break;
-                        case "ref":
-                            img.sprite = refImg;
-                            break;
-                        case "rem":
-                            img.sprite = remImg;
-                            break;
-                        case "rev":
-                            img.sprite = revImg;
-                            break;
-                        case "rfl":
-                            img.sprite = rflImg;
-                            break;
-                    }
                     nowGim = notePart.gim;
+                    Invoke(nameof(setGimImg), 10 / NoteMove.moveSpeed);
                 }
                 noteSpawn.setReverse(notePart.gim.Equals("rev"));
-                noteBeatL = notePart.noteL[lCount];
-                noteBeatR = notePart.noteR[rCount];
-                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1, noteBeatL.isVisible1);
-                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2, noteBeatL.isVisible2);
-                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3, noteBeatL.isVisible3);
-                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1, noteBeatR.isVisible1);
-                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2, noteBeatR.isVisible2);
-                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3, noteBeatR.isVisible3);
             }
             partCount++;
             _nextTick += _interval; // 다음 틱 시간 처리
         }
         while (frameTime >= _nextTickL)
         {
-            if (lCount < notePart.noteL.Length && lCount != 0)
+            if (lCount < notePart.noteL.Length && partCount > 0)
             {
                 noteBeatL = notePart.noteL[lCount];
-                if (noteBeatL.is1) noteSpawn.SpawnNote(1, noteBeatL.tick1, noteBeatL.isVisible1);
-                if (noteBeatL.is2) noteSpawn.SpawnNote(2, noteBeatL.tick2, noteBeatL.isVisible2);
-                if (noteBeatL.is3) noteSpawn.SpawnNote(3, noteBeatL.tick3, noteBeatL.isVisible3);
+                if (noteBeatL.isexist[0]) noteSpawn.SpawnNote(1, noteBeatL.tick[0], noteBeatL.isVisible[0]);
+                if (noteBeatL.isexist[1]) noteSpawn.SpawnNote(2, noteBeatL.tick[1], noteBeatL.isVisible[1]);
+                if (noteBeatL.isexist[2]) noteSpawn.SpawnNote(3, noteBeatL.tick[2], noteBeatL.isVisible[2]);
             }
             lCount++;
             _nextTickL += _intervalL;
         }
         while (frameTime >= _nextTickR)
         {
-            if (rCount < notePart.noteR.Length && rCount != 0)
+            if (rCount < notePart.noteR.Length && partCount > 0)
             {
                 noteBeatR = notePart.noteR[rCount];
-                if (noteBeatR.is1) noteSpawn.SpawnNote(4, noteBeatR.tick1, noteBeatR.isVisible1);
-                if (noteBeatR.is2) noteSpawn.SpawnNote(5, noteBeatR.tick2, noteBeatR.isVisible2);
-                if (noteBeatR.is3) noteSpawn.SpawnNote(6, noteBeatR.tick3, noteBeatR.isVisible3);
+                if (noteBeatR.isexist[0]) noteSpawn.SpawnNote(4, noteBeatR.tick[0], noteBeatR.isVisible[0]);
+                if (noteBeatR.isexist[1]) noteSpawn.SpawnNote(5, noteBeatR.tick[1], noteBeatR.isVisible[1]);
+                if (noteBeatR.isexist[2]) noteSpawn.SpawnNote(6, noteBeatR.tick[2], noteBeatR.isVisible[2]);
             }
             rCount++;
             _nextTickR += _intervalR;
+        }
+    }
+
+    private void setGimImg()
+    {
+        Image img = patternLogo.GetComponent<Image>();
+        switch (nowGim)
+        {
+            case "def":
+                img.sprite = defImg;
+                break;
+            case "ref":
+                img.sprite = refImg;
+                break;
+            case "rem":
+                img.sprite = remImg;
+                break;
+            case "rev":
+                img.sprite = revImg;
+                break;
+            case "rfl":
+                img.sprite = rflImg;
+                break;
         }
     }
 }

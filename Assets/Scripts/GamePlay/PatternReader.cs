@@ -9,8 +9,9 @@ public class PatternReader
     int beatR = 0;
     List<NotePart> noteParts = new();
     int partCount = -1;
-    int[] longPartNm = new int[6];
-    int[] longPartbt = new int[6];
+    int[] longPartNm = { -1, -1, -1, -1, -1, -1 };
+    int[] longPartbt = { -1, -1, -1, -1, -1, -1 };
+    float[] longtick = { 0, 0, 0, 0, 0, 0 };
 
     public List<NotePart> ReadPattern(string fileName)
     {
@@ -47,307 +48,121 @@ public class PatternReader
                     NoteBeat nb2 = new();
                     if (BeatConvert(beatL) > count)
                     {
-                        switch (words[1])
+                        for (int i = 0; i <= 2; i++)
                         {
-                            case "s":
-                                nb1.is1 = true;
-                                nb1.tick1 = 0;
-                                nb1.isVisible1 = true;
-                                totalNote++;
-                                break;
-                            case "l":
-                                nb1.is1 = true;
-                                nb1.tick1 = 1;
-                                longPartNm[0] = partCount;
-                                longPartbt[0] = count;
-                                nb1.isVisible1 = true;
-                                totalNote++;
-                                break;
-                            case "le":
-                                nb1.is1 = false;
-                                nb1.tick1 = 0;
-                                countTick(0, count);
-                                nb1.isVisible1 = true;
-                                totalNote++; // 롱노트 1개분 추가
-                                break;
-                            case "!s":
-                                nb1.is1 = true;
-                                nb1.tick1 = 0;
-                                totalNote++;
-                                nb1.isVisible1 = false;
-                                break;
-                            case "!l":
-                                nb1.is1 = true;
-                                nb1.tick1 = 1;
-                                longPartNm[0] = partCount;
-                                longPartbt[0] = count;
-                                nb1.isVisible1 = false;
-                                totalNote++;
-                                break;
-                            case "!le":
-                                nb1.is1 = false;
-                                nb1.tick1 = 0;
-                                countTick(0, count);
-                                nb1.isVisible1 = false;
-                                totalNote++; // 롱노트 1개분 추가
-                                break;
-                            default:
-                                nb1.is1 = false;
-                                nb1.tick1 = 0;
-                                break;
-                        }
-
-                        switch (words[2])
-                        {
-                            case "s":
-                                nb1.is2 = true;
-                                nb1.tick2 = 0;
-                                nb1.isVisible2 = true;
-                                totalNote++;
-                                break;
-                            case "l":
-                                nb1.is2 = true;
-                                nb1.tick2 = 1;
-                                longPartNm[1] = partCount;
-                                longPartbt[1] = count;
-                                nb1.isVisible2 = true;
-                                totalNote++;
-                                break;
-                            case "le":
-                                nb1.is2 = false;
-                                nb1.tick2 = 0;
-                                countTick(1, count);
-                                nb1.isVisible2 = true;
-                                totalNote++;
-                                break;
-                            case "!s":
-                                nb1.is2 = true;
-                                nb1.tick2 = 0;
-                                totalNote++;
-                                nb1.isVisible2 = false;
-                                break;
-                            case "!l":
-                                nb1.is2 = true;
-                                nb1.tick2 = 1;
-                                longPartNm[1] = partCount;
-                                longPartbt[1] = count;
-                                nb1.isVisible2 = false;
-                                totalNote++;
-                                break;
-                            case "!le":
-                                nb1.is2 = false;
-                                nb1.tick2 = 0;
-                                countTick(1, count);
-                                nb1.isVisible2 = false;
-                                totalNote++; // 롱노트 1개분 추가
-                                break;
-                            default:
-                                nb1.is2 = false;
-                                nb1.tick2 = 0;
-                                break;
-                        }
-
-                        switch (words[3])
-                        {
-                            case "s":
-                                nb1.is3 = true;
-                                nb1.tick3 = 0;
-                                nb1.isVisible3 = true;
-                                totalNote++;
-                                break;
-                            case "l":
-                                nb1.is3 = true;
-                                nb1.tick3 = 1;
-                                longPartNm[2] = partCount;
-                                longPartbt[2] = count;
-                                nb1.isVisible3 = true;
-                                totalNote++;
-                                break;
-                            case "le":
-                                nb1.is3 = false;
-                                nb1.tick3 = 0;
-                                countTick(2, count);
-                                nb1.isVisible3 = true;
-                                totalNote++;
-                                break;
-                            case "!s":
-                                nb1.is3 = true;
-                                nb1.tick3 = 0;
-                                totalNote++;
-                                nb1.isVisible3 = false;
-                                break;
-                            case "!l":
-                                nb1.is3 = true;
-                                nb1.tick3 = 1;
-                                longPartNm[2] = partCount;
-                                longPartbt[2] = count;
-                                nb1.isVisible3 = false;
-                                totalNote++;
-                                break;
-                            case "!le":
-                                nb1.is3 = false;
-                                nb1.tick3 = 0;
-                                countTick(2, count);
-                                nb1.isVisible3 = false;
-                                totalNote++; // 롱노트 1개분 추가
-                                break;
-                            default:
-                                nb1.is3 = false;
-                                nb1.tick3 = 0;
-                                break;
+                            switch (words[i + 1])
+                            {
+                                case "s":
+                                    nb1.isexist[i] = true;
+                                    nb1.tick[i] = 0;
+                                    nb1.isVisible[i] = true;
+                                    totalNote++;
+                                    break;
+                                case "l":
+                                    nb1.isexist[i] = true;
+                                    nb1.tick[i] = 1;
+                                    longPartNm[i] = partCount;
+                                    longPartbt[i] = count;
+                                    nb1.isVisible[i] = true;
+                                    totalNote++;
+                                    break;
+                                case "le":
+                                    nb1.isexist[i] = true;
+                                    nb1.tick[i] = 0;
+                                    CountTick(i);
+                                    nb1.isVisible[i] = true;
+                                    totalNote++; // 롱노트 1개분 추가
+                                    break;
+                                case "!s":
+                                    nb1.isexist[i] = true;
+                                    nb1.tick[i] = 0;
+                                    totalNote++;
+                                    nb1.isVisible[i] = false;
+                                    break;
+                                case "!l":
+                                    nb1.isexist[i] = true;
+                                    nb1.tick[i] = 1;
+                                    longPartNm[i] = partCount;
+                                    longPartbt[i] = count;
+                                    nb1.isVisible[i] = false;
+                                    totalNote++;
+                                    break;
+                                case "!le":
+                                    nb1.isexist[i] = false;
+                                    nb1.tick[i] = 0;
+                                    CountTick(i);
+                                    nb1.isVisible[i] = false;
+                                    totalNote++; // 롱노트 1개분 추가
+                                    break;
+                                default:
+                                    nb1.isexist[i] = false;
+                                    nb1.tick[i] = 0;
+                                    break;
+                            }
+                            if (longPartNm[i] != -1 && longPartbt[i] != -1)
+                            {
+                                longtick[i] += 8f / beatL; // 틱 간격 비트/현재 비트 수
+                            }
                         }
                     }
 
                     if (BeatConvert(beatR) > count)
                     {
-                        switch (words[4])
+                        for (int i = 0; i <= 2; i++)
                         {
-                            case "s":
-                                nb2.is1 = true;
-                                nb2.tick1 = 0;
-                                nb2.isVisible1 = true;
-                                totalNote++;
-                                break;
-                            case "l":
-                                nb2.is1 = true;
-                                nb2.tick1 = 1;
-                                longPartNm[3] = partCount;
-                                longPartbt[3] = count;
-                                nb2.isVisible1 = true;
-                                totalNote++;
-                                break;
-                            case "le":
-                                nb2.is1 = false;
-                                nb2.tick1 = 0;
-                                countTick(3, count);
-                                nb2.isVisible1 = true;
-                                totalNote++;
-                                break;
-                            case "!s":
-                                nb2.is1 = true;
-                                nb2.tick1 = 0;
-                                nb2.isVisible1 = false;
-                                totalNote++;
-                                break;
-                            case "!l":
-                                nb2.is1 = true;
-                                nb2.tick1 = 1;
-                                longPartNm[3] = partCount;
-                                longPartbt[3] = count;
-                                nb2.isVisible1 = false;
-                                totalNote++;
-                                break;
-                            case "!le":
-                                nb2.is1 = false;
-                                nb2.tick1 = 0;
-                                countTick(3, count);
-                                nb2.isVisible1 = false;
-                                totalNote++;
-                                break;
-                            default:
-                                nb2.is1 = false;
-                                nb2.tick1 = 0;
-                                break;
-                        }
-
-                        switch (words[5])
-                        {
-                            case "s":
-                                nb2.is2 = true;
-                                nb2.tick2 = 0;
-                                nb2.isVisible2 = true;
-                                totalNote++;
-                                break;
-                            case "l":
-                                nb2.is2 = true;
-                                nb2.tick2 = 1;
-                                longPartNm[4] = partCount;
-                                longPartbt[4] = count;
-                                nb2.isVisible2 = true;
-                                totalNote++;
-                                break;
-                            case "le":
-                                nb2.is2 = false;
-                                nb2.tick2 = 0;
-                                countTick(4, count);
-                                nb2.isVisible2 = true;
-                                totalNote++;
-                                break;
-                            case "!s":
-                                nb2.is2 = true;
-                                nb2.tick2 = 0;
-                                nb2.isVisible2 = false;
-                                totalNote++;
-                                break;
-                            case "!l":
-                                nb2.is2 = true;
-                                nb2.tick2 = 1;
-                                longPartNm[4] = partCount;
-                                longPartbt[4] = count;
-                                nb2.isVisible2 = false;
-                                totalNote++;
-                                break;
-                            case "!le":
-                                nb2.is2 = false;
-                                nb2.tick2 = 0;
-                                countTick(4, count);
-                                nb2.isVisible2 = false;
-                                totalNote++;
-                                break;
-                            default:
-                                nb2.is2 = false;
-                                nb2.tick2 = 0;
-                                break;
-                        }
-
-                        switch (words[6])
-                        {
-                            case "s":
-                                nb2.is3 = true;
-                                nb2.tick3 = 0;
-                                nb2.isVisible3 = true;
-                                totalNote++;
-                                break;
-                            case "l":
-                                nb2.is3 = true;
-                                nb2.tick3 = 1;
-                                longPartNm[5] = partCount;
-                                longPartbt[5] = count;
-                                nb2.isVisible3 = true;
-                                totalNote++;
-                                break;
-                            case "le":
-                                nb2.is3 = false;
-                                nb2.tick3 = 0;
-                                countTick(5, count);
-                                nb2.isVisible3 = true;
-                                totalNote++;
-                                break;
-                            case "!s":
-                                nb2.is3 = true;
-                                nb2.tick3 = 0;
-                                nb2.isVisible3 = false;
-                                totalNote++;
-                                break;
-                            case "!l":
-                                nb2.is3 = true;
-                                nb2.tick3 = 1;
-                                longPartNm[5] = partCount;
-                                longPartbt[5] = count;
-                                nb2.isVisible3 = false;
-                                totalNote++;
-                                break;
-                            case "!le":
-                                nb2.is3 = false;
-                                nb2.tick3 = 0;
-                                countTick(5, count);
-                                nb2.isVisible3 = false;
-                                totalNote++;
-                                break;
-                            default:
-                                nb2.is3 = false;
-                                nb2.tick3 = 0;
-                                break;
+                            switch (words[i + 4])
+                            {
+                                case "s":
+                                    nb2.isexist[i] = true;
+                                    nb2.tick[i] = 0;
+                                    nb2.isVisible[i] = true;
+                                    totalNote++;
+                                    break;
+                                case "l":
+                                    nb2.isexist[i] = true;
+                                    nb2.tick[i] = 1;
+                                    longPartNm[i + 3] = partCount;
+                                    longPartbt[i + 3] = count;
+                                    nb2.isVisible[i] = true;
+                                    totalNote++;
+                                    break;
+                                case "le":
+                                    nb2.isexist[i] = true;
+                                    nb2.tick[i] = 0;
+                                    CountTick(i + 3);
+                                    nb2.isVisible[i] = true;
+                                    totalNote++; // 롱노트 1개분 추가
+                                    break;
+                                case "!s":
+                                    nb2.isexist[i] = true;
+                                    nb2.tick[i] = 0;
+                                    totalNote++;
+                                    nb2.isVisible[i] = false;
+                                    break;
+                                case "!l":
+                                    nb2.isexist[i] = true;
+                                    nb2.tick[i] = 1;
+                                    longPartNm[i + 3] = partCount;
+                                    longPartbt[i + 3] = count;
+                                    nb2.isVisible[i] = false;
+                                    totalNote++;
+                                    break;
+                                case "!le":
+                                    nb2.isexist[i] = false;
+                                    nb2.tick[i] = 0;
+                                    CountTick(i + 3);
+                                    nb2.isVisible[i] = false;
+                                    totalNote++; // 롱노트 1개분 추가
+                                    break;
+                                default:
+                                    nb2.isexist[i] = false;
+                                    nb2.tick[i] = 0;
+                                    break;
+                            }
+                            if (longPartNm[i + 3] != -1 && longPartbt[i + 3] != -1)
+                            {
+                                longtick[i + 3] += 8f / beatL; // 틱 간격 비트/현재 비트 수
+                            }
                         }
                     }
 
@@ -379,36 +194,21 @@ public class PatternReader
         };
     }
 
-    private void countTick(int line, int lastCount)
+    private void CountTick(int line)
     {
-        //틱 수 = 중간에 낀 파트 수 * 2 + 첫 파트 진행 틱 + 막파트 진행 틱
-        //첫 파트 진행 틱 = (총 인덱스 - nb 인덱스) / 해당 파트 비트 * 8
-        //막파트 진행 틱 = nb 인덱스 / 해당 파트 비트 * 8
-        int firstBeat = line > 3 ? noteParts[longPartNm[line]].beatL : noteParts[longPartNm[line]].beatR;
-        int lastBeat = line > 3 ? noteParts[partCount].beatL : noteParts[partCount].beatR;
-        float firstTick = BeatConvert(firstBeat) - longPartbt[line] / firstBeat * 8;
-        float lastTick = lastCount / lastBeat * 8;
-        float tick = (partCount - longPartNm[line] - 1) * 2 + firstTick + lastTick - 1;
-        switch (line)
+        if (line <= 2) // noteL
         {
-            case 0:
-                noteParts[longPartNm[line]].noteL[longPartbt[line]].tick1 = tick;
-                break;
-            case 1:
-                noteParts[longPartNm[line]].noteL[longPartbt[line]].tick2 = tick;
-                break;
-            case 2:
-                noteParts[longPartNm[line]].noteL[longPartbt[line]].tick3 = tick;
-                break;
-            case 3:
-                noteParts[longPartNm[line]].noteR[longPartbt[line]].tick1 = tick;
-                break;
-            case 4:
-                noteParts[longPartNm[line]].noteR[longPartbt[line]].tick2 = tick;
-                break;
-            case 5:
-                noteParts[longPartNm[line]].noteR[longPartbt[line]].tick3 = tick;
-                break;
+            noteParts[longPartNm[line]].noteL[longPartbt[line]].tick[line] = longtick[line];
+            longPartNm[line] = -1;
+            longPartbt[line] = -1;
+            longtick[line] = 0;
+        }
+        else // noteR
+        {
+            noteParts[longPartNm[line]].noteR[longPartbt[line]].tick[line - 3] = longtick[line];
+            longPartNm[line] = -1;
+            longPartbt[line] = -1;
+            longtick[line] = 0;
         }
     }
 }
@@ -428,17 +228,11 @@ public class NotePart
 public class NoteBeat
 {
     // 노트가 존재하는가?
-    public bool is1;
-    public bool is2;
-    public bool is3;
+    public bool[] isexist = new bool[3];
 
     // 노트가 보이는가?
-    public bool isVisible1;
-    public bool isVisible2;
-    public bool isVisible3;
+    public bool[] isVisible = new bool[3];
 
     // 단노트: 0, 롱노트: 1 이상
-    public float tick1;
-    public float tick2;
-    public float tick3;
+    public float[] tick = new float[3];
 }
