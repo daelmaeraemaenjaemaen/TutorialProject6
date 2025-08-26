@@ -12,7 +12,6 @@ public class ButtonSetting : MonoBehaviour
     [Header("Mixer Routing")]
     [SerializeField] private AudioMixerGroup bgmGroup;
     [SerializeField] private AudioMixerGroup sfxGroup;
-    
     [SerializeField] private AudioSource audioSource;
     
     private bool isSetting = false;

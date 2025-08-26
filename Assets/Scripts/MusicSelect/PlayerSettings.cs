@@ -13,14 +13,6 @@ public static class PlayerSettings
     // 싱크, 스피드
     public static float syncSec = 0f;     // -5.0 ~ +5.0
     public static float velocity = 7.2f;  // 1.0 ~ 10.0
-
-    // PlayerPrefs keys
-    const string K_P1_1 = "p1k1", K_P1_2 = "p1k2", K_P1_3 = "p1k3";
-    const string K_P2_1 = "p2k1", K_P2_2 = "p2k2", K_P2_3 = "p2k3";
-    const string K_SYNC = "sync_sec";
-    const string K_VEL  = "speed_vel";
-    private const string K_Short  = "RG1/style/short",  K_Long  = "RG1/style/long",  K_Line  = "RG1/style/lineset";
-    private const string K_Short2 = "RG1/style/short2", K_Long2 = "RG1/style/long2", K_Line2 = "RG1/style/lineset2";
     
     // 배경
     public static int shortNum = 0;
@@ -30,6 +22,18 @@ public static class PlayerSettings
     public static int shortNum2 = 0;
     public static int longNum2 = 0;
     public static int backNum2 = 0;
+    
+    // 기믹 설명
+    public static bool noGimmick = false;
+
+    // PlayerPrefs keys
+    const string K_P1_1 = "p1k1", K_P1_2 = "p1k2", K_P1_3 = "p1k3";
+    const string K_P2_1 = "p2k1", K_P2_2 = "p2k2", K_P2_3 = "p2k3";
+    const string K_SYNC = "sync_sec";
+    const string K_VEL  = "speed_vel";
+    private const string K_Short  = "RG1/style/short",  K_Long  = "RG1/style/long",  K_Line  = "RG1/style/lineset";
+    private const string K_Short2 = "RG1/style/short2", K_Long2 = "RG1/style/long2", K_Line2 = "RG1/style/lineset2";
+    private const string K_Gimmick = "gimmick";
 
     public static void Load()
     {
@@ -50,6 +54,8 @@ public static class PlayerSettings
         shortNum2 = Mathf.Clamp(PlayerPrefs.GetInt(K_Short2, 0), 0, 2);
         longNum2  = Mathf.Clamp(PlayerPrefs.GetInt(K_Long2,  0), 0, 2);
         backNum2  = Mathf.Clamp(PlayerPrefs.GetInt(K_Line2,  0), 0, 2);
+        
+        noGimmick = PlayerPrefs.GetInt("noGimmick", 0) == 1;
     }
 
     public static void Save()
@@ -72,6 +78,8 @@ public static class PlayerSettings
         PlayerPrefs.SetInt(K_Long2,  longNum2);
         PlayerPrefs.SetInt(K_Line2,  backNum2);
         
+        PlayerPrefs.SetInt("noGimmick", noGimmick ? 1 : 0);
+        
         PlayerPrefs.Save();
     }
 
@@ -86,7 +94,7 @@ public static class PlayerSettings
         NoteInput.key6 = p2k3;
 
         NoteMove.moveSpeed = Mathf.Clamp(velocity, 1f, 10f);
-
+        
         if (Design.I != null) Design.I.ApplyAllRuntime();
     }
     
