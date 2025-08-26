@@ -19617,6 +19617,10 @@ MonoBehaviour:
   songSelector: {fileID: 1652271887962776440, guid: 95f9adf790c71b14d9a48441df7b08e8, type: 3}
   categorySelector: {fileID: 2893542611232258763, guid: ae06fe7a52f9c5b45b5ed39b5080ba44, type: 3}
   category: {fileID: 1891683112}
+  Score: {fileID: 1980640017}
+  P1Score: {fileID: 24518284}
+  P2Score: {fileID: 924409217}
+  MaxCombo: {fileID: 318181274}
   level: {fileID: 2069282710}
   hardButton: {fileID: 1417580607}
 --- !u!1 &1771291663

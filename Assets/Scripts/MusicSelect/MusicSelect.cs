@@ -19,6 +19,13 @@ public class MusicSelect : MonoBehaviour
     [SerializeField] private GameObject songSelector;
     [SerializeField] private GameObject categorySelector;
     public ScrollRect category;
+    
+    [Header("점수")]
+    [SerializeField] private TextMeshProUGUI Score;
+    [SerializeField] private TextMeshProUGUI P1Score;
+    [SerializeField] private TextMeshProUGUI P2Score;
+    [SerializeField] private TextMeshProUGUI MaxCombo;
+    
     public bool isEasy { get; private set; }
     [SerializeField] private TMP_Text level;
     [SerializeField] private Button hardButton;
@@ -27,10 +34,20 @@ public class MusicSelect : MonoBehaviour
     //그 외 내부 변수
     private List<Song> songs = new();
     private List<Category> categories = new();
+    private List<MaxScore> scores = new();
     private uint _selectedSong;
     public static uint selectedSong;
     private string _selectedCategory;
     public static string selectedCategory;
+    
+    private float ETotalScore;
+    private float EP1Score;
+    private float EP2Score;
+    private float EMaxCombo;
+    private float HTotalScore;
+    private float HP1Score;
+    private float HP2Score;
+    private float HMaxCombo;
 
     void Awake()
     {
@@ -115,6 +132,45 @@ public class MusicSelect : MonoBehaviour
         {
             //Clist 파일 찾지 못함
             Debug.Log("CategoryList file not found");
+            Application.Quit();
+        }
+        
+        //Score 리스트 불러오기
+        filePath = Application.dataPath + "/Data/Rlist";
+        if (File.Exists(filePath))
+        {
+            MaxScore.resetSongCount();
+            using (var reader = new StreamReader(filePath))
+            {
+                while (!reader.EndOfStream)
+                {
+                    var line = reader.ReadLine();
+                    if (string.IsNullOrWhiteSpace(line) || line[0] == '#') continue;
+
+                    string[] lines = line.Split("|");
+                    if (lines.Length < 7)
+                    {
+                        Debug.LogWarning($"Rlist malformed: {line}");
+                        continue;
+                    }
+
+                    MaxScore maxScore = new(
+                        lines[1] == "" ? 0 : float.Parse(lines[0]),
+                        lines[2] == "" ? 0 : float.Parse(lines[1]),
+                        lines[3] == "" ? 0 : float.Parse(lines[2]),
+                        lines[4] == "" ? 0 : float.Parse(lines[3]),
+                        lines[5] == "" ? 0 : float.Parse(lines[4]),
+                        lines[6] == "" ? 0 : float.Parse(lines[5])
+                    );
+                    scores.Add(maxScore);
+                }
+            }
+            Debug.Log("SongCount = " + MaxScore.songCount.ToString());
+        }
+        else
+        {
+            //Rlist 파일 찾지 못함
+            Debug.Log("Score file not found");
             Application.Quit();
         }
 
@@ -216,6 +272,17 @@ public class MusicSelect : MonoBehaviour
             song = songs[0];
             selectedSong = _selectedSong = song.getSongID();
         }
+        else selectedSong = _selectedSong = song.getSongID();
+
+        MaxScore maxScore = scores.Find(m => m.getMusicCode() == ID );
+        if (maxScore == null)
+        {
+            Debug.LogWarning($"ID={ID} 기록을 못 찾음. 0으로 초기화");
+            if (scores.Count == 0) return;
+            maxScore = scores[0];
+            selectedSong = _selectedSong = maxScore.getMusicCode();
+        }
+        else selectedSong = _selectedSong = song.getSongID();
         
         string songCover = song.getsongCover() == "" ? "dummy.png" : song.getsongCover();
         string coverPath = Application.dataPath + "/Images/Cover/" + songCover;
@@ -238,9 +305,25 @@ public class MusicSelect : MonoBehaviour
         var existHard = song.getHardFileName();
         hardButton.gameObject.SetActive(existHard != "");
 
+        ETotalScore = maxScore.getEasy1pScore() + maxScore.getEasy2pScore();
+        EP1Score = maxScore.getEasy1pScore();
+        EP2Score = maxScore.getEasy2pScore();
+        EMaxCombo =  maxScore.getEasyCombo();
+        HTotalScore = maxScore.getHard1pScore() + maxScore.getHard2pScore();
+        HP1Score =  maxScore.getHard1pScore();
+        HP2Score =  maxScore.getHard2pScore();
+        HMaxCombo = maxScore.getHardCombo();
+        
         songName.text = song.getsongName();
         songArtist.text = song.getsongArtist();
+        
+        Score.text = ETotalScore.ToString();
+        P1Score.text = EP1Score.ToString();
+        P2Score.text = EP2Score.ToString();
+        MaxCombo.text = EMaxCombo.ToString();
         _selectedSong = selectedSong;
+        
+        
     }
     
     public void SetSelectedSongImmediate(uint ID)
@@ -262,6 +345,12 @@ public class MusicSelect : MonoBehaviour
     {
         isEasy = true;
         level.text = " 난이도: 쉬움";
+        
+        Score.text = ETotalScore.ToString();
+        P1Score.text = EP1Score.ToString();
+        P2Score.text = EP2Score.ToString();
+        MaxCombo.text = EMaxCombo.ToString();
+        
         SaveDifficultySelection();
     }
 
@@ -269,6 +358,12 @@ public class MusicSelect : MonoBehaviour
     {
         isEasy = false;
         level.text = " 난이도: 어려움";
+        
+        Score.text = HTotalScore.ToString();
+        P1Score.text = HP1Score.ToString();
+        P2Score.text = HP2Score.ToString();
+        MaxCombo.text = HMaxCombo.ToString();
+        
         SaveDifficultySelection();
     }
 }
