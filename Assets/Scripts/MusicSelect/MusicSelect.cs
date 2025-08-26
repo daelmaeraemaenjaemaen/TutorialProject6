@@ -155,12 +155,12 @@ public class MusicSelect : MonoBehaviour
                     }
 
                     MaxScore maxScore = new(
-                        lines[1] == "" ? 0 : float.Parse(lines[0]),
-                        lines[2] == "" ? 0 : float.Parse(lines[1]),
-                        lines[3] == "" ? 0 : float.Parse(lines[2]),
-                        lines[4] == "" ? 0 : float.Parse(lines[3]),
-                        lines[5] == "" ? 0 : float.Parse(lines[4]),
-                        lines[6] == "" ? 0 : float.Parse(lines[5])
+                        lines[1] == "" ? 0 : float.Parse(lines[1]),
+                        lines[2] == "" ? 0 : float.Parse(lines[2]),
+                        lines[3] == "" ? 0 : float.Parse(lines[3]),
+                        lines[4] == "" ? 0 : float.Parse(lines[4]),
+                        lines[5] == "" ? 0 : float.Parse(lines[5]),
+                        lines[6] == "" ? 0 : float.Parse(lines[6])
                     );
                     scores.Add(maxScore);
                 }
@@ -278,11 +278,24 @@ public class MusicSelect : MonoBehaviour
         if (maxScore == null)
         {
             Debug.LogWarning($"ID={ID} 기록을 못 찾음. 0으로 초기화");
-            if (scores.Count == 0) return;
-            maxScore = scores[0];
-            selectedSong = _selectedSong = maxScore.getMusicCode();
+            
+            EP1Score = 0; EP2Score = 0; EMaxCombo = 0;
+            HP1Score = 0; HP2Score = 0; HMaxCombo = 0;
+            ETotalScore = 0; HTotalScore = 0;
         }
-        else selectedSong = _selectedSong = song.getSongID();
+        else
+        {
+            ETotalScore = maxScore.getEasy1pScore() + maxScore.getEasy2pScore();
+            EP1Score = maxScore.getEasy1pScore();
+            EP2Score = maxScore.getEasy2pScore();
+            EMaxCombo =  maxScore.getEasyCombo();
+            HTotalScore = maxScore.getHard1pScore() + maxScore.getHard2pScore();
+            HP1Score =  maxScore.getHard1pScore();
+            HP2Score =  maxScore.getHard2pScore();
+            HMaxCombo = maxScore.getHardCombo();
+            
+            selectedSong = _selectedSong = song.getSongID();
+        }
         
         string songCover = song.getsongCover() == "" ? "dummy.png" : song.getsongCover();
         string coverPath = Application.dataPath + "/Images/Cover/" + songCover;
@@ -304,15 +317,6 @@ public class MusicSelect : MonoBehaviour
         
         var existHard = song.getHardFileName();
         hardButton.gameObject.SetActive(existHard != "");
-
-        ETotalScore = maxScore.getEasy1pScore() + maxScore.getEasy2pScore();
-        EP1Score = maxScore.getEasy1pScore();
-        EP2Score = maxScore.getEasy2pScore();
-        EMaxCombo =  maxScore.getEasyCombo();
-        HTotalScore = maxScore.getHard1pScore() + maxScore.getHard2pScore();
-        HP1Score =  maxScore.getHard1pScore();
-        HP2Score =  maxScore.getHard2pScore();
-        HMaxCombo = maxScore.getHardCombo();
         
         songName.text = song.getsongName();
         songArtist.text = song.getsongArtist();

@@ -94,7 +94,14 @@ public class GameText : MonoBehaviour
 
     private void ScoreResult(NoteJudge result, int line, int tick)
     {
+        int total = Score.setScore(result, line, tick);
+        if (total >= 0)
+            scoreText.text = total.ToString();
+        
+        // ReSharper disable once InvalidXmlDocComment
+        /** 기존 코드
         if (result == NoteJudge.FastMiss || result == NoteJudge.Miss) return;
         scoreText.text = Score.setScore(result, line, tick).ToString();
+        **/
     }
 }

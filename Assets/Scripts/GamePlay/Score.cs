@@ -12,6 +12,17 @@ public class Score : MonoBehaviour
     private static float baseScore; // perfect 기준
     public static int nowScore1P{ get; private set; }
     public static int nowScore2P{ get; private set; }
+    
+    public static int Perfect1P{ get; private set; }
+    public static int Great1P{ get; private set; }
+    public static int Good1P{ get; private set; }
+    public static int Miss1P{ get; private set; }
+    
+    public static int Perfect2P{ get; private set; }
+    public static int Great2P{ get; private set; }
+    public static int Good2P{ get; private set; }
+    public static int Miss2P{ get; private set; }
+    
 
     public static void setBaseScore(int total)
     {
@@ -19,6 +30,16 @@ public class Score : MonoBehaviour
         baseScore = 100000 / totalNote;
         nowScore1P = 0;
         nowScore2P = 0;
+        
+        Perfect1P = 0;
+        Great1P = 0;
+        Good1P = 0;
+        Miss1P = 0;
+        
+        Perfect2P = 0;
+        Great2P = 0;
+        Good2P = 0;
+        Miss2P = 0;
     }
 
     public static int setScore(NoteJudge result, int line, int tickNum)
@@ -29,19 +50,52 @@ public class Score : MonoBehaviour
         {
             case NoteJudge.Good:
                 add = baseScore / 10;
-                if (line <= 3) nowScore1P += (int)add;
-                else nowScore2P += (int)add;
+                if (line <= 3)
+                {
+                    nowScore1P += (int)add;
+                    Good1P++;
+                }
+                else
+                {
+                    nowScore2P += (int)add;
+                    Good2P++;
+                }
                 break;
             case NoteJudge.Great:
                 add = baseScore / 5;
-                if (line <= 3) nowScore1P += (int)add;
-                else nowScore2P += (int)add;
+                if (line <= 3)
+                {
+                    nowScore1P += (int)add;
+                    Great1P++;
+                }
+                else
+                {
+                    nowScore2P += (int)add;
+                    Great2P++;
+                }
                 break;
             case NoteJudge.Perfect:
                 if (tickNum == 0) add = baseScore;
                 else add = baseScore / tickNum;
-                if (line <= 3) nowScore1P += (int)add;
-                else nowScore2P += (int)add;
+                if (line <= 3)
+                {
+                    nowScore1P += (int)add;
+                    Perfect1P++;
+                }
+                else
+                {
+                    nowScore2P += (int)add;
+                    Perfect2P++;
+                }
+                break;
+            case NoteJudge.FastMiss:
+                if (line <= 3) Miss1P++;
+                else Miss2P++;
+                break;
+            
+            case NoteJudge.Miss:
+                if (line <= 3) Miss1P++;
+                else Miss2P++;
                 break;
         }
 
