@@ -28,7 +28,8 @@ public class NoteMove : MonoBehaviour
     
     // 이동 속도, 이것만 변경하면 관련 수치 변경이 자동으로 이루어지게 static으로 변경했습니다
     // 옵션에서 이 수치를 0.1 단위로 변경할 수 있게 하면 됩니다
-    public static float moveSpeed = 7.2f; 
+    public static float moveSpeed = 7.2f;
+    private float savedSpeed = moveSpeed;
 
     public GameText gameTextDisplay;
 
@@ -37,7 +38,17 @@ public class NoteMove : MonoBehaviour
         if (headTime <= 0f)
             return;
 
-        transform.Translate(Vector3.down * moveSpeed * Time.deltaTime);
+        transform.Translate(moveSpeed * Time.deltaTime * Vector3.down);
+
+        // 배속 변경 대응
+        if (savedSpeed != moveSpeed)
+        {
+            float time = headTime - Time.time;
+            float before = time * savedSpeed;
+            float after = time * moveSpeed;
+            transform.Translate((before - after) * Vector3.down);
+            savedSpeed = moveSpeed;
+        }
 
         // 노트 표시 여부 설정
         Transform noteChild;
@@ -55,7 +66,7 @@ public class NoteMove : MonoBehaviour
             {
                 result = NoteJudge.Miss;
                 gameTextDisplay?.Result(result, lineNumber, 0);
-                Debug.Log(result);
+                //Debug.Log(result);
                 judged = true;  // Head 판정 완료 표시
                 return;
             }
@@ -78,7 +89,7 @@ public class NoteMove : MonoBehaviour
                     result = NoteJudge.Miss;
                 }
                 gameTextDisplay?.Result(result, lineNumber, (int)tickNumber);
-                Debug.Log("L." + result);
+                //Debug.Log("L." + result);
 
                 nextTickTime += tickInterval;
             }
@@ -115,7 +126,7 @@ public class NoteMove : MonoBehaviour
             judged = true;
             result = Judge.Judgement(inputTime, headTime);
             gameTextDisplay?.Result(result, lineNumber, 0);
-            Debug.Log(result);
+            //Debug.Log(result);
         }
     }
 
