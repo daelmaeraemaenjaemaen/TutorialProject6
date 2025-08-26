@@ -20,10 +20,10 @@ public class Life : MonoBehaviour
         switch (judge)
         {
             case NoteJudge.FastMiss:
-                i = 0;
+                i = -10;
                 break;
             case NoteJudge.Miss:
-                i = 0;
+                i = -10;
                 break;
             case NoteJudge.Good:
                 i = 1;

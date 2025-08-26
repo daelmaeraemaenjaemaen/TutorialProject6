@@ -35,6 +35,13 @@ public class GameUIManager : MonoBehaviour
     
     public float length { get; private set; }
     
+    const float INTRO_DELAY = 2f;
+    const float FADE_DURATION = 0.5f;
+    const float AFTER_FADE_DELAY = 1f;
+
+    bool isFading;
+    float fadeTimer;
+    
     void Start()
     {
         // 0. 난이도
@@ -111,31 +118,24 @@ public class GameUIManager : MonoBehaviour
             musicAudioSource.outputAudioMixerGroup = bgmGroup;
         
 
-        StartCoroutine(IntroFadeAndStartMusic());
+        StartIntroSequence();
     }
 
-    IEnumerator IntroFadeAndStartMusic()
+    void StartIntroSequence()
     {
-        metronome.setPlayData(selectedSong, isEasy); // TODO: 난이도 선택 반영
-        PlayerPrefs.GetString("selectedDiff", diff); // TODO: 난이도 선택 구현 시 easy/hard로 반영 필요
-        
-        yield return new WaitForSecondsRealtime(2f);
+        metronome.setPlayData(selectedSong, isEasy);
+        // PlayerPrefs.GetString("selectedDiff", diff);
 
-        float duration = 0.5f;
-        float t = 0f;
+        introPanel.alpha = 1f;
+        introPanel.gameObject.SetActive(true);
 
-        // 인트로 페이드 아웃
-        while (t < duration)
-        {
-            t += Time.unscaledDeltaTime;
-            introPanel.alpha = Mathf.Lerp(1f, 0f, t / duration);
-            yield return null;
-        }
-        introPanel.alpha = 0f;
-        introPanel.gameObject.SetActive(false);
+        Invoke(nameof(BeginIntroFade), INTRO_DELAY);
+    }
 
-        yield return new WaitForSecondsRealtime(1f);
-        PlaySelectedSong();
+    void BeginIntroFade()
+    {
+        isFading = true;
+        fadeTimer = 0f;
     }
 
     void PlaySelectedSong()
@@ -148,16 +148,19 @@ public class GameUIManager : MonoBehaviour
         if (clip != null)
         {
             // metronome.StartPlay(); (싱크)
-            StartCoroutine(PlayClipAndGotoNextScene(clip));
+            PlayClipAndGotoNextScene(clip);
             return;
-        }
-
+        } 
+        
+        // ReSharper disable once InvalidXmlDocComment
+        /**
         // 2) StreamingAssets
         string saPath = Path.Combine(Application.streamingAssetsPath, "Audio/" + fileName);
         StartCoroutine(PlayFromFileAndGoto(saPath));
+        **/
     }
 
-    private IEnumerator PlayClipAndGotoNextScene(AudioClip clip)
+    private void PlayClipAndGotoNextScene(AudioClip clip)
     {
         musicAudioSource.clip = clip;
         musicAudioSource.volume = 1f;
@@ -167,23 +170,60 @@ public class GameUIManager : MonoBehaviour
 
         if (offsetSec >= 0f)
         {
-            metronome.StartPlay(); // TODO: 싱크 조정시 오프셋 고려
-            yield return new WaitForSecondsRealtime(offsetSec);
-            musicAudioSource.Play();
+            metronome.StartPlay();
+            Invoke(nameof(StartMusic), offsetSec);
         }
-
         else
         {
-            musicAudioSource.Play();
-            yield return new WaitForSecondsRealtime(-offsetSec);
-            metronome.StartPlay(); // TODO: 싱크 조정시 오프셋 고려
+            StartMusic();
+            Invoke(nameof(StartMetronome), -offsetSec);
         }
-
-        yield return new WaitForSecondsRealtime(clip.length);
-        yield return new WaitForSecondsRealtime(1f);
-        SceneManager.LoadScene("4_Result");
     }
 
+    void StartMusic()
+    {
+        musicAudioSource.Play();
+        monitoring = true; // 재생 종료 감시 시작
+    }
+    
+    void StartMetronome()
+    {
+        metronome.StartPlay();
+    }
+    
+    bool monitoring;
+    void Update()
+    {
+        if (isFading)
+        {
+            fadeTimer += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(fadeTimer / FADE_DURATION);
+            introPanel.alpha = Mathf.Lerp(1f, 0f, t);
+
+            if (fadeTimer >= FADE_DURATION)
+            {
+                isFading = false;
+                introPanel.alpha = 0f;
+                introPanel.gameObject.SetActive(false);
+                
+                Invoke(nameof(PlaySelectedSong), AFTER_FADE_DELAY);
+            }
+        }
+        
+        if (monitoring && !musicAudioSource.isPlaying)
+        {
+            monitoring = false;
+            Invoke(nameof(GoResult), 1f);
+        }
+    }
+    
+    void GoResult()
+    {
+        SceneManager.LoadScene("4_Result");
+    }
+    
+    // ReSharper disable once InvalidXmlDocComment
+    /**
     private IEnumerator PlayFromFileAndGoto(string fullPath)
     {
         // 확장자에 따른 타입 추정
@@ -205,7 +245,8 @@ public class GameUIManager : MonoBehaviour
                 yield break;
             }
             var clip = DownloadHandlerAudioClip.GetContent(www);
-            yield return PlayClipAndGotoNextScene(clip);
+            PlayClipAndGotoNextScene(clip);
         }
     }
+    **/
 }
