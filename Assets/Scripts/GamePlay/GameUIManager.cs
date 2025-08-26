@@ -166,7 +166,11 @@ public class GameUIManager : MonoBehaviour
         musicAudioSource.volume = 1f;
         musicAudioSource.time = 0f;
 
-        float offsetSec = PlayerSettings.syncSec;
+        // 오디오 렉 문제 해결?
+        musicAudioSource.mute = true;
+        musicAudioSource.Play();
+        
+        float offsetSec = PlayerSettings.syncSec + 10 / NoteMove.moveSpeed; // 배속에 따라 판정이 변경되지 않도록 수정
 
         if (offsetSec >= 0f)
         {
@@ -182,7 +186,8 @@ public class GameUIManager : MonoBehaviour
 
     void StartMusic()
     {
-        musicAudioSource.Play();
+        musicAudioSource.time = 0f;
+        musicAudioSource.mute = false;
         monitoring = true; // 재생 종료 감시 시작
     }
     
