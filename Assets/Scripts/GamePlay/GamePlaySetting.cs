@@ -38,6 +38,8 @@ public class GamePlaySetting : MonoBehaviour
     float t;
     bool isPaused = false;
     
+    public static bool Paused { get; private set; }
+    
     void Awake()
     {
         if (barUI == null)
@@ -70,6 +72,7 @@ public class GamePlaySetting : MonoBehaviour
         isStart = false;
         PlayerSettings.Load();
         PlayerSettings.ApplyToRuntime();
+        Paused = false;
         
         StartCoroutine(introDelay());
     }
@@ -266,6 +269,7 @@ public class GamePlaySetting : MonoBehaviour
     public void PauseMove()
     {
         isPaused = true;
+        Paused = true;
     }
 
     public void ResumeMove()
@@ -275,6 +279,7 @@ public class GamePlaySetting : MonoBehaviour
             isPaused = false;
             if (moveRoutine != null) StopCoroutine(moveRoutine);
             moveRoutine = StartCoroutine(MoveRoutine());
+            Paused = false;
         }
     }
     

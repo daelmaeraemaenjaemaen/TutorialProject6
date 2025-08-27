@@ -2,9 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using System.IO;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
 
@@ -215,10 +213,17 @@ public class GameUIManager : MonoBehaviour
             }
         }
         
-        if (monitoring && !musicAudioSource.isPlaying)
+        if (monitoring && !musicAudioSource.isPlaying && !GamePlaySetting.Paused)
         {
-            monitoring = false;
-            Invoke(nameof(GoResult), 1f);
+            bool ended =
+                !musicAudioSource.isPlaying &&
+                musicAudioSource.time >= (musicAudioSource.clip.length - 0.05f);
+            
+            if (ended)
+            {
+                monitoring = false;
+                Invoke(nameof(GoResult), 1f);
+            }
         }
     }
     
