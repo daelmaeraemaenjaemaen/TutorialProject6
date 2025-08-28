@@ -67,7 +67,7 @@ public class PatternReader
                                     totalNote++;
                                     break;
                                 case "le":
-                                    nb1.isexist[i] = true;
+                                    nb1.isexist[i] = false;
                                     nb1.tick[i] = 0;
                                     CountTick(i);
                                     nb1.isVisible[i] = true;
@@ -127,7 +127,7 @@ public class PatternReader
                                     totalNote++;
                                     break;
                                 case "le":
-                                    nb2.isexist[i] = true;
+                                    nb2.isexist[i] = false;
                                     nb2.tick[i] = 0;
                                     CountTick(i + 3);
                                     nb2.isVisible[i] = true;
