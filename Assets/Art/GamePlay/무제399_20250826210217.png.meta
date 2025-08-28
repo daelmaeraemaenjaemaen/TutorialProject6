@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: c88237ff2744c064b912e959baa93330
+guid: 24782deeadbf9c644ae6a09f7d6087e5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 5975182472138906338
-    second: Kindergarden_0
+      213: 813495490863682283
+    second: "\u1106\u116E\u110C\u1166399_20250826210217_0"
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -100,13 +100,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Kindergarden_0
+      name: "\u1106\u116E\u110C\u1166399_20250826210217_0"
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2048
-        height: 2048
+        width: 63
+        height: 63
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 2eadaffeccc1ce250800000000000000
-      internalID: 5975182472138906338
+      spriteID: be2df4fb6dd1a4b00800000000000000
+      internalID: 813495490863682283
       vertices: []
       indices: 
       edges: []
