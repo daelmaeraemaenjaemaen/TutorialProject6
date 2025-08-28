@@ -4312,8 +4312,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shortSkins:
   - {fileID: 9145377508955870383, guid: 6a7733614fd53694b91875ddfe33a608, type: 3}
-  - {fileID: -7839348741698675251, guid: c6db036fb7668d54f90dc9de28408b1d, type: 3}
-  - {fileID: 5783649038024198033, guid: 380add8180d11114d98413f3464a825f, type: 3}
+  - {fileID: -8144742781007223000, guid: f940bc6cf9dcdaf449ecd74a57695bf1, type: 3}
+  - {fileID: 3905316793319599944, guid: 44355a6806ed6604286ad93b0e41a3e8, type: 3}
   longSkins:
   - {fileID: 748248459704314263, guid: 37e03e38c3b3d444c9bfc5a18b0b179e, type: 3}
   - {fileID: 5783649038024198033, guid: 380add8180d11114d98413f3464a825f, type: 3}
@@ -5606,7 +5606,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uC7AC\uC2DC\uC791"
+  m_text: "\uB2E4\uC2DC \uD558\uAE30"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 3de4a9f82d5fb014989f84751680350b, type: 2}
   m_sharedMaterial: {fileID: -775505804427890941, guid: 3de4a9f82d5fb014989f84751680350b, type: 2}
@@ -9888,8 +9888,8 @@ MonoBehaviour:
   backRight2: {fileID: 1135551275}
   shortSkins:
   - {fileID: 9145377508955870383, guid: 6a7733614fd53694b91875ddfe33a608, type: 3}
-  - {fileID: -7839348741698675251, guid: c6db036fb7668d54f90dc9de28408b1d, type: 3}
-  - {fileID: 5783649038024198033, guid: 380add8180d11114d98413f3464a825f, type: 3}
+  - {fileID: -8144742781007223000, guid: f940bc6cf9dcdaf449ecd74a57695bf1, type: 3}
+  - {fileID: 3905316793319599944, guid: 44355a6806ed6604286ad93b0e41a3e8, type: 3}
   longSkins:
   - {fileID: 748248459704314263, guid: 37e03e38c3b3d444c9bfc5a18b0b179e, type: 3}
   - {fileID: -2553790484203714440, guid: c5c2d7d116883b3498531f0a42a96043, type: 3}
@@ -9900,8 +9900,8 @@ MonoBehaviour:
   - {fileID: 1656308055201467284, guid: 532f40ff29e55da498630614cc001cec, type: 3}
   shortSkins2:
   - {fileID: 9145377508955870383, guid: 6a7733614fd53694b91875ddfe33a608, type: 3}
-  - {fileID: -7839348741698675251, guid: c6db036fb7668d54f90dc9de28408b1d, type: 3}
-  - {fileID: 5783649038024198033, guid: 380add8180d11114d98413f3464a825f, type: 3}
+  - {fileID: -8144742781007223000, guid: f940bc6cf9dcdaf449ecd74a57695bf1, type: 3}
+  - {fileID: 3905316793319599944, guid: 44355a6806ed6604286ad93b0e41a3e8, type: 3}
   longSkins2:
   - {fileID: 748248459704314263, guid: 37e03e38c3b3d444c9bfc5a18b0b179e, type: 3}
   - {fileID: -2553790484203714440, guid: c5c2d7d116883b3498531f0a42a96043, type: 3}
