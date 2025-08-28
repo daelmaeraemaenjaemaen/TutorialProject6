@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
+using TMPro;
 public class Metronome : MonoBehaviour
 {
     public static float bpm = 150f; // BPM 설정
@@ -18,6 +19,7 @@ public class Metronome : MonoBehaviour
     private PatternReader patternReader = new();
     [SerializeField] private NoteSpawn noteSpawn;
     [SerializeField] private GameObject patternLogo;
+    [SerializeField] private TextMeshProUGUI patternName;
     [SerializeField] private Sprite defImg;
     [SerializeField] private Sprite refImg;
     [SerializeField] private Sprite remImg;
@@ -50,18 +52,23 @@ public class Metronome : MonoBehaviour
         {
             case "def":
                 img.sprite = defImg;
+                patternName.text = "Default";
                 break;
             case "ref":
                 img.sprite = refImg;
+                patternName.text = "Reflect";
                 break;
             case "rem":
                 img.sprite = remImg;
+                patternName.text = "Remind";
                 break;
             case "rev":
                 img.sprite = revImg;
+                patternName.text = "Reverse";
                 break;
             case "rfl":
                 img.sprite = rflImg;
+                patternName.text = "Random Flip";
                 break;
         }
 
@@ -141,18 +148,23 @@ public class Metronome : MonoBehaviour
         {
             case "def":
                 img.sprite = defImg;
+                patternName.text = "Default";
                 break;
             case "ref":
                 img.sprite = refImg;
+                patternName.text = "Reflect";
                 break;
             case "rem":
                 img.sprite = remImg;
+                patternName.text = "Remind";
                 break;
             case "rev":
                 img.sprite = revImg;
+                patternName.text = "Reverse";
                 break;
             case "rfl":
                 img.sprite = rflImg;
+                patternName.text = "Random Flip";
                 break;
         }
     }

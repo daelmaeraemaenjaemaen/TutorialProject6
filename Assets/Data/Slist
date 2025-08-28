@@ -1,5 +1,5 @@
 #Name|artist|category|songfile|coverfile|BPM|length|easy|hard(blank is null)
-funny-background-music|ComedicArtist|ori|funny-background-music.wav|funny.png|140|71||funny_hard.tp6p
-Sugar High|various artists|ori|Sugar High.wav|sugar.png|100|83|sugar.tp6p|
+funny-background-music|ComedicArtist|ori|funny-background-music.wav|funny.png|140|71|funny_easy.tp6p|funny_hard.tp6p
+Sugar High|various artists|ori|Sugar High.wav|sugar.png|100|83|sugar_easy.tp6p|sugar.tp6p
 silly song|various artists|ori|silly.wav|sillySong.png|122|122|sillyEasy.tp6p|sillyHard.tp6p
-Kindergarten|various artists|ori|Kindergarten.wav||208|58|kindergarten_easy.tp6p|
+Kindergarden|various artists|ori|Kindergarten.wav|Kindergarden.png|208|58|kindergarten_easy.tp6p|kindergarten_hard.tp6p
