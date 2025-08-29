@@ -4316,7 +4316,7 @@ MonoBehaviour:
   - {fileID: 3905316793319599944, guid: 44355a6806ed6604286ad93b0e41a3e8, type: 3}
   longSkins:
   - {fileID: 748248459704314263, guid: 37e03e38c3b3d444c9bfc5a18b0b179e, type: 3}
-  - {fileID: 5783649038024198033, guid: 380add8180d11114d98413f3464a825f, type: 3}
+  - {fileID: -2553790484203714440, guid: c5c2d7d116883b3498531f0a42a96043, type: 3}
   - {fileID: 813495490863682283, guid: 24782deeadbf9c644ae6a09f7d6087e5, type: 3}
   p1Lines:
   - {fileID: 527107593}
